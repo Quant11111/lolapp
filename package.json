@@ -4,7 +4,7 @@
   "nowts-version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --clear-cache",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint --fix",
@@ -17,7 +17,8 @@
     "clean": "next lint --fix && tsc --noEmit && prettier --write .",
     "migrate": "pnpm exec prisma migrate dev",
     "studio": "pnpm exec prisma studio",
-    "update-local-repo": "git fetch --all --prune"
+    "update-local-repo": "git fetch --all --prune",
+    "dev:clean": "rm -rf .next && next dev"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.4.1",

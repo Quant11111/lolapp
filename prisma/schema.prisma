@@ -93,8 +93,10 @@ model Summoner {
   tagLine         String
   accountId       String @unique
   profileIconId   Int
-  revisionDate    Int
+  revisionDate    BigInt
   summonerLevel   Int
+  tier            String?
+  rank            String?
 }
 
 
@@ -102,4 +104,3 @@ enum UserPlan {
   FREE
   PREMIUM
 }
-
