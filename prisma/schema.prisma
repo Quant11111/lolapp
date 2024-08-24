@@ -87,16 +87,19 @@ model Feedback {
 }
 
 model Summoner {
-  id              String @id @default(nanoid(11))
-  puuid           String @unique
+  id              String  @id @default(nanoid(11))
+  puuid           String  @unique
   gameName        String
   tagLine         String
-  accountId       String @unique
+  accountId       String  @unique
   profileIconId   Int
   revisionDate    BigInt
   summonerLevel   Int
   tier            String?
   rank            String?
+  blacklist       Boolean @default(false)
+  playedToday     Boolean @default(false)
+  inGame          Boolean @default(false)
 }
 
 
