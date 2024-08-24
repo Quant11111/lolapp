@@ -1,9 +1,10 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Search } from 'lucide-react';
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Search } from "lucide-react";
+import { saveSummonerAction } from "../../app/actions/saveSummoner";
 
 type SearchResult = {
   gameName: string;
@@ -16,43 +17,63 @@ type SearchResult = {
 };
 
 export function SearchBar() {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [searchResult, setSearchResult] = useState<SearchResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    const [name, tag] = searchQuery.split('#');
+    const [name, tag] = searchQuery.split("#");
     if (name && tag) {
       try {
-        const response = await fetch(`/api/riot-search?name=${name}&tag=${tag}`);
+        const response = await fetch(
+          `/api/riot-search?name=${name}&tag=${tag}`,
+        );
         const data = await response.json();
         setSearchResult(data);
+
+        // Save the summoner data
+        await saveSummonerAction({
+          puuid: data.puuid,
+          gameName: data.gameName,
+          tagLine: data.tagLine,
+          accountId: data.accountId,
+          profileIconId: data.profileIconId,
+          revisionDate: data.revisionDate,
+          summonerLevel: data.summonerLevel,
+          tier: data.tier,
+          rank: data.rank,
+        });
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching or saving data:", error);
       }
     }
     setIsLoading(false);
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto">
-      <form onSubmit={handleSearch} className="flex items-center space-x-2 mb-4">
+    <div className="mx-auto w-full max-w-2xl">
+      <form
+        onSubmit={handleSearch}
+        className="mb-4 flex items-center space-x-2"
+      >
         <Input
           type="text"
           placeholder="Search (e.g., Gabysushi#euw)"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="flex-grow"
+          className="grow"
         />
         <Button type="submit" disabled={isLoading}>
-          {isLoading ? 'Searching...' : <Search className="h-4 w-4" />}
+          {isLoading ? "Searching..." : <Search className="size-4" />}
         </Button>
       </form>
       {searchResult && (
-        <div className="bg-card text-card-foreground rounded-lg p-4 shadow-md">
-          <h2 className="text-2xl font-bold mb-2">{searchResult.gameName}#{searchResult.tagLine}</h2>
+        <div className="rounded-lg bg-card p-4 text-card-foreground shadow-md">
+          <h2 className="mb-2 text-2xl font-bold">
+            {searchResult.gameName}#{searchResult.tagLine}
+          </h2>
           <p>Summoner Level: {searchResult.summonerLevel}</p>
           <p>Rank: {searchResult.rank}</p>
           <p>League Points: {searchResult.leaguePoints}</p>

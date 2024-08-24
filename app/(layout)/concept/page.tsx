@@ -1,5 +1,4 @@
-import { Badge } from "@/components/ui/badge";
-import { Typography } from "@/components/ui/typography";
+import { Button } from "@/components/ui/button";
 import {
   Layout,
   LayoutContent,
@@ -7,57 +6,20 @@ import {
   LayoutTitle,
 } from "@/features/page/layout";
 import type { PageParams } from "@/types/next";
-import Link from "next/link";
 import { PostCard } from "../../../src/features/posts/PostCard";
-import {
-  getPosts,
-  getPostsTags,
-} from "../../../src/features/posts/post-manager";
-
-const getTags = (
-  params: string | string[] | undefined,
-): string[] | undefined => {
-  if (Array.isArray(params)) {
-    return params;
-  }
-  if (typeof params === "string") {
-    return [params];
-  }
-  return undefined;
-};
+import { getPosts } from "../../../src/features/posts/post-manager";
 
 export default async function RoutePage(props: PageParams<{}>) {
-  const activeTags = getTags(props.searchParams.tag);
-  const tags = await getPostsTags();
-  const posts = await getPosts(activeTags);
+  const posts = await getPosts();
 
   return (
     <Layout>
       <LayoutHeader>
         <LayoutTitle>CONCEPT</LayoutTitle>
       </LayoutHeader>
-      <LayoutContent className="flex flex-wrap gap-2">
-        {tags.map((tag) => (
-          <Link
-            key={tag}
-            href={{
-              pathname: "/posts",
-              query: {
-                tag: tag,
-              },
-            }}
-          >
-            <Badge variant={activeTags?.includes(tag) ? "default" : "outline"}>
-              {tag}
-            </Badge>
-          </Link>
-        ))}
-      </LayoutContent>
 
-      <LayoutContent className="grid grid-cols-1 gap-8 md:grid-cols-2">
-        {posts.map((post) => (
-          <PostCard key={post.slug} post={post} />
-        ))}
+      <LayoutContent className="mb-8 mt-4">
+        <Button variant="outline">New Concept</Button>
       </LayoutContent>
     </Layout>
   );
