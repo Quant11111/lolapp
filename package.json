@@ -14,7 +14,9 @@
     "stripe-webhooks": "stripe listen --forward-to localhost:3000/api/webhooks/stripe",
     "vercel-build": "prisma generate && prisma migrate deploy && next build",
     "postinstall": "prisma generate",
-    "clean": "next lint --fix && tsc --noEmit && prettier --write ."
+    "clean": "next lint --fix && tsc --noEmit && prettier --write .",
+    "migrate": "pnpm exec prisma migrate dev",
+    "studio": "pnpm exec prisma studio"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.4.1",
