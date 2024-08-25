@@ -48,3 +48,5 @@ jobs:
           echo "RIOT_API_KEY=${{ secrets.RIOT_API_KEY }}" >> .env
       - run: rm -rf .next
       - run: pnpm run build
+      - run: pnpm run migrate
+      - run: reboot
