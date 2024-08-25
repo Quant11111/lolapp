@@ -18,6 +18,8 @@ type Summoner = {
   gameName: string;
   tagLine: string;
   blacklist: boolean;
+  rank: string | null;
+  tier: string | null;
 };
 
 type SummonersTableProps = {
@@ -68,6 +70,7 @@ export function SummonersTable({
       <TableHeader>
         <TableRow>
           <TableHead>Summoner</TableHead>
+          <TableHead>Rank</TableHead>
           <TableHead>Blacklist</TableHead>
           <TableHead>Actions</TableHead>
         </TableRow>
@@ -76,6 +79,7 @@ export function SummonersTable({
         {summoners.map((summoner) => (
           <TableRow key={summoner.id}>
             <TableCell>{`${summoner.gameName}#${summoner.tagLine}`}</TableCell>
+            <TableCell>{`${summoner.tier || "Unranked"} ${summoner.rank || ""}`}</TableCell>
             <TableCell>
               <Switch
                 checked={summoner.blacklist}
@@ -88,7 +92,6 @@ export function SummonersTable({
               <Button
                 variant="outline"
                 onClick={() => {
-                  // Remove the action here
                   console.log("Validate button clicked");
                 }}
               >

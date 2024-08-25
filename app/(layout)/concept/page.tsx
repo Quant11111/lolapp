@@ -17,7 +17,29 @@ export default async function RoutePage(props: PageParams<{}>) {
       tagLine: true,
       blacklist: true,
       playedToday: true,
+      rank: true,
+      tier: true,
     },
+  });
+
+  const rankOrder = [
+    "CHALLENGER",
+    "GRANDMASTER",
+    "MASTER",
+    "DIAMOND",
+    "PLATINUM",
+    "GOLD",
+    "SILVER",
+    "BRONZE",
+    "IRON",
+  ];
+  const tierOrder = ["I", "II", "III", "IV"];
+
+  const sortedSummoners = summoners.sort((a, b) => {
+    if (a.tier === b.tier) {
+      return tierOrder.indexOf(a.rank || "") - tierOrder.indexOf(b.rank || "");
+    }
+    return rankOrder.indexOf(a.tier || "") - rankOrder.indexOf(b.tier || "");
   });
 
   return (
@@ -28,11 +50,11 @@ export default async function RoutePage(props: PageParams<{}>) {
 
       <LayoutContent className="mb-8 mt-4">
         <div className="mb-4 flex space-x-4">
-          <Button variant="outline">New Concept</Button>
+          <Button variant="outline">Start Concept</Button>
           <Button variant="secondary">Refresh</Button>
           <Button variant="destructive">Reset</Button>
         </div>
-        <SummonersTable summoners={summoners} />
+        <SummonersTable summoners={sortedSummoners} />
       </LayoutContent>
     </Layout>
   );
