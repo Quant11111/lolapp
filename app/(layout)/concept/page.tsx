@@ -8,6 +8,8 @@ import {
 import type { PageParams } from "@/types/next";
 import { prisma } from "@/lib/prisma";
 import { SummonersTable } from "./SummonersTable";
+import { StartConceptButton } from "./StartConceptButton";
+import { ConceptTimestamps } from "./ConceptTimestamps";
 
 export default async function RoutePage(props: PageParams<{}>) {
   const summoners = await prisma.summoner.findMany({
@@ -49,8 +51,9 @@ export default async function RoutePage(props: PageParams<{}>) {
       </LayoutHeader>
 
       <LayoutContent className="mb-8 mt-4">
+        <ConceptTimestamps />
         <div className="mb-4 flex space-x-4">
-          <Button variant="outline">Start Concept</Button>
+          <StartConceptButton />
           <Button variant="secondary">Refresh</Button>
           <Button variant="destructive">Reset</Button>
         </div>
