@@ -13,8 +13,6 @@ export default function HomePage() {
       <div className="flex grow items-center justify-center">
         <div className="w-full max-w-md px-4">
           <SearchBar />
-
-          <SearchBar />
         </div>
       </div>
 
