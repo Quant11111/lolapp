@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { startConceptAction } from "../../actions/startconceptaction";
 import { useState } from "react";
 import { toast } from "sonner";
+import { enqueueDialog } from "@/features/dialogs-provider/DialogProvider";
 
 export const StartConceptButton = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -31,13 +32,25 @@ export const StartConceptButton = () => {
       toast.error("An error occurred while starting the concept");
     } finally {
       setIsLoading(false);
-      // Call handleRefresh with a 1-second delay
       setTimeout(handleRefresh, 300);
     }
   };
 
   return (
-    <Button variant="outline" onClick={handleStartConcept} disabled={isLoading}>
+    <Button
+      variant="outline"
+      onClick={() => {
+        enqueueDialog({
+          title: "Start a new concept",
+          description: "Are you sure you want to start a new concept?",
+          action: {
+            label: "Start",
+            onClick: handleStartConcept,
+          },
+        });
+      }}
+      disabled={isLoading}
+    >
       {isLoading ? "Starting..." : "Start Concept"}
     </Button>
   );
