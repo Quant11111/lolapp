@@ -8,6 +8,10 @@ import { toast } from "sonner";
 export const StartConceptButton = () => {
   const [isLoading, setIsLoading] = useState(false);
 
+  const handleRefresh = () => {
+    window.location.reload();
+  };
+
   const handleStartConcept = async () => {
     setIsLoading(true);
     try {
@@ -15,8 +19,6 @@ export const StartConceptButton = () => {
       if (result) {
         if ("id" in result) {
           toast.success(`Concept started with ID: ${result.id}`);
-          console.log("Attempting to refresh the page...");
-          window.location.reload(); // Refresh the page
         } else {
           console.log("Unexpected result structure:", result);
           toast.success("Concept started successfully");
@@ -29,8 +31,11 @@ export const StartConceptButton = () => {
       toast.error("An error occurred while starting the concept");
     } finally {
       setIsLoading(false);
+      // Call handleRefresh with a 1-second delay
+      setTimeout(handleRefresh, 300);
     }
   };
+
   return (
     <Button variant="outline" onClick={handleStartConcept} disabled={isLoading}>
       {isLoading ? "Starting..." : "Start Concept"}

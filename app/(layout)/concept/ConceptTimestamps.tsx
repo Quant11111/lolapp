@@ -12,9 +12,8 @@ export async function ConceptTimestamps() {
 
   return (
     <div>
-      <h2>Latest Concept Start</h2>
       {latestConcept ? (
-        <p>ID: {latestConcept.id}</p>
+        <p>Concept n° {latestConcept.id}</p>
       ) : (
         <p>No concept starts found</p>
       )}
