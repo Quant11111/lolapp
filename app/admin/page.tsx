@@ -100,14 +100,15 @@ export default async function AdminPage(props: PageParams<{}>) {
           </div>
 
           <div className="space-y-8">
-            <div>
-              <h2 className="mb-4 text-2xl font-bold">All Summoners</h2>
-              <SummonersTable summoners={sortedSummoners} />
-            </div>
-
-            <div>
-              <h2 className="mb-4 text-2xl font-bold">Selected Team</h2>
-              <SummonersTableTeam summoners={sortedSummoners} />
+            <div className="flex flex-col gap-8 md:flex-row">
+              <div className="w-full md:w-1/2">
+                <h2 className="mb-4 text-2xl font-bold">All Summoners</h2>
+                <SummonersTable summoners={sortedSummoners} />
+              </div>
+              <div className="w-full md:w-1/2">
+                <h2 className="mb-4 text-2xl font-bold">Selected Team</h2>
+                <SummonersTableTeam summoners={sortedSummoners} />
+              </div>
             </div>
           </div>
         </LayoutContent>
