@@ -106,6 +106,7 @@ model Summoner {
 model ConceptStart {
   id        Int      @id
   timestamp BigInt
+  updateAt     DateTime @default(now()) @updatedAt
 }
 enum UserPlan {
   FREE

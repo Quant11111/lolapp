@@ -13,17 +13,33 @@ import { ConceptTimestamps } from "./ConceptTimestamps";
 import RefreshButton from "./RefreshButton";
 
 export default async function RoutePage(props: PageParams<{}>) {
-  const summoners = await prisma.summoner.findMany({
-    select: {
-      id: true,
-      gameName: true,
-      tagLine: true,
-      blacklist: true,
-      playedToday: true,
-      rank: true,
-      tier: true,
-    },
-  });
+  const [summoners, conceptStart] = await Promise.all([
+    prisma.summoner.findMany({
+      select: {
+        id: true,
+        gameName: true,
+        tagLine: true,
+        blacklist: true,
+        playedToday: true,
+        rank: true,
+        tier: true,
+        lastUpdated: true,
+      },
+    }),
+    prisma.conceptStart.findFirst({
+      select: {
+        updateAt: true,
+      },
+      orderBy: {
+        id: "desc",
+      },
+    }),
+  ]);
+
+  // Filter summoners based on lastUpdated > updateAt
+  const filteredSummoners = summoners.filter(
+    (summoner) => conceptStart && summoner.lastUpdated > conceptStart.updateAt,
+  );
 
   const rankOrder = [
     "CHALLENGER",
@@ -38,7 +54,7 @@ export default async function RoutePage(props: PageParams<{}>) {
   ];
   const tierOrder = ["I", "II", "III", "IV"];
 
-  const sortedSummoners = summoners.sort((a, b) => {
+  const sortedSummoners = filteredSummoners.sort((a, b) => {
     if (a.tier === b.tier) {
       return tierOrder.indexOf(a.rank || "") - tierOrder.indexOf(b.rank || "");
     }
