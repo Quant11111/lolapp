@@ -1,0 +1,42 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [ "master" ]
+
+
+jobs:
+  build:
+
+    runs-on: self-hosted
+
+    strategy:
+      matrix:
+        node-version: [20.17.0]
+    env:
+      DATABASE_URL: ${{secret.DATABASE_URL}}
+      GOOGLE_ID: ${{secret.GOOGLE_ID}}
+      GOOGLE_SECRET: ${{secret.GOOGLE_SECRET}}
+      NEXTAUTH_SECRET: ${{secret.NEXTAUTH_SECRET}}
+      RESEND_API_KEY: ${{secret.RESEND_API_KEY}}
+      RESEND_AUDIENCE_ID: ${{secret.RESEND_AUDIENCE_ID}}
+      STRIPE_SECRET_KEY: ${{secret.STRIPE_SECRET_KEY}}
+      STRIPE_WEBHOOK_SECRET: ${{secret.STRIPE_WEBHOOK_SECRET}}
+      NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${{secret.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}}
+      RIOT_API_KEY: ${{secret.RIOT_API_KEY}}
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 9
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'pnpm'
+    - name: Install dependencies
+      run: pnpm install
+    - run: npm ci
+    - run: npm run build --if-present
