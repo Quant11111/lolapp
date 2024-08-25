@@ -12,16 +12,16 @@ jobs:
       matrix:
         node-version: [20.17.0]
     env:
-      DATABASE_URL: ${{secret.DATABASE_URL}}
-      GOOGLE_ID: ${{secret.GOOGLE_ID}}
-      GOOGLE_SECRET: ${{secret.GOOGLE_SECRET}}
-      NEXTAUTH_SECRET: ${{secret.NEXTAUTH_SECRET}}
-      RESEND_API_KEY: ${{secret.RESEND_API_KEY}}
-      RESEND_AUDIENCE_ID: ${{secret.RESEND_AUDIENCE_ID}}
-      STRIPE_SECRET_KEY: ${{secret.STRIPE_SECRET_KEY}}
-      STRIPE_WEBHOOK_SECRET: ${{secret.STRIPE_WEBHOOK_SECRET}}
-      NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${{secret.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}}
-      RIOT_API_KEY: ${{secret.RIOT_API_KEY}}
+      DATABASE_URL: ${{secrets.DATABASE_URL}}
+      GOOGLE_ID: ${{secrets.GOOGLE_ID}}
+      GOOGLE_SECRET: ${{secrets.GOOGLE_SECRET}}
+      NEXTAUTH_SECRET: ${{secrets.NEXTAUTH_SECRET}}
+      RESEND_API_KEY: ${{secrets.RESEND_API_KEY}}
+      RESEND_AUDIENCE_ID: ${{secrets.RESEND_AUDIENCE_ID}}
+      STRIPE_SECRET_KEY: ${{secrets.STRIPE_SECRET_KEY}}
+      STRIPE_WEBHOOK_SECRET: ${{secrets.STRIPE_WEBHOOK_SECRET}}
+      NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${{secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}}
+      RIOT_API_KEY: ${{secrets.RIOT_API_KEY}}
 
     steps:
       - uses: actions/checkout@v4
