@@ -12,20 +12,25 @@ export const StartConceptButton = () => {
     setIsLoading(true);
     try {
       const result = await startConceptAction();
-      if (result && "id" in result) {
-        toast.success(`Concept started with ID: ${result.id}`);
-      } else if (result && "error" in result) {
-        toast.error((result && "error" in result) || "Failed to start concept");
+      if (result) {
+        if ("id" in result) {
+          toast.success(`Concept started with ID: ${result.id}`);
+          console.log("Attempting to refresh the page...");
+          window.location.reload(); // Refresh the page
+        } else {
+          console.log("Unexpected result structure:", result);
+          toast.success("Concept started successfully");
+        }
       } else {
-        toast.error("Unexpected result");
+        toast.error("No result returned from startConceptAction");
       }
     } catch (error) {
-      toast.error("An error occurred");
+      console.error("Error in handleStartConcept:", error);
+      toast.error("An error occurred while starting the concept");
     } finally {
       setIsLoading(false);
     }
   };
-
   return (
     <Button variant="outline" onClick={handleStartConcept} disabled={isLoading}>
       {isLoading ? "Starting..." : "Start Concept"}
