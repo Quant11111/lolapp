@@ -103,7 +103,10 @@ model Summoner {
   lastUpdated     DateTime @default(now()) @updatedAt
 }
 
-
+model ConceptStart {
+  id        Int      @id
+  timestamp BigInt
+}
 enum UserPlan {
   FREE
   PREMIUM
