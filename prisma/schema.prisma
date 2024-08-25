@@ -103,6 +103,7 @@ model Summoner {
   inGame      Boolean  @default(false)
   lastUpdated DateTime @updatedAt
   selected    Boolean  @default(false)
+  team    Boolean?
 }
 
 model ConceptStart {
