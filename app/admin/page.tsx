@@ -8,7 +8,8 @@ import {
 } from "@/features/page/layout";
 import type { PageParams } from "@/types/next";
 import { prisma } from "@/lib/prisma";
-import { SummonersTable } from "./SummonersTable";
+import { SummonersTable } from "./SummonersTableAdmin";
+import { SummonersTableTeam } from "./SummonersTableTeam";
 import { StartConceptButton } from "./StartConceptButton";
 import { ConceptTimestamps } from "./ConceptTimestamps";
 import RefreshButton from "./RefreshButton";
@@ -89,7 +90,18 @@ export default async function AdminPage(props: PageParams<{}>) {
             </div>
             <RefreshButton />
           </div>
-          <SummonersTable summoners={sortedSummoners} />
+
+          <div className="space-y-8">
+            <div>
+              <h2 className="mb-4 text-2xl font-bold">All Summoners</h2>
+              <SummonersTable summoners={sortedSummoners} />
+            </div>
+
+            <div>
+              <h2 className="mb-4 text-2xl font-bold">Selected Team</h2>
+              <SummonersTableTeam summoners={sortedSummoners} />
+            </div>
+          </div>
         </LayoutContent>
       </Layout>
     </>

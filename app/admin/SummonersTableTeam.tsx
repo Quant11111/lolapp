@@ -14,18 +14,20 @@ type Summoner = {
   id: string;
   gameName: string;
   tagLine: string;
+  blacklist: boolean;
   rank: string | null;
   tier: string | null;
+  selected: boolean;
 };
 
-type SummonersTableProps = {
+type SummonersTableTeamProps = {
   summoners: Summoner[];
 };
 
-export function SummonersTable({
+export function SummonersTableTeam({
   summoners: initialSummoners,
-}: SummonersTableProps) {
-  const [summoners] = useState(initialSummoners);
+}: SummonersTableTeamProps) {
+  const [summoners] = useState(initialSummoners.filter((s) => s.selected));
 
   return (
     <Table>

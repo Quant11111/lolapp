@@ -7,10 +7,8 @@ import {
 import type { PageParams } from "@/types/next";
 import { prisma } from "@/lib/prisma";
 import { SummonersTable } from "./SummonersTable";
-import { StartConceptButton } from "./StartConceptButton";
 import { ConceptTimestamps } from "./ConceptTimestamps";
 import RefreshButton from "./RefreshButton";
-import { ResetConceptButton } from "./ResetConceptButton";
 
 export default async function RoutePage(props: PageParams<{}>) {
   const [summoners, conceptStart] = await Promise.all([
@@ -66,16 +64,13 @@ export default async function RoutePage(props: PageParams<{}>) {
   return (
     <Layout>
       <LayoutHeader>
-        <LayoutTitle>CONCEPT</LayoutTitle>
+        <LayoutTitle>Projet DECIMUS</LayoutTitle>
       </LayoutHeader>
 
       <LayoutContent className="mb-8 mt-4">
         <ConceptTimestamps />
         <div className="mb-4 flex justify-between">
-          <div className="flex space-x-4">
-            <StartConceptButton />
-            <ResetConceptButton />
-          </div>
+          <div className="flex space-x-4"></div>
           <RefreshButton />
         </div>
         <SummonersTable summoners={sortedSummoners} />
