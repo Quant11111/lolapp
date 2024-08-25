@@ -7,3 +7,10 @@ Please follow the [NOW.TS Course](https://codeline.app/courses/clqn8pmte0001lr54
 ## Contributions
 
 Feel free to create a pull request with any changes you think valuable.
+
+### server
+
+start from action_workflow generated lolapp folder
+the github actions should take care of the build already
+
+pm2 start npm --name "lolapp" -- run start -- -p 3000 -H 0.0.0.0
