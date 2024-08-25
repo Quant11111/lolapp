@@ -6,11 +6,19 @@ import {
   LayoutTitle,
 } from "@/features/page/layout";
 import type { PageParams } from "@/types/next";
-import { PostCard } from "../../../src/features/posts/PostCard";
-import { getPosts } from "../../../src/features/posts/post-manager";
+import { prisma } from "@/lib/prisma";
+import { SummonersTable } from "./SummonersTable";
 
 export default async function RoutePage(props: PageParams<{}>) {
-  const posts = await getPosts();
+  const summoners = await prisma.summoner.findMany({
+    select: {
+      id: true,
+      gameName: true,
+      tagLine: true,
+      blacklist: true,
+      playedToday: true,
+    },
+  });
 
   return (
     <Layout>
@@ -19,7 +27,12 @@ export default async function RoutePage(props: PageParams<{}>) {
       </LayoutHeader>
 
       <LayoutContent className="mb-8 mt-4">
-        <Button variant="outline">New Concept</Button>
+        <div className="mb-4 flex space-x-4">
+          <Button variant="outline">New Concept</Button>
+          <Button variant="secondary">Refresh</Button>
+          <Button variant="destructive">Reset</Button>
+        </div>
+        <SummonersTable summoners={summoners} />
       </LayoutContent>
     </Layout>
   );
