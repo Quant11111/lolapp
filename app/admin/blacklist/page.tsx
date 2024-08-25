@@ -1,3 +1,5 @@
+import { auth } from "@/lib/auth/helper";
+import { redirect } from "next/navigation";
 import {
   Layout,
   LayoutContent,
@@ -7,10 +9,29 @@ import {
 import type { PageParams } from "@/types/next";
 import { prisma } from "@/lib/prisma";
 import { SummonersTable } from "./SummonersTable";
-import { ConceptTimestamps } from "./ConceptTimestamps";
 import RefreshButton from "./RefreshButton";
 
 export default async function RoutePage(props: PageParams<{}>) {
+  const user = await auth();
+
+  console.log(
+    "User authentication status:",
+    user ? "Authenticated" : "Not authenticated",
+  );
+  console.log("User admin status:", user?.isAdmin ? "Admin" : "Not admin");
+
+  if (!user) {
+    console.log("Redirecting: User not authenticated");
+    redirect("/");
+  }
+
+  if (!user.isAdmin) {
+    console.log("Redirecting: User is not an admin");
+    redirect("/");
+  }
+
+  console.log("Access granted: User is authenticated and an admin");
+
   const [summoners, conceptStart] = await Promise.all([
     prisma.summoner.findMany({
       select: {
@@ -68,7 +89,6 @@ export default async function RoutePage(props: PageParams<{}>) {
       </LayoutHeader>
 
       <LayoutContent className="mb-8 mt-4">
-        <ConceptTimestamps />
         <div className="mb-4 flex justify-between">
           <div className="flex space-x-4"></div>
           <RefreshButton />

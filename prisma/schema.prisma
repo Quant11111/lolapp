@@ -58,6 +58,7 @@ model User {
   image         String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+  isAdmin Boolean @default(false)
 
   // Payment
   stripeCustomerId String?
@@ -98,14 +99,17 @@ model Summoner {
   tier            String?
   rank            String?
   blacklist       Boolean  @default(false)
-  playedToday     Boolean  @default(false)
-  inGame          Boolean  @default(false)
-  lastUpdated     DateTime @default(now()) @updatedAt
+  playedToday Boolean  @default(false)
+  inGame      Boolean  @default(false)
+  lastUpdated DateTime @updatedAt
+  selected    Boolean  @default(false)
+  team    Boolean?
 }
 
 model ConceptStart {
   id        Int      @id
   timestamp BigInt
+  updateAt     DateTime @default(now()) @updatedAt
 }
 enum UserPlan {
   FREE

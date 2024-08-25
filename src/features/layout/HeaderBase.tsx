@@ -27,6 +27,9 @@ export function HeaderBase({ children }: PropsWithChildren) {
             <ThemeToggle />
           </nav>
         </div>
+        <Link href="/admin" className="px-4 py-2 hover:text-primary">
+          Admin
+        </Link>
       </Layout>
     </header>
   );

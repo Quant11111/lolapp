@@ -6,6 +6,7 @@ import { motion, useMotionValue, useScroll, useTransform } from "framer-motion";
 import { useEffect } from "react";
 import { AuthButtonClient } from "../auth/AuthButtonClient";
 import { ThemeToggle } from "../theme/ThemeToggle";
+import Link from "next/link";
 
 function useBoundedScroll(threshold: number) {
   const { scrollY } = useScroll();
@@ -73,7 +74,7 @@ export function LandingHeader() {
           >
             {SiteConfig.title}
           </motion.p>
-        </div>
+        </div>{" "}
         <motion.nav
           style={{
             opacity: useTransform(
@@ -85,8 +86,8 @@ export function LandingHeader() {
           className="flex items-center gap-4 text-sm font-medium text-muted-foreground"
         >
           <a href="/concept">Concept</a>
-
           <a href="/posts">Blog</a>
+          <a href="/admin">Admin</a>
           <AuthButtonClient />
           <ThemeToggle />
         </motion.nav>
