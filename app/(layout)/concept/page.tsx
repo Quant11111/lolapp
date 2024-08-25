@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Layout,
   LayoutContent,
@@ -11,6 +10,7 @@ import { SummonersTable } from "./SummonersTable";
 import { StartConceptButton } from "./StartConceptButton";
 import { ConceptTimestamps } from "./ConceptTimestamps";
 import RefreshButton from "./RefreshButton";
+import { ResetConceptButton } from "./ResetConceptButton";
 
 export default async function RoutePage(props: PageParams<{}>) {
   const [summoners, conceptStart] = await Promise.all([
@@ -38,7 +38,8 @@ export default async function RoutePage(props: PageParams<{}>) {
 
   // Filter summoners based on lastUpdated > updateAt
   const filteredSummoners = summoners.filter(
-    (summoner) => conceptStart && summoner.lastUpdated > conceptStart.updateAt,
+    (summoner) =>
+      !conceptStart?.updateAt || summoner.lastUpdated > conceptStart.updateAt,
   );
 
   const rankOrder = [
@@ -72,9 +73,9 @@ export default async function RoutePage(props: PageParams<{}>) {
         <div className="mb-4 flex justify-between">
           <div className="flex space-x-4">
             <StartConceptButton />
-            <Button variant="destructive">Reset</Button>
+            <ResetConceptButton />
           </div>
-          <RefreshButton variant="default" />
+          <RefreshButton />
         </div>
         <SummonersTable summoners={sortedSummoners} />
       </LayoutContent>
