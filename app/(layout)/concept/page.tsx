@@ -24,6 +24,7 @@ export default async function RoutePage(props: PageParams<{}>) {
         rank: true,
         tier: true,
         lastUpdated: true,
+        selected: true,
       },
     }),
     prisma.conceptStart.findFirst({

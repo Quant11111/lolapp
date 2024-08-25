@@ -10,7 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Switch } from "@/components/ui/switch";
-import { Button } from "@/components/ui/button";
+import { ValidateButton } from "./ValidateButton";
 import { toast } from "sonner";
 
 type Summoner = {
@@ -20,6 +20,7 @@ type Summoner = {
   blacklist: boolean;
   rank: string | null;
   tier: string | null;
+  selected: boolean;
 };
 
 type SummonersTableProps = {
@@ -89,14 +90,10 @@ export function SummonersTable({
               />
             </TableCell>
             <TableCell>
-              <Button
-                variant="outline"
-                onClick={() => {
-                  console.log("Validate button clicked");
-                }}
-              >
-                Validate
-              </Button>
+              <ValidateButton
+                summonerId={summoner.id}
+                initialSelected={summoner.selected}
+              />
             </TableCell>
           </TableRow>
         ))}

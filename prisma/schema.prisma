@@ -98,9 +98,10 @@ model Summoner {
   tier            String?
   rank            String?
   blacklist       Boolean  @default(false)
-  playedToday     Boolean  @default(false)
-  inGame          Boolean  @default(false)
-  lastUpdated     DateTime @default(now()) @updatedAt
+  playedToday Boolean  @default(false)
+  inGame      Boolean  @default(false)
+  lastUpdated DateTime @updatedAt
+  selected    Boolean  @default(false)
 }
 
 model ConceptStart {
