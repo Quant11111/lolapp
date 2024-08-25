@@ -49,4 +49,4 @@ jobs:
       - run: rm -rf .next
       - run: pnpm run build
       - run: pnpm run migrate
-      - run: reboot
+      - run: pm2 restart padelu
