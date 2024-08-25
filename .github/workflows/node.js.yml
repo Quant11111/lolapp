@@ -48,4 +48,6 @@ jobs:
           echo "RIOT_API_KEY=${{ secrets.RIOT_API_KEY }}" >> .env
       - run: pnpm run build
       - run: pm2 delete lolapp
+      - run: pm2 save -f
       - run: pm2 start pnpm --name "lolapp" -- start --watch
+      - run: pm2 save
