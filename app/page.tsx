@@ -1,5 +1,3 @@
-
-
 import { LandingHeader } from "@/features/landing/LandingHeader";
 
 import { SearchBar } from "@/components/SearchBar"; // Import the SearchBar component
@@ -14,6 +12,8 @@ export default function HomePage() {
       {/* Centered SearchBar */}
       <div className="flex grow items-center justify-center">
         <div className="w-full max-w-md px-4">
+          <SearchBar />
+
           <SearchBar />
         </div>
       </div>
