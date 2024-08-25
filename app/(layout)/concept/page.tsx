@@ -10,7 +10,6 @@ import { prisma } from "@/lib/prisma";
 import { SummonersTable } from "./SummonersTable";
 import { StartConceptButton } from "./StartConceptButton";
 import { ConceptTimestamps } from "./ConceptTimestamps";
-import { RefreshButton } from "./RefreshButton";
 
 export default async function RoutePage(props: PageParams<{}>) {
   const summoners = await prisma.summoner.findMany({
@@ -55,7 +54,6 @@ export default async function RoutePage(props: PageParams<{}>) {
         <ConceptTimestamps />
         <div className="mb-4 flex space-x-4">
           <StartConceptButton />
-          <RefreshButton />
           <Button variant="destructive">Reset</Button>
         </div>
         <SummonersTable summoners={sortedSummoners} />
