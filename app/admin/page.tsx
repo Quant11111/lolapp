@@ -15,6 +15,8 @@ import { ConceptTimestamps } from "./ConceptTimestamps";
 import RefreshButton from "./RefreshButton";
 import { ResetConceptButton } from "./ResetConceptButton";
 import { HeaderBase } from "@/features/layout/HeaderBase";
+import Link from "next/link";
+import { buttonVariants } from "@/components/ui/button";
 
 export default async function AdminPage(props: PageParams<{}>) {
   const user = await auth();
@@ -87,6 +89,12 @@ export default async function AdminPage(props: PageParams<{}>) {
             <div className="flex space-x-4">
               <StartConceptButton />
               <ResetConceptButton />
+              <Link
+                href="/admin/blacklist"
+                className={buttonVariants({ variant: "outline" })}
+              >
+                Blacklist
+              </Link>
             </div>
             <RefreshButton />
           </div>
