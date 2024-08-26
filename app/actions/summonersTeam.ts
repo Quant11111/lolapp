@@ -10,6 +10,7 @@ export async function getSummonersWithRankAndTeam() {
         gameName: true,
         tagLine: true,
         rank: true,
+        tier: true,
         team: true,
       },
       orderBy: {

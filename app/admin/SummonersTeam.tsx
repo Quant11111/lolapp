@@ -13,9 +13,10 @@ import {
 } from "@/components/ui/table";
 
 interface Summoner {
-  tier?: string; // Make tier optional
+  id: string;
   gameName: string;
   tagLine: string;
+  tier: string | null;
   rank: string | null;
   team: number | null;
 }
@@ -43,7 +44,13 @@ export default function SummonersTeam() {
 
   const filteredSummoners = activeTeam
     ? summoners.filter((summoner) => summoner.team === activeTeam)
-    : summoners; // Show all summoners if no team is selected
+    : summoners.filter((summoner) => summoner.team !== null); // Only show summoners with assigned teams
+
+  // Sort summoners by team
+  const sortedSummoners = [...filteredSummoners].sort((a, b) => {
+    if (a.team === null || b.team === null) return 0; // This line is now redundant but kept for safety
+    return a.team - b.team;
+  });
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -75,7 +82,7 @@ export default function SummonersTeam() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {filteredSummoners.map((summoner) => (
+          {sortedSummoners.map((summoner) => (
             <TableRow key={`${summoner.gameName}#${summoner.tagLine}`}>
               <TableCell>{`${summoner.gameName}#${summoner.tagLine}`}</TableCell>
               <TableCell>{`${summoner.tier || "Unranked"} ${summoner.rank || ""}`}</TableCell>
