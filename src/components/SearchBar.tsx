@@ -33,7 +33,7 @@ export function SearchBar() {
     if (name && tag) {
       try {
         const response = await fetch(
-          `/api/riot-search?name=${name}&tag=${tag}&role=${selectedRole}`,
+          `/api/riot-search?name=${name}&tag=${tag}`,
         );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
