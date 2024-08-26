@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -35,6 +35,30 @@ export function SummonersTable({
   const [summoners, setSummoners] = useState(initialSummoners);
   const [filterBlacklist, setFilterBlacklist] = useState(false);
   const [filterPlayedToday, setFilterPlayedToday] = useState(false);
+
+  useEffect(() => {
+    // Load saved filters from localStorage on the client side
+    const savedBlacklist = localStorage.getItem("filterBlacklist");
+    const savedPlayedToday = localStorage.getItem("filterPlayedToday");
+
+    setFilterBlacklist(
+      savedBlacklist !== null ? JSON.parse(savedBlacklist) : false,
+    );
+    setFilterPlayedToday(
+      savedPlayedToday !== null ? JSON.parse(savedPlayedToday) : false,
+    );
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("filterBlacklist", JSON.stringify(filterBlacklist));
+  }, [filterBlacklist]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "filterPlayedToday",
+      JSON.stringify(filterPlayedToday),
+    );
+  }, [filterPlayedToday]);
 
   const updateSummonerState = async (id: string, value: boolean) => {
     try {

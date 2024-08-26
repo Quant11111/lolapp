@@ -29,10 +29,10 @@ export function SummonersTableTeam({
   summoners: initialSummoners,
 }: SummonersTableTeamProps) {
   const [summoners] = useState(initialSummoners.filter((s) => s.selected));
-  const [activeTeam, setActiveTeam] = useState<1 | 2>(1); // Default to Team 1
+  const [activeTeam, setActiveTeam] = useState<1 | 2>(1);
 
   const handleTeamToggle = (team: 1 | 2) => {
-    setActiveTeam(team); // Always set to the clicked team
+    setActiveTeam(team);
   };
 
   return (

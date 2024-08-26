@@ -24,9 +24,13 @@ export default function SummonersTeam() {
   const [summoners, setSummoners] = useState<Summoner[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTeam, setActiveTeam] = useState<1 | 2>(1); // Default to Team 1
+  const [activeTeam, setActiveTeam] = useState<1 | 2 | null>(null);
 
   useEffect(() => {
+    // Move localStorage logic here
+    const saved = localStorage.getItem("activeTeam");
+    setActiveTeam(saved ? (Number(saved) as 1 | 2) : null);
+
     async function fetchSummoners() {
       try {
         const data = await getSummonersWithRankAndTeam();
@@ -41,9 +45,17 @@ export default function SummonersTeam() {
     fetchSummoners();
   }, []);
 
-  const filteredSummoners = summoners.filter(
-    (summoner) => summoner.team === activeTeam,
-  );
+  useEffect(() => {
+    if (activeTeam) {
+      localStorage.setItem("activeTeam", activeTeam.toString());
+    } else {
+      localStorage.removeItem("activeTeam");
+    }
+  }, [activeTeam]);
+
+  const filteredSummoners = activeTeam
+    ? summoners.filter((summoner) => summoner.team === activeTeam)
+    : summoners; // Show all summoners if no team is selected
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -54,14 +66,14 @@ export default function SummonersTeam() {
         <Toggle
           aria-label="Toggle Team 1 filter"
           pressed={activeTeam === 1}
-          onPressedChange={() => setActiveTeam(1)}
+          onPressedChange={() => setActiveTeam(activeTeam === 1 ? null : 1)}
         >
           Team 1
         </Toggle>
         <Toggle
           aria-label="Toggle Team 2 filter"
           pressed={activeTeam === 2}
-          onPressedChange={() => setActiveTeam(2)}
+          onPressedChange={() => setActiveTeam(activeTeam === 2 ? null : 2)}
         >
           Team 2
         </Toggle>
