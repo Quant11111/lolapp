@@ -32,7 +32,7 @@ export function SummonersTable() {
   const [summoners, setSummoners] = useState<Summoner[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [filterBlacklist, setFilterBlacklist] = useState(false);
+  const [filterBlacklist, setFilterBlacklist] = useState(true);
   const [filterPlayedToday, setFilterPlayedToday] = useState(false);
 
   const fetchSummoners = async () => {
@@ -79,6 +79,11 @@ export function SummonersTable() {
     }
   };
 
+  const handleSummonerClick = (gameName: string, tagLine: string) => {
+    const opggUrl = `https://www.op.gg/summoners/euw/${gameName}-${tagLine}`;
+    window.open(opggUrl, "_blank");
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
@@ -86,15 +91,15 @@ export function SummonersTable() {
     <>
       <div className="mb-4 space-x-2">
         <Toggle
-          pressed={!filterBlacklist}
-          onPressedChange={(pressed: unknown) => setFilterBlacklist(!pressed)}
+          pressed={filterBlacklist}
+          onPressedChange={(pressed: boolean) => setFilterBlacklist(pressed)}
           aria-label="Toggle blacklist filter"
         >
           Blacklisted
         </Toggle>
         <Toggle
           pressed={!filterPlayedToday}
-          onPressedChange={(pressed: unknown) => setFilterPlayedToday(!pressed)}
+          onPressedChange={(pressed: boolean) => setFilterPlayedToday(!pressed)}
           aria-label="Toggle played today filter"
         >
           Played Today
@@ -114,7 +119,16 @@ export function SummonersTable() {
         <TableBody>
           {filteredSummoners.map((summoner) => (
             <TableRow key={summoner.id}>
-              <TableCell>{`${summoner.gameName}#${summoner.tagLine}`}</TableCell>
+              <TableCell>
+                <span
+                  className="cursor-pointer "
+                  onClick={() =>
+                    handleSummonerClick(summoner.gameName, summoner.tagLine)
+                  }
+                >
+                  {`${summoner.gameName}#${summoner.tagLine}`}
+                </span>
+              </TableCell>
               <TableCell>{`${summoner.tier || "Unranked"} ${summoner.rank || ""}`}</TableCell>
               <TableCell>
                 <Switch
