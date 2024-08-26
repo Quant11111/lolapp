@@ -13,11 +13,13 @@ import RefreshButton from "./RefreshButton";
 export default async function RoutePage(props: PageParams<{}>) {
   const [summoners, conceptStart] = await Promise.all([
     prisma.summoner.findMany({
+      where: {
+        blacklist: false, // Exclude blacklisted summoners
+      },
       select: {
         id: true,
         gameName: true,
         tagLine: true,
-        blacklist: true,
         playedToday: true,
         rank: true,
         tier: true,
@@ -35,11 +37,7 @@ export default async function RoutePage(props: PageParams<{}>) {
     }),
   ]);
 
-  // Filter summoners based on lastUpdated > updateAt
-  const filteredSummoners = summoners.filter(
-    (summoner) =>
-      !conceptStart?.updateAt || summoner.lastUpdated > conceptStart.updateAt,
-  );
+  // Remove filtered summoners logic
 
   const rankOrder = [
     "CHALLENGER",
@@ -54,7 +52,7 @@ export default async function RoutePage(props: PageParams<{}>) {
   ];
   const tierOrder = ["I", "II", "III", "IV"];
 
-  const sortedSummoners = filteredSummoners.sort((a, b) => {
+  const sortedSummoners = summoners.sort((a, b) => {
     if (a.tier === b.tier) {
       return tierOrder.indexOf(a.rank || "") - tierOrder.indexOf(b.rank || "");
     }
