@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toggleSummonerTeam } from "../actions/validateButton";
+import { getSummonersWithRankAndTeam } from "../actions/summonersTeam";
 
 interface ValidateButtonProps {
   summonerId: string;
@@ -14,6 +15,22 @@ export function ValidateButton({
 }: ValidateButtonProps) {
   const [team, setTeam] = useState<number | null>(initialTeam);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchInitialTeam = async () => {
+      try {
+        const summoners = await getSummonersWithRankAndTeam();
+        const currentSummoner = summoners.find((s) => s.id === summonerId);
+        if (currentSummoner) {
+          setTeam(currentSummoner.team);
+        }
+      } catch (error) {
+        console.error("Error fetching initial team:", error);
+      }
+    };
+
+    fetchInitialTeam();
+  }, [summonerId]);
 
   const handleClick = async () => {
     setIsLoading(true);

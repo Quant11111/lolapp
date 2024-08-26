@@ -6,6 +6,7 @@ export async function getSummonersWithRankAndTeam() {
   try {
     const summoners = await prisma.summoner.findMany({
       select: {
+        id: true,
         gameName: true,
         tagLine: true,
         rank: true,
