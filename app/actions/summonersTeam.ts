@@ -23,3 +23,16 @@ export async function getSummonersWithRankAndTeam() {
     throw new Error("Failed to fetch summoners");
   }
 }
+
+export async function resetSummonerTeam(summonerId: string) {
+  try {
+    await prisma.summoner.update({
+      where: { id: summonerId },
+      data: { team: null },
+    });
+    return { success: true };
+  } catch (error) {
+    console.error("Error resetting summoner team:", error);
+    throw new Error("Failed to reset summoner team");
+  }
+}

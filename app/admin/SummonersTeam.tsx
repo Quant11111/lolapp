@@ -1,7 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getSummonersWithRankAndTeam } from "../actions/summonersTeam";
+import {
+  getSummonersWithRankAndTeam,
+  resetSummonerTeam,
+} from "../actions/summonersTeam";
 import { Toggle } from "@/components/ui/toggle";
 import {
   Table,
@@ -11,6 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
 
 interface Summoner {
   id: string;
@@ -52,6 +56,17 @@ export default function SummonersTeam() {
     return a.team - b.team;
   });
 
+  const handleResetTeam = async (summonerId: string) => {
+    try {
+      await resetSummonerTeam(summonerId);
+      // Refresh the summoners list after resetting
+      const updatedSummoners = await getSummonersWithRankAndTeam();
+      setSummoners(updatedSummoners);
+    } catch (err) {
+      setError("Failed to reset summoner team");
+    }
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
@@ -79,6 +94,7 @@ export default function SummonersTeam() {
             <TableHead>Summoner</TableHead>
             <TableHead>Rank</TableHead>
             <TableHead className="text-right">Team</TableHead>
+            <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -88,6 +104,15 @@ export default function SummonersTeam() {
               <TableCell>{`${summoner.tier || "Unranked"} ${summoner.rank || ""}`}</TableCell>
               <TableCell className="text-right">
                 {summoner.team || "N/A"}
+              </TableCell>
+              <TableCell>
+                <Button
+                  onClick={() => handleResetTeam(summoner.id)}
+                  disabled={summoner.team === null}
+                  variant="outline"
+                >
+                  Delete
+                </Button>
               </TableCell>
             </TableRow>
           ))}

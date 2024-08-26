@@ -11,8 +11,9 @@ import {
 } from "@/components/ui/table";
 import { Switch } from "@/components/ui/switch";
 import { ValidateButton } from "./ValidateButton";
-import { toast } from "sonner";
 import { Toggle } from "@/components/ui/toggle";
+import { getSummonersWithRankAndTeam } from "../actions/summonersTeam";
+import SaveButton from "./SaveButton";
 
 type Summoner = {
   id: string;
@@ -23,60 +24,50 @@ type Summoner = {
   tier: string | null;
   selected: boolean;
   playedToday: boolean;
+  team: number | null;
 };
 
-type SummonersTableProps = {
-  summoners: Summoner[];
-};
-
-export function SummonersTable({
-  summoners: initialSummoners,
-}: SummonersTableProps) {
-  const [summoners, setSummoners] = useState(initialSummoners);
+export function SummonersTable() {
+  const [summoners, setSummoners] = useState<Summoner[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [filterBlacklist, setFilterBlacklist] = useState(false);
   const [filterPlayedToday, setFilterPlayedToday] = useState(false);
 
-  const updateSummonerState = async (id: string, value: boolean) => {
-    try {
-      setSummoners((prevSummoners) =>
-        prevSummoners.map((summoner) =>
-          summoner.id === id ? { ...summoner, blacklist: value } : summoner,
-        ),
-      );
-
-      const response = await fetch("/api/update-summoner", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id, field: "blacklist", value }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to update summoner");
+  useEffect(() => {
+    async function fetchSummoners() {
+      try {
+        const data = await getSummonersWithRankAndTeam();
+        setSummoners(
+          data
+            .filter((summoner) => summoner.team === null)
+            .map((s) => ({
+              ...s,
+              blacklist: false,
+              selected: false,
+              playedToday: false,
+            })),
+        );
+        setLoading(false);
+      } catch (err) {
+        setError("Failed to fetch summoners");
+        setLoading(false);
       }
-
-      await response.json();
-      toast.success("Summoner updated successfully");
-    } catch (error) {
-      console.error("Error updating summoner:", error);
-      toast.error("Failed to update summoner. Please try again.");
-      // Revert the state if the API call fails
-      setSummoners((prevSummoners) =>
-        prevSummoners.map((summoner) =>
-          summoner.id === id ? { ...summoner, blacklist: !value } : summoner,
-        ),
-      );
     }
-  };
+
+    fetchSummoners();
+  }, []);
 
   const filteredSummoners = useMemo(() => {
     return summoners.filter((summoner) => {
       if (filterBlacklist && summoner.blacklist) return false;
       if (filterPlayedToday && summoner.playedToday) return false;
-      return true;
+      return summoner.team === null;
     });
   }, [summoners, filterBlacklist, filterPlayedToday]);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <>
@@ -95,7 +86,9 @@ export function SummonersTable({
         >
           Played Today
         </Toggle>
+        <SaveButton />
       </div>
+
       <Table>
         <TableHeader>
           <TableRow>
@@ -113,9 +106,13 @@ export function SummonersTable({
               <TableCell>
                 <Switch
                   checked={summoner.blacklist}
-                  onCheckedChange={(checked) =>
-                    updateSummonerState(summoner.id, checked)
-                  }
+                  onCheckedChange={(checked) => {
+                    setSummoners((prevSummoners) =>
+                      prevSummoners.map((s) =>
+                        s.id === summoner.id ? { ...s, blacklist: checked } : s,
+                      ),
+                    );
+                  }}
                 />
               </TableCell>
               <TableCell>

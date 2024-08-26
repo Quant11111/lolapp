@@ -25,7 +25,7 @@ export default async function AdminPage(props: PageParams<{}>) {
     redirect("/");
   }
 
-  const [summoners, conceptStart] = await Promise.all([
+  await Promise.all([
     prisma.summoner.findMany({
       select: {
         id: true,
@@ -48,32 +48,6 @@ export default async function AdminPage(props: PageParams<{}>) {
       },
     }),
   ]);
-
-  // Filter summoners based on lastUpdated > updateAt
-  const filteredSummoners = summoners.filter(
-    (summoner) =>
-      !conceptStart?.updateAt || summoner.lastUpdated > conceptStart.updateAt,
-  );
-
-  const rankOrder = [
-    "CHALLENGER",
-    "GRANDMASTER",
-    "MASTER",
-    "DIAMOND",
-    "PLATINUM",
-    "GOLD",
-    "SILVER",
-    "BRONZE",
-    "IRON",
-  ];
-  const tierOrder = ["I", "II", "III", "IV"];
-
-  const sortedSummoners = filteredSummoners.sort((a, b) => {
-    if (a.tier === b.tier) {
-      return tierOrder.indexOf(a.rank || "") - tierOrder.indexOf(b.rank || "");
-    }
-    return rankOrder.indexOf(a.tier || "") - rankOrder.indexOf(b.tier || "");
-  });
 
   return (
     <>
@@ -103,7 +77,7 @@ export default async function AdminPage(props: PageParams<{}>) {
             <div className="flex flex-col gap-8 md:flex-row">
               <div className="w-full md:w-1/2">
                 <h2 className="mb-4 text-2xl font-bold">All Summoners</h2>
-                <SummonersTable summoners={sortedSummoners} />
+                <SummonersTable />
               </div>
               <div className="w-full md:w-1/2">
                 <h2 className="mb-4 text-2xl font-bold">Selected Team</h2>
