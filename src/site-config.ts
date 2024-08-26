@@ -1,8 +1,8 @@
 export const SiteConfig = {
   title: "PADELU",
   description: "Funny app for League conspiracy theorist",
-  prodUrl: "https://orbweavers.app",  // TODO: update domain name when deploying
-  domain: "padelu.app",
+  prodUrl: "https://padelu.orbweavers.org", // TODO: update domain name when deploying
+  domain: "orbweavers.org",
   appIcon: "/images/icon.png",
   company: {
     name: "padelu",
@@ -13,10 +13,11 @@ export const SiteConfig = {
   },
   email: {
     from: "padelu <padelu@resend.dev>", // Replace this with your domaine email
-    contact: "gabysushi@aol.com",
+    contact: "lamagnere.quentin@gmail.com",
   },
   maker: {
-    image: "https://quentin-lamagnere.netlify.app/static/media/homepic.cbca523726a2c9d25021.jpg",
+    image:
+      "https://quentin-lamagnere.netlify.app/static/media/homepic.cbca523726a2c9d25021.jpg",
     website: "https://quentin-lamagnere.netlify.app",
     twitter: "https://x.com/Quant11111",
     name: "Quant11111",
