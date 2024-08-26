@@ -9,7 +9,6 @@ import {
 import type { PageParams } from "@/types/next";
 import { prisma } from "@/lib/prisma";
 import { SummonersTable } from "./SummonersTableAdmin";
-import { SummonersTableTeam } from "./SummonersTableTeam";
 import { StartConceptButton } from "./StartConceptButton";
 import { ConceptTimestamps } from "./ConceptTimestamps";
 import RefreshButton from "./RefreshButton";
@@ -17,6 +16,7 @@ import { ResetConceptButton } from "./ResetConceptButton";
 import { HeaderBase } from "@/features/layout/HeaderBase";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
+import SummonersTeam from "./SummonersTeam";
 
 export default async function AdminPage(props: PageParams<{}>) {
   const user = await auth();
@@ -107,7 +107,7 @@ export default async function AdminPage(props: PageParams<{}>) {
               </div>
               <div className="w-full md:w-1/2">
                 <h2 className="mb-4 text-2xl font-bold">Selected Team</h2>
-                <SummonersTableTeam summoners={sortedSummoners} />
+                <SummonersTeam summoners={sortedSummoners} />
               </div>
             </div>
           </div>
