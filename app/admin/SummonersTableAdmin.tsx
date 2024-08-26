@@ -86,8 +86,8 @@ export function SummonersTable() {
         >
           Played Today
         </Toggle>
-        <SaveButton />
       </div>
+      <SaveButton />
 
       <Table>
         <TableHeader>

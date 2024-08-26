@@ -36,3 +36,15 @@ export async function resetSummonerTeam(summonerId: string) {
     throw new Error("Failed to reset summoner team");
   }
 }
+
+export async function resetAllSummonerTeams() {
+  try {
+    await prisma.summoner.updateMany({
+      data: { team: null },
+    });
+    return { success: true };
+  } catch (error) {
+    console.error("Error resetting all summoner teams:", error);
+    throw new Error("Failed to reset all summoner teams");
+  }
+}

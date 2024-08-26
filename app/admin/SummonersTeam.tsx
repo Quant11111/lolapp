@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import {
   getSummonersWithRankAndTeam,
   resetSummonerTeam,
+  resetAllSummonerTeams,
 } from "../actions/summonersTeam";
 import { Toggle } from "@/components/ui/toggle";
 import {
@@ -15,7 +16,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-
+import { toast } from "sonner";
 interface Summoner {
   id: string;
   gameName: string;
@@ -56,14 +57,29 @@ export default function SummonersTeam() {
     return a.team - b.team;
   });
 
+  const handleRefresh = () => {
+    window.location.reload();
+  };
+
   const handleResetTeam = async (summonerId: string) => {
     try {
       await resetSummonerTeam(summonerId);
-      // Refresh the summoners list after resetting
-      const updatedSummoners = await getSummonersWithRankAndTeam();
-      setSummoners(updatedSummoners);
+      toast.success("Summoner team reset successfully");
+      setTimeout(handleRefresh, 300);
     } catch (err) {
       setError("Failed to reset summoner team");
+      toast.error("An error occurred while resetting the summoner team");
+    }
+  };
+
+  const handleResetAllTeams = async () => {
+    try {
+      await resetAllSummonerTeams();
+      toast.success("All summoner teams reset successfully");
+      setTimeout(handleRefresh, 300);
+    } catch (err) {
+      setError("Failed to reset all summoner teams");
+      toast.error("An error occurred while resetting all summoner teams");
     }
   };
 
@@ -88,6 +104,9 @@ export default function SummonersTeam() {
           Team 2
         </Toggle>
       </div>
+      <Button onClick={handleResetAllTeams} variant="destructive">
+        Reset All Teams
+      </Button>
       <Table>
         <TableHeader>
           <TableRow>

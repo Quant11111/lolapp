@@ -74,12 +74,12 @@ export default async function AdminPage(props: PageParams<{}>) {
           </div>
 
           <div className="space-y-8">
-            <div className="flex flex-col gap-8 md:flex-row">
-              <div className="w-full md:w-1/2">
+            <div className="flex flex-col gap-8 lg:flex-row">
+              <div className="w-full lg:w-3/5">
                 <h2 className="mb-4 text-2xl font-bold">All Summoners</h2>
                 <SummonersTable />
               </div>
-              <div className="w-full md:w-1/2">
+              <div className="w-full lg:w-3/5">
                 <h2 className="mb-4 text-2xl font-bold">Selected Team</h2>
                 <SummonersTeam />
               </div>
