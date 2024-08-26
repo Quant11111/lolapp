@@ -23,7 +23,7 @@ type Summoner = {
   blacklist: boolean;
   rank: string | null;
   tier: string | null;
-  selected: boolean;
+  selected: boolean; // Add this line
   playedToday: boolean;
   team: number | null;
 };
@@ -39,13 +39,10 @@ export function SummonersTable() {
     try {
       const data = await getSummonersWithRankAndTeam();
       setSummoners(
-        data
-          .filter((summoner) => summoner.team === null)
-          .map((s) => ({
-            ...s,
-            selected: false,
-            playedToday: false,
-          })),
+        data.map((s) => ({
+          ...s,
+          playedToday: false,
+        })),
       );
       setLoading(false);
     } catch (err) {
@@ -62,7 +59,7 @@ export function SummonersTable() {
     return summoners.filter((summoner) => {
       if (filterBlacklist && summoner.blacklist) return false;
       if (filterPlayedToday && summoner.playedToday) return false;
-      return summoner.team === null;
+      return !summoner.selected; // Filter out selected summoners
     });
   }, [summoners, filterBlacklist, filterPlayedToday]);
 

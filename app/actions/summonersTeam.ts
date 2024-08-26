@@ -13,6 +13,7 @@ export async function getSummonersWithRankAndTeam() {
         tier: true,
         team: true,
         blacklist: true,
+        selected: true,
       },
       orderBy: {
         rank: "desc",
