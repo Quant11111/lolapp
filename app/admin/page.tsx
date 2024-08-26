@@ -12,7 +12,7 @@ import { SummonersTable } from "./SummonersTableAdmin";
 import { StartConceptButton } from "./StartConceptButton";
 import { ConceptTimestamps } from "./ConceptTimestamps";
 import RefreshButton from "./RefreshButton";
-import { ResetConceptButton } from "./ResetConceptButton";
+import HardResetButton from "./HardResetButton";
 import { HeaderBase } from "@/features/layout/HeaderBase";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
@@ -61,8 +61,7 @@ export default async function AdminPage(props: PageParams<{}>) {
           <ConceptTimestamps />
           <div className="mb-4 flex justify-between">
             <div className="flex space-x-4">
-              <StartConceptButton />
-              <ResetConceptButton />
+              <HardResetButton />
               <Link
                 href="/admin/blacklist"
                 className={buttonVariants({ variant: "outline" })}

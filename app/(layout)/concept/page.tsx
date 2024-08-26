@@ -11,7 +11,7 @@ import { ConceptTimestamps } from "./ConceptTimestamps";
 import RefreshButton from "./RefreshButton";
 
 export default async function RoutePage(props: PageParams<{}>) {
-  const [summoners, conceptStart] = await Promise.all([
+  const [summoners] = await Promise.all([
     prisma.summoner.findMany({
       where: {
         blacklist: false, // Exclude blacklisted summoners
