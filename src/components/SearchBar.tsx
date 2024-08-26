@@ -50,6 +50,7 @@ export function SearchBar() {
           summonerLevel: data.summonerLevel,
           tier: data.tier,
           rank: data.rank,
+          selected: false, // Add this line to set selected to false
         });
       } catch (error) {
         console.error("Error fetching or saving data:", error);

@@ -14,6 +14,7 @@ const SummonerSchema = z.object({
   summonerLevel: z.number(),
   tier: z.string().optional(),
   rank: z.string().optional(),
+  selected: z.boolean().optional().default(false), // Make optional with default false
 });
 
 export const saveSummonerAction = action
