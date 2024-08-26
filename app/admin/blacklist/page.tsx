@@ -8,31 +8,19 @@ import {
 } from "@/features/page/layout";
 import type { PageParams } from "@/types/next";
 import { prisma } from "@/lib/prisma";
-import { SummonersTable } from "./SummonersTable";
-import RefreshButton from "./RefreshButton";
+import { SummonersTable } from "./SummonersTableAdmin";
+import { HeaderBase } from "@/features/layout/HeaderBase";
+import Link from "next/link";
+import { buttonVariants } from "@/components/ui/button";
 
-export default async function RoutePage(props: PageParams<{}>) {
+export default async function AdminPage(props: PageParams<{}>) {
   const user = await auth();
 
-  console.log(
-    "User authentication status:",
-    user ? "Authenticated" : "Not authenticated",
-  );
-  console.log("User admin status:", user?.isAdmin ? "Admin" : "Not admin");
-
-  if (!user) {
-    console.log("Redirecting: User not authenticated");
+  if (!user || !user.isAdmin) {
     redirect("/");
   }
 
-  if (!user.isAdmin) {
-    console.log("Redirecting: User is not an admin");
-    redirect("/");
-  }
-
-  console.log("Access granted: User is authenticated and an admin");
-
-  const [summoners, conceptStart] = await Promise.all([
+  await Promise.all([
     prisma.summoner.findMany({
       select: {
         id: true,
@@ -56,45 +44,36 @@ export default async function RoutePage(props: PageParams<{}>) {
     }),
   ]);
 
-  // Filter summoners based on lastUpdated > updateAt
-  const filteredSummoners = summoners.filter(
-    (summoner) =>
-      !conceptStart?.updateAt || summoner.lastUpdated > conceptStart.updateAt,
-  );
-
-  const rankOrder = [
-    "CHALLENGER",
-    "GRANDMASTER",
-    "MASTER",
-    "DIAMOND",
-    "PLATINUM",
-    "GOLD",
-    "SILVER",
-    "BRONZE",
-    "IRON",
-  ];
-  const tierOrder = ["I", "II", "III", "IV"];
-
-  const sortedSummoners = filteredSummoners.sort((a, b) => {
-    if (a.tier === b.tier) {
-      return tierOrder.indexOf(a.rank || "") - tierOrder.indexOf(b.rank || "");
-    }
-    return rankOrder.indexOf(a.tier || "") - rankOrder.indexOf(b.tier || "");
-  });
-
   return (
-    <Layout>
-      <LayoutHeader>
-        <LayoutTitle>Projet DECIMUS</LayoutTitle>
-      </LayoutHeader>
+    <>
+      <HeaderBase />
+      <Layout>
+        <LayoutHeader>
+          <LayoutTitle>Blacklist Concept</LayoutTitle>
+        </LayoutHeader>
 
-      <LayoutContent className="mb-8 mt-4">
-        <div className="mb-4 flex justify-between">
-          <div className="flex space-x-4"></div>
-          <RefreshButton />
-        </div>
-        <SummonersTable summoners={sortedSummoners} />
-      </LayoutContent>
-    </Layout>
+        <LayoutContent className="mb-8 mt-4">
+          <div className="mb-4 flex justify-between">
+            <div className="flex space-x-4">
+              <Link
+                href="/admin"
+                className={buttonVariants({ variant: "outline" })}
+              >
+                Admin Page
+              </Link>
+            </div>
+          </div>
+
+          <div className="space-y-8">
+            <div className="flex flex-col gap-8 lg:flex-row">
+              <div className="w-full lg:w-3/5">
+                <h2 className="mb-4 text-2xl font-bold">All Summoners</h2>
+                <SummonersTable />
+              </div>
+            </div>
+          </div>
+        </LayoutContent>
+      </Layout>
+    </>
   );
 }
