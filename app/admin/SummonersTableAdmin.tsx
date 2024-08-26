@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   Table,
   TableBody,
@@ -36,30 +36,6 @@ export function SummonersTable({
   const [filterBlacklist, setFilterBlacklist] = useState(false);
   const [filterPlayedToday, setFilterPlayedToday] = useState(false);
 
-  useEffect(() => {
-    // Load saved filters from localStorage on the client side
-    const savedBlacklist = localStorage.getItem("filterBlacklist");
-    const savedPlayedToday = localStorage.getItem("filterPlayedToday");
-
-    setFilterBlacklist(
-      savedBlacklist !== null ? JSON.parse(savedBlacklist) : false,
-    );
-    setFilterPlayedToday(
-      savedPlayedToday !== null ? JSON.parse(savedPlayedToday) : false,
-    );
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("filterBlacklist", JSON.stringify(filterBlacklist));
-  }, [filterBlacklist]);
-
-  useEffect(() => {
-    localStorage.setItem(
-      "filterPlayedToday",
-      JSON.stringify(filterPlayedToday),
-    );
-  }, [filterPlayedToday]);
-
   const updateSummonerState = async (id: string, value: boolean) => {
     try {
       setSummoners((prevSummoners) =>
@@ -94,29 +70,27 @@ export function SummonersTable({
     }
   };
 
-  const filteredSummoners = summoners.filter((summoner) => {
-    if (filterBlacklist && summoner.blacklist) {
-      return false;
-    }
-    if (filterPlayedToday && summoner.playedToday) {
-      return false;
-    }
-    return true;
-  });
+  const filteredSummoners = useMemo(() => {
+    return summoners.filter((summoner) => {
+      if (filterBlacklist && summoner.blacklist) return false;
+      if (filterPlayedToday && summoner.playedToday) return false;
+      return true;
+    });
+  }, [summoners, filterBlacklist, filterPlayedToday]);
 
   return (
     <>
       <div className="mb-4 space-x-2">
         <Toggle
           pressed={!filterBlacklist}
-          onPressedChange={(pressed) => setFilterBlacklist(!pressed)}
+          onPressedChange={(pressed: unknown) => setFilterBlacklist(!pressed)}
           aria-label="Toggle blacklist filter"
         >
           Blacklisted
         </Toggle>
         <Toggle
           pressed={!filterPlayedToday}
-          onPressedChange={(pressed) => setFilterPlayedToday(!pressed)}
+          onPressedChange={(pressed: unknown) => setFilterPlayedToday(!pressed)}
           aria-label="Toggle played today filter"
         >
           Played Today

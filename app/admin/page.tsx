@@ -107,7 +107,7 @@ export default async function AdminPage(props: PageParams<{}>) {
               </div>
               <div className="w-full md:w-1/2">
                 <h2 className="mb-4 text-2xl font-bold">Selected Team</h2>
-                <SummonersTeam summoners={sortedSummoners} />
+                <SummonersTeam />
               </div>
             </div>
           </div>

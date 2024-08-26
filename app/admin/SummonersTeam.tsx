@@ -27,10 +27,6 @@ export default function SummonersTeam() {
   const [activeTeam, setActiveTeam] = useState<1 | 2 | null>(null);
 
   useEffect(() => {
-    // Move localStorage logic here
-    const saved = localStorage.getItem("activeTeam");
-    setActiveTeam(saved ? (Number(saved) as 1 | 2) : null);
-
     async function fetchSummoners() {
       try {
         const data = await getSummonersWithRankAndTeam();
@@ -44,14 +40,6 @@ export default function SummonersTeam() {
 
     fetchSummoners();
   }, []);
-
-  useEffect(() => {
-    if (activeTeam) {
-      localStorage.setItem("activeTeam", activeTeam.toString());
-    } else {
-      localStorage.removeItem("activeTeam");
-    }
-  }, [activeTeam]);
 
   const filteredSummoners = activeTeam
     ? summoners.filter((summoner) => summoner.team === activeTeam)
