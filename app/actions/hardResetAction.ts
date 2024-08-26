@@ -6,17 +6,17 @@ export async function hardResetAction() {
   const prisma = new PrismaClient();
 
   try {
-    // Delete all records from the Summoner model
-    await prisma.summoner.deleteMany();
+    const result = await prisma.summoner.updateMany({
+      data: { selected: true },
+    });
 
-    // If you have any related models that should be reset as well, add them here
-    // For example:
-    // await prisma.relatedModel.deleteMany();
-
-    console.log("Summoner model database has been reset successfully.");
+    return {
+      success: true,
+      message: `${result.count} Summoners reset`,
+    };
   } catch (error) {
-    console.error("Error resetting Summoner model database:", error);
-    throw error;
+    console.error("Error resetting summoners:", error);
+    return { success: false };
   } finally {
     await prisma.$disconnect();
   }

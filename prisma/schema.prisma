@@ -104,6 +104,8 @@ model Summoner {
   lastUpdated DateTime @updatedAt
   selected    Boolean  @default(false)
   team        Int?
+  firstRole   String?  @default("") // Can be "top", "jungle", "mid", "adc", or "supp"
+  secondRole  String?  @default("") // Can be "top", "jungle", "mid", "adc", or "supp"
 }
 
 model ConceptStart {

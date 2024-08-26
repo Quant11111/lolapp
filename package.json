@@ -73,6 +73,7 @@
     "react-dom": "^18.3.1",
     "react-email": "2.1.5",
     "react-hook-form": "^7.52.1",
+    "react-hot-toast": "^2.4.1",
     "react-markdown": "^9.0.1",
     "react-use": "^17.5.1",
     "recharts": "^2.12.7",

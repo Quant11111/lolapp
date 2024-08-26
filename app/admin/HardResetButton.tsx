@@ -1,41 +1,46 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { hardResetAction } from "../actions/hardResetAction";
 
 export default function HardResetButton() {
-  const [isResetting, setIsResetting] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [result, setResult] = useState<{
+    success: boolean;
+    message?: string;
+  } | null>(null);
+  const [buttonText, setButtonText] = useState("Reset Summoners");
+
+  useEffect(() => {
+    if (result) {
+      setButtonText(result.message || "");
+      const timer = setTimeout(() => {
+        setButtonText("Reset Summoners");
+        setResult(null);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [result]);
 
   const handleReset = async () => {
-    if (
-      confirm(
-        "Are you sure you want to reset the summoner model database? This action cannot be undone.",
-      )
-    ) {
-      setIsResetting(true);
-      try {
-        await hardResetAction();
-        alert("Summoner model database has been reset successfully.");
-        // Add page refresh after successful reset
-        window.location.reload();
-      } catch (error) {
-        console.error("Error resetting database:", error);
-        alert(
-          "An error occurred while resetting the database. Please try again.",
-        );
-      } finally {
-        setIsResetting(false);
-      }
+    setIsLoading(true);
+    try {
+      const response = await hardResetAction();
+      setResult(response);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <button
-      onClick={handleReset}
-      disabled={isResetting}
-      className="rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-600"
-    >
-      {isResetting ? "Resetting..." : "Hard Reset Summoner Database"}
-    </button>
+    <div>
+      <button
+        onClick={handleReset}
+        disabled={isLoading}
+        className="rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700"
+      >
+        {isLoading ? "Resetting..." : buttonText}
+      </button>
+    </div>
   );
 }
