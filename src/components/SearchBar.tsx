@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Search } from "lucide-react";
 import { saveSummonerAction } from "../../app/actions/saveSummoner";
+import RoleSelector from "./Roles";
 
 type SearchResult = {
   gameName: string;
@@ -19,19 +18,22 @@ type SearchResult = {
 export function SearchBar() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResult, setSearchResult] = useState<SearchResult | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [selectedRole, setSelectedRole] = useState<string | null>(null);
 
-  const handleSearch = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
+  const handleSearch = async (e: React.FormEvent | string) => {
+    if (e instanceof Event) e.preventDefault();
+    if (!selectedRole) {
+      setError("Please select a role before searching");
+      return;
+    }
     setError(null);
     setSearchResult(null);
     const [name, tag] = searchQuery.split("#");
     if (name && tag) {
       try {
         const response = await fetch(
-          `/api/riot-search?name=${name}&tag=${tag}`,
+          `/api/riot-search?name=${name}&tag=${tag}&role=${selectedRole}`,
         );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -59,13 +61,10 @@ export function SearchBar() {
     } else {
       setError("Please enter a valid summoner name and tag (Name#TAG)");
     }
-    setIsLoading(false);
   };
 
   return (
     <div className="mx-auto w-full max-w-4xl px-4">
-      {" "}
-      {/* Increased max-width and added padding */}
       <form
         onSubmit={handleSearch}
         className="mb-4 flex items-center space-x-2"
@@ -77,9 +76,12 @@ export function SearchBar() {
           onChange={(e) => setSearchQuery(e.target.value)}
           className="grow"
         />
-        <Button type="submit" disabled={isLoading}>
-          {isLoading ? "Searching..." : <Search className="size-4" />}
-        </Button>
+        <RoleSelector
+          onRoleSelect={(role) => {
+            setSelectedRole(role);
+            handleSearch(role);
+          }}
+        />
       </form>
       {error && (
         <div className="mt-4 rounded-lg bg-red-100 p-4 text-red-700">
