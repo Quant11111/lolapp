@@ -123,7 +123,7 @@ export function SummonersTable({
               <TableCell>
                 <ValidateButton
                   summonerId={summoner.id}
-                  initialSelected={summoner.selected}
+                  initialTeam={summoner.selected ? 1 : 0}
                 />
               </TableCell>
             </TableRow>
