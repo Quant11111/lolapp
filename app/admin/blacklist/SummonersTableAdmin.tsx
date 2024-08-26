@@ -11,7 +11,10 @@ import {
 } from "@/components/ui/table";
 import { Switch } from "@/components/ui/switch";
 import { Toggle } from "@/components/ui/toggle";
-import { getSummonersWithRankAndTeam } from "../../actions/summonersTeam";
+import {
+  getSummonersWithRankAndTeam,
+  updateSummonerBlacklist,
+} from "../../actions/summonersTeam";
 
 type Summoner = {
   id: string;
@@ -41,7 +44,7 @@ export function SummonersTable() {
             .filter((summoner) => summoner.team === null)
             .map((s) => ({
               ...s,
-              blacklist: false,
+              blacklist: s.blacklist || false, // Use the existing blacklist value or default to false
               selected: false,
               playedToday: false,
             })),
@@ -58,11 +61,26 @@ export function SummonersTable() {
 
   const filteredSummoners = useMemo(() => {
     return summoners.filter((summoner) => {
-      if (filterBlacklist && summoner.blacklist) return false;
-      if (filterPlayedToday && summoner.playedToday) return false;
-      return summoner.team === null;
+      return summoner.blacklist === true;
     });
-  }, [summoners, filterBlacklist, filterPlayedToday]);
+  }, [summoners]);
+
+  const handleBlacklistToggle = async (
+    summonerId: string,
+    checked: boolean,
+  ) => {
+    try {
+      await updateSummonerBlacklist(summonerId, checked);
+      setSummoners((prevSummoners) =>
+        prevSummoners.map((s) =>
+          s.id === summonerId ? { ...s, blacklist: checked } : s,
+        ),
+      );
+    } catch (error) {
+      console.error("Failed to update blacklist status:", error);
+      // Optionally, you can set an error state here to show a message to the user
+    }
+  };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -71,9 +89,9 @@ export function SummonersTable() {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Summoner</TableHead>
+          <TableHead>Blacklisted Summoner</TableHead>
           <TableHead>Rank</TableHead>
-          <TableHead>Blacklist</TableHead>
+          <TableHead>Remove from Blacklist</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -84,13 +102,9 @@ export function SummonersTable() {
             <TableCell>
               <Switch
                 checked={summoner.blacklist}
-                onCheckedChange={(checked) => {
-                  setSummoners((prevSummoners) =>
-                    prevSummoners.map((s) =>
-                      s.id === summoner.id ? { ...s, blacklist: checked } : s,
-                    ),
-                  );
-                }}
+                onCheckedChange={(checked) =>
+                  handleBlacklistToggle(summoner.id, checked)
+                }
               />
             </TableCell>
           </TableRow>

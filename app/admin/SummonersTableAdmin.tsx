@@ -14,6 +14,7 @@ import { ValidateButton } from "./ValidateButton";
 import { Toggle } from "@/components/ui/toggle";
 import { getSummonersWithRankAndTeam } from "../actions/summonersTeam";
 import SaveButton from "./SaveButton";
+import { updateSummonerBlacklist } from "../actions/summonersTeam";
 
 type Summoner = {
   id: string;
@@ -34,27 +35,26 @@ export function SummonersTable() {
   const [filterBlacklist, setFilterBlacklist] = useState(false);
   const [filterPlayedToday, setFilterPlayedToday] = useState(false);
 
-  useEffect(() => {
-    async function fetchSummoners() {
-      try {
-        const data = await getSummonersWithRankAndTeam();
-        setSummoners(
-          data
-            .filter((summoner) => summoner.team === null)
-            .map((s) => ({
-              ...s,
-              blacklist: false,
-              selected: false,
-              playedToday: false,
-            })),
-        );
-        setLoading(false);
-      } catch (err) {
-        setError("Failed to fetch summoners");
-        setLoading(false);
-      }
+  const fetchSummoners = async () => {
+    try {
+      const data = await getSummonersWithRankAndTeam();
+      setSummoners(
+        data
+          .filter((summoner) => summoner.team === null)
+          .map((s) => ({
+            ...s,
+            selected: false,
+            playedToday: false,
+          })),
+      );
+      setLoading(false);
+    } catch (err) {
+      setError("Failed to fetch summoners");
+      setLoading(false);
     }
+  };
 
+  useEffect(() => {
     fetchSummoners();
   }, []);
 
@@ -65,6 +65,19 @@ export function SummonersTable() {
       return summoner.team === null;
     });
   }, [summoners, filterBlacklist, filterPlayedToday]);
+
+  const handleBlacklistToggle = async (
+    summonerId: string,
+    checked: boolean,
+  ) => {
+    try {
+      await updateSummonerBlacklist(summonerId, checked);
+      await fetchSummoners(); // Fetch updated data after toggling blacklist
+    } catch (error) {
+      console.error("Failed to update blacklist:", error);
+      // Optionally, you can set an error state here to show a message to the user
+    }
+  };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -106,13 +119,9 @@ export function SummonersTable() {
               <TableCell>
                 <Switch
                   checked={summoner.blacklist}
-                  onCheckedChange={(checked) => {
-                    setSummoners((prevSummoners) =>
-                      prevSummoners.map((s) =>
-                        s.id === summoner.id ? { ...s, blacklist: checked } : s,
-                      ),
-                    );
-                  }}
+                  onCheckedChange={(checked) =>
+                    handleBlacklistToggle(summoner.id, checked)
+                  }
                 />
               </TableCell>
               <TableCell>

@@ -12,6 +12,7 @@ export async function getSummonersWithRankAndTeam() {
         rank: true,
         tier: true,
         team: true,
+        blacklist: true,
       },
       orderBy: {
         rank: "desc",
@@ -46,5 +47,21 @@ export async function resetAllSummonerTeams() {
   } catch (error) {
     console.error("Error resetting all summoner teams:", error);
     throw new Error("Failed to reset all summoner teams");
+  }
+}
+
+export async function updateSummonerBlacklist(
+  summonerId: string,
+  blacklist: boolean,
+) {
+  try {
+    await prisma.summoner.update({
+      where: { id: summonerId },
+      data: { blacklist },
+    });
+    return { success: true };
+  } catch (error) {
+    console.error("Error updating summoner blacklist:", error);
+    throw new Error("Failed to update summoner blacklist");
   }
 }
