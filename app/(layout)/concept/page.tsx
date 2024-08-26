@@ -14,7 +14,8 @@ export default async function RoutePage(props: PageParams<{}>) {
   const [summoners] = await Promise.all([
     prisma.summoner.findMany({
       where: {
-        blacklist: false, // Exclude blacklisted summoners
+        blacklist: false,
+        selected: false, // Add this line to filter out selected summoners
       },
       select: {
         id: true,

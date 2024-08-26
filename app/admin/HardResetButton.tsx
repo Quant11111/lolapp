@@ -29,6 +29,7 @@ export default function HardResetButton() {
       setResult(response);
     } finally {
       setIsLoading(false);
+      setTimeout(() => window.location.reload(), 300);
     }
   };
 
