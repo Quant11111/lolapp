@@ -8,6 +8,7 @@ type RankEntry = {
   leaguePoints: number;
   wins: number;
   losses: number;
+  puuid: string;
 };
 
 async function fetchWithApiKey(url: string, apiKey: string) {
@@ -87,6 +88,7 @@ export async function GET(request: Request) {
       leaguePoints: soloQueueRank ? soloQueueRank.leaguePoints : 0,
       wins: soloQueueRank ? soloQueueRank.wins : 0,
       losses: soloQueueRank ? soloQueueRank.losses : 0,
+      puuid: accountData.puuid, // Add this line to include the PUUID
     });
   } catch (error) {
     console.error("Error fetching from Riot API:", error);

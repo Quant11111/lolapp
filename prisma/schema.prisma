@@ -104,7 +104,9 @@ model Summoner {
   lastUpdated DateTime @updatedAt
   selected    Boolean  @default(false)
   team        Int?
-  firstRole   String?
+  firstRole       String?
+
+  @@unique([gameName, tagLine])
 }
 
 model ConceptStart {
