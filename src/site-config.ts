@@ -25,7 +25,7 @@ export const SiteConfig = {
   partner: {
     image: "https://example.com/gaby-image.jpg", // Replace with Gaby's actual image URL
     website: "https://gaby-website.com", // Replace with Gaby's actual website
-    twitter: "https://x.com/GabyTwitter", // Replace with Gaby's actual Twitter
+    twitter: "https://x.com/gabysushi", // Replace with Gaby's actual Twitter
     name: "Gaby",
   },
   auth: {

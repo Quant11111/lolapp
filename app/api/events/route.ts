@@ -39,9 +39,17 @@ export async function POST(request: Request) {
       );
     }
 
+    // Get the latest event to determine the next ID
+    const latestEvent = await prisma.event.findFirst({
+      orderBy: { id: "desc" },
+    });
+
+    const nextId = latestEvent ? parseInt(latestEvent.id) + 1 : 1;
+
     console.log("Creating event with name:", trimmedName);
     const event = await prisma.event.create({
       data: {
+        id: nextId.toString(),
         name: trimmedName,
       },
     });
