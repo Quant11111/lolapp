@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { saveSummonerAction } from "../../app/actions/saveSummoner";
 import RoleSelector from "./Roles";
+import { saveRoleAction } from "../../app/actions/saveRole"; // Add this import
 
 type SearchResult = {
   gameName: string;
@@ -19,12 +20,11 @@ export function SearchBar() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResult, setSearchResult] = useState<SearchResult | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [selectedRole, setSelectedRole] = useState<string | null>(null);
+  const [selectedRole, setSelectedRole] = useState<string | null>(null); // Add this line
 
-  const handleSearch = async (e: React.FormEvent | string) => {
-    if (e instanceof Event) e.preventDefault();
-    if (!selectedRole) {
-      setError("Please select a role before searching");
+  const handleSearch = async (role: string) => {
+    if (!searchQuery) {
+      setError("Please enter a summoner name and tag before selecting a role");
       return;
     }
     setError(null);
@@ -41,7 +41,7 @@ export function SearchBar() {
         const data = await response.json();
         setSearchResult(data);
 
-        // Save the summoner data
+        // Update the saveSummonerAction call
         await saveSummonerAction({
           puuid: data.puuid,
           gameName: data.gameName,
@@ -52,8 +52,13 @@ export function SearchBar() {
           summonerLevel: data.summonerLevel,
           tier: data.tier,
           rank: data.rank,
-          selected: false, // Add this line to set selected to false
+          selected: false,
         });
+
+        // Add this after saveSummonerAction
+        await saveRoleAction(data.puuid, role);
+
+        setSelectedRole(role);
       } catch (error) {
         console.error("Error fetching or saving data:", error);
         setError("Not good...");
@@ -65,10 +70,7 @@ export function SearchBar() {
 
   return (
     <div className="mx-auto w-full max-w-4xl px-4">
-      <form
-        onSubmit={handleSearch}
-        className="mb-4 flex items-center space-x-2"
-      >
+      <div className="mb-4 flex items-center space-x-2">
         <Input
           type="text"
           placeholder="Gabysushi#EUW"
@@ -76,13 +78,8 @@ export function SearchBar() {
           onChange={(e) => setSearchQuery(e.target.value)}
           className="grow"
         />
-        <RoleSelector
-          onRoleSelect={(role) => {
-            setSelectedRole(role);
-            handleSearch(role);
-          }}
-        />
-      </form>
+        <RoleSelector onRoleSelect={handleSearch} />
+      </div>
       {error && (
         <div className="mt-4 rounded-lg bg-red-100 p-4 text-red-700">
           {error}
@@ -98,6 +95,7 @@ export function SearchBar() {
           <p>League Points: {searchResult.leaguePoints}</p>
           <p>Wins: {searchResult.wins}</p>
           <p>Losses: {searchResult.losses}</p>
+          <p>Selected Role: {selectedRole}</p>
         </div>
       )}
     </div>
