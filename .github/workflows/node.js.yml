@@ -39,7 +39,6 @@ jobs:
           echo "DATABASE_URL=\"${{ secrets.DATABASE_URL }}\"" >> .env
           echo "GOOGLE_ID=\"${{ secrets.GOOGLE_ID }}\"" >> .env
           echo "GOOGLE_SECRET=\"${{ secrets.GOOGLE_SECRET }}\"" >> .env
-          echo "NEXTAUTH_URL=\"${{ secrets.NEXTAUTH_URL }}\"" >> .env
           echo "NEXTAUTH_SECRET=\"${{ secrets.NEXTAUTH_SECRET }}\"" >> .env
           echo "RESEND_API_KEY=\"${{ secrets.RESEND_API_KEY }}\"" >> .env
           echo "RESEND_AUDIENCE_ID=\"${{ secrets.RESEND_AUDIENCE_ID }}\"" >> .env
