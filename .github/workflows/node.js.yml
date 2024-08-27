@@ -33,12 +33,13 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "pnpm"
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: rm -rf node_modules && pnpm install
       - name: Generate .env file
         run: |
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
           echo "GOOGLE_ID=${{ secrets.GOOGLE_ID }}" >> .env
           echo "GOOGLE_SECRET=${{ secrets.GOOGLE_SECRET }}" >> .env
+          echo "NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }}" >> .env
           echo "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}" >> .env
           echo "RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}" >> .env
           echo "RESEND_AUDIENCE_ID=${{ secrets.RESEND_AUDIENCE_ID }}" >> .env
@@ -46,5 +47,11 @@ jobs:
           echo "STRIPE_WEBHOOK_SECRET=${{ secrets.STRIPE_WEBHOOK_SECRET }}" >> .env
           echo "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}" >> .env
           echo "RIOT_API_KEY=${{ secrets.RIOT_API_KEY }}" >> .env
-      - run: rm -rf .next
-      - run: pnpm run build
+          echo "PROJECT_ENV=${{ secrets.PROJECT_ENV }}" >> .env
+      - name: Build and Migrate
+        run: |
+          rm -rf .next
+          pnpm run build
+          pnpm run migrate
+      - name: restart pm2 padelu instance
+        run: pm2 restart padelu
