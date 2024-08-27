@@ -9,7 +9,6 @@ import {
 import type { PageParams } from "@/types/next";
 import { prisma } from "@/lib/prisma";
 import { SummonersTable } from "./SummonersTableAdmin";
-import { StartConceptButton } from "./StartConceptButton";
 import { ConceptTimestamps } from "./ConceptTimestamps";
 import RefreshButton from "./RefreshButton";
 import HardResetButton from "./HardResetButton";

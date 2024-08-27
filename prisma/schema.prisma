@@ -113,6 +113,13 @@ model ConceptStart {
   timestamp BigInt
   updateAt     DateTime @default(now()) @updatedAt
 }
+
+model Event {
+  id        String   @id @default(cuid())
+  name String @unique
+  createdAt DateTime @default(now())
+}
+
 enum UserPlan {
   FREE
   PREMIUM
