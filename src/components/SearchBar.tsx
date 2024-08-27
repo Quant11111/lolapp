@@ -97,7 +97,6 @@ export function SearchBar() {
           <p>Wins: {searchResult.wins}</p>
           <p>Losses: {searchResult.losses}</p>
           <p>Selected Role: {selectedRole}</p>
-          <p>PUUID: {searchResult.puuid}</p> {/* Add this line */}
         </div>
       )}
     </div>
