@@ -33,7 +33,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "pnpm"
       - name: Install dependencies
-        run: pnpm install
+        run: rm -rf node_modules && pnpm install
       - name: Generate .env file
         run: |
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
@@ -47,7 +47,10 @@ jobs:
           echo "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}" >> .env
           echo "RIOT_API_KEY=${{ secrets.RIOT_API_KEY }}" >> .env
           echo "PROJECT_ENV=${{ secrets.PROJECT_ENV }}" >> .env
-      - run: rm -rf .next
-      - run: pnpm run build
-      - run: pnpm run migrate
-      - run: pm2 restart padelu
+      - name: Build and Migrate
+        run: |
+          rm -rf .next
+          pnpm run build
+          pnpm run migrate
+      - name: restart pm2 padelu instance
+        run: pm2 restart padelu
