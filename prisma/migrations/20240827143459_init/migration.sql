@@ -47,6 +47,7 @@ CREATE TABLE "User" (
     "image" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "isAdmin" BOOLEAN NOT NULL DEFAULT false,
     "stripeCustomerId" TEXT,
     "plan" "UserPlan" NOT NULL DEFAULT 'FREE',
     "resendContactId" TEXT,
@@ -68,6 +69,38 @@ CREATE TABLE "Feedback" (
     CONSTRAINT "Feedback_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Summoner" (
+    "id" TEXT NOT NULL,
+    "puuid" TEXT NOT NULL,
+    "gameName" TEXT NOT NULL,
+    "tagLine" TEXT NOT NULL,
+    "accountId" TEXT NOT NULL,
+    "profileIconId" INTEGER NOT NULL,
+    "revisionDate" BIGINT NOT NULL,
+    "summonerLevel" INTEGER NOT NULL,
+    "tier" TEXT,
+    "rank" TEXT,
+    "blacklist" BOOLEAN NOT NULL DEFAULT false,
+    "playedToday" BOOLEAN NOT NULL DEFAULT false,
+    "inGame" BOOLEAN NOT NULL DEFAULT false,
+    "lastUpdated" TIMESTAMP(3) NOT NULL,
+    "selected" BOOLEAN NOT NULL DEFAULT false,
+    "team" INTEGER,
+    "firstRole" TEXT,
+
+    CONSTRAINT "Summoner_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "ConceptStart" (
+    "id" INTEGER NOT NULL,
+    "timestamp" BIGINT NOT NULL,
+    "updateAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "ConceptStart_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "Account_provider_providerAccountId_key" ON "Account"("provider", "providerAccountId");
 
@@ -83,6 +116,12 @@ CREATE UNIQUE INDEX "sessions_session_token_key" ON "sessions"("session_token");
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "Summoner_puuid_key" ON "Summoner"("puuid");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Summoner_accountId_key" ON "Summoner"("accountId");
+
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -91,3 +130,4 @@ ALTER TABLE "sessions" ADD CONSTRAINT "sessions_user_id_fkey" FOREIGN KEY ("user
 
 -- AddForeignKey
 ALTER TABLE "Feedback" ADD CONSTRAINT "Feedback_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
