@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 
 const { withPlausibleProxy } = require("next-plausible");
+const fs = require("fs");
+const path = require("path");
 
 const isProd = process.env.PROJECT_ENV === "production";
 
