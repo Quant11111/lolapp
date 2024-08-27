@@ -9,6 +9,7 @@ import { setupResendCustomer, setupStripeCustomer } from "./auth-config-setup";
 import { getNextAuthConfigProviders } from "./getNextAuthConfigProviders";
 
 export const { handlers, auth: baseAuth } = NextAuth((req) => ({
+  trustHost: true,
   pages: {
     signIn: "/auth/signin",
     signOut: "/auth/signout",
