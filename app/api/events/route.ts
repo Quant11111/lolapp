@@ -5,7 +5,7 @@ import { Prisma } from "@prisma/client";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name } = body;
+    const { name, createdBy } = body;
 
     console.log("Received event name:", name);
 
@@ -51,6 +51,7 @@ export async function POST(request: Request) {
       data: {
         id: nextId.toString(),
         name: trimmedName,
+        createBy: createdBy,
       },
     });
 

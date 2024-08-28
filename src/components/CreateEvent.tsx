@@ -6,8 +6,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
-
-function CreateEvent() {
+export function CreateEvent() {
   const router = useRouter();
   const [isNaming, setIsNaming] = useState(false);
   const [eventName, setEventName] = useState("");
@@ -33,7 +32,10 @@ function CreateEvent() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ name: eventName.trim() }),
+          body: JSON.stringify({
+            name: eventName.trim(),
+            createdBy: session.user.name || "Anonymous",
+          }),
         });
 
         const data = await response.json();
@@ -52,7 +54,6 @@ function CreateEvent() {
       }
     }
   };
-
   return (
     <div className="mt-4">
       {isNaming ? (
@@ -80,5 +81,3 @@ function CreateEvent() {
     </div>
   );
 }
-
-export default CreateEvent;

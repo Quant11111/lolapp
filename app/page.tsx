@@ -1,5 +1,5 @@
 import { LandingHeader } from "@/features/landing/LandingHeader";
-import CreateEvent from "@/components/CreateEvent";
+import { CreateEvent } from "@/components/CreateEvent";
 import { getLastTenEvents } from "../app/actions/event";
 import Link from "next/link";
 
@@ -21,7 +21,7 @@ export default async function HomePage() {
                 <div className="mb-4 grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
                   <div className="flex h-10 items-center justify-center rounded-lg bg-gray-200 dark:bg-gray-700">
                     <span className="font-bold dark:text-white">
-                      {event.id}
+                      {event.createBy}
                     </span>
                   </div>
                   <div className="flex h-10 items-center justify-center rounded-lg bg-gray-200 dark:bg-gray-700 lg:col-span-2">

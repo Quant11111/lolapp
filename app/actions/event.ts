@@ -11,7 +11,8 @@ export async function getLastTenEvents() {
       },
       select: {
         id: true,
-        name: true, // Assuming you have a title field, adjust if needed
+        name: true,
+        createBy: true,
       },
     });
     return events;
