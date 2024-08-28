@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { saveSummonerAction } from "../../app/actions/saveSummoner";
 import RoleSelector from "./Roles";
 import { saveRoleAction } from "../../app/actions/saveRole"; // Add this import
+import { registerSummonerToEvent } from "../../app/actions/event"; // Add this import
 
 type SearchResult = {
   gameName: string;
@@ -58,6 +59,10 @@ export function SearchBar() {
 
         // Add this after saveSummonerAction
         await saveRoleAction(data.puuid, role);
+
+        // Add this after saveRoleAction
+        const nameEvent = window.location.pathname.split("/").pop() || "";
+        await registerSummonerToEvent(data.puuid, nameEvent);
 
         setSelectedRole(role);
       } catch (error) {

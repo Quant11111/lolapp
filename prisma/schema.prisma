@@ -105,6 +105,7 @@ model Summoner {
   selected    Boolean  @default(false)
   team        Int?
   firstRole       String?
+  eventName       String?  @unique
 
 }
 
