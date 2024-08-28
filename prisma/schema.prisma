@@ -105,23 +105,41 @@ model Summoner {
   selected    Boolean  @default(false)
   team        Int?
   firstRole       String?
-  eventName       String?  @unique
 
-}
-
-model ConceptStart {
-  id        Int      @id
-  timestamp BigInt
-  updateAt     DateTime @default(now()) @updatedAt
+  appliances Event[]  @relation("EventCandidates")
+  createdEvents Event[]
 }
 
 model Event {
-  id        String   @id @default(cuid())
-  name String @unique
-  createdAt DateTime @default(now())
+  id          String   @id @default(nanoid(11))
+  title       String
+  description String
+  discordLink String?
+  candidates   Summoner[] @relation("EventCandidates")
+  creator     Summoner @relation(fields: [creatorId], references: [id])
+  creatorId   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  status      EventStatus @default(OPEN)
+  blueTopSumId String?
+  blueJglSumId String?
+  blueMidSumId String?
+  blueBotSumId String?
+  blueSupSumId String?
+  redTopSumId String?
+  redJglSumId String?
+  redMidSumId String?
+  redBotSumId String?
+  redSupSumId String?
 }
 
 enum UserPlan {
   FREE
   PREMIUM
+}
+
+enum EventStatus {
+  OPEN
+  CLOSED
+  CANCELED
 }
