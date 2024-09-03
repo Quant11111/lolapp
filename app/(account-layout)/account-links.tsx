@@ -11,6 +11,7 @@ export const ACCOUNT_LINKS: NavigationLinkGroups[] = [
         title: "Delete profile",
         icon: <AlertCircle />,
       },
+      //{ url: "/account/billing", title: "Billing", icon: <Coins /> },
       { url: "/account/billing", title: "Billing", icon: <Coins /> },
     ],
   },

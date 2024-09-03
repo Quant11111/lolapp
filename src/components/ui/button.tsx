@@ -5,22 +5,27 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 active:scale-95 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        default:
+          "hover:bg-primary-dark bg-primary text-primary-foreground transition-transform hover:scale-105 hover:shadow-lg",
         destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+          "hover:bg-destructive-dark bg-destructive text-destructive-foreground transition-transform hover:scale-105 hover:shadow-lg",
         outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+          "border-2 border-secondary-foreground bg-primary-foreground text-foreground transition-all duration-300 ease-in-out hover:border-primary-foreground hover:bg-foreground hover:text-primary-foreground hover:shadow-[0_0_20px_#66B2FF]",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
-        invert: "bg-foreground text-background hover:bg-foreground/90",
-        success: "bg-success text-success-foreground hover:bg-success/90",
-        warning: "bg-warning text-warning-foreground hover:bg-warning/90",
+          "hover:bg-secondary-dark bg-secondary text-secondary-foreground transition-transform hover:scale-105 hover:shadow-lg",
+        ghost:
+          "bg-transparent transition-transform hover:scale-105 hover:bg-accent hover:text-accent-foreground hover:shadow-lg",
+        link: "text-primary underline-offset-4 transition-transform hover:scale-105 hover:underline",
+        invert:
+          "hover:bg-foreground-dark bg-foreground text-primary-foreground transition-transform hover:scale-105 hover:shadow-lg",
+        success:
+          "hover:bg-success-dark bg-success text-success-foreground transition-transform hover:scale-105 hover:shadow-lg",
+        warning:
+          "hover:bg-warning-dark bg-warning text-warning-foreground transition-transform hover:scale-105 hover:shadow-lg",
       },
       size: {
         default: "h-10 px-4 py-2",

@@ -1,100 +1,32 @@
 "use client";
 
-import { LogoSvg } from "@/components/svg/LogoSvg";
 import { SiteConfig } from "@/site-config";
-import { motion, useMotionValue, useScroll, useTransform } from "framer-motion";
-import { useEffect } from "react";
 import { AuthButtonClient } from "../auth/AuthButtonClient";
-import { ThemeToggle } from "../theme/ThemeToggle";
-import Link from "next/link";
-
-function useBoundedScroll(threshold: number) {
-  const { scrollY } = useScroll();
-  const scrollYBounded = useMotionValue(0);
-  const scrollYBoundedProgress = useTransform(
-    scrollYBounded,
-    [0, threshold],
-    [0, 1],
-  );
-
-  useEffect(() => {
-    const onChange = (current: number) => {
-      const previous = scrollY.getPrevious() ?? 0;
-      const diff = current - previous;
-      const newScrollYBounded = scrollYBounded.get() + diff;
-
-      scrollYBounded.set(clamp(newScrollYBounded, 0, threshold));
-    };
-
-    const deleteEvent = scrollY.on("change", onChange);
-
-    const listener = () => {
-      const currentScroll = window.scrollY;
-      onChange(currentScroll);
-    };
-
-    window.addEventListener("scroll", listener);
-
-    return () => {
-      deleteEvent();
-      window.removeEventListener("scroll", listener);
-    };
-  }, [threshold, scrollY, scrollYBounded]);
-
-  return { scrollYBounded, scrollYBoundedProgress };
-}
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export function LandingHeader() {
-  const { scrollYBoundedProgress } = useBoundedScroll(400);
-  const scrollYBoundedProgressDelayed = useTransform(
-    scrollYBoundedProgress,
-    [0, 0.75, 1],
-    [0, 0, 1],
-  );
-
+  const router = useRouter();
   return (
-    <motion.header
-      style={{
-        height: useTransform(scrollYBoundedProgressDelayed, [0, 1], [80, 50]),
-      }}
-      className="fixed inset-x-0 z-50 flex h-20 w-screen shadow backdrop-blur-md"
-    >
-      <div className="mx-auto flex w-full max-w-3xl items-center justify-between px-4 lg:px-8">
-        <div className="flex items-center gap-1">
-          <LogoSvg size={24} />
-          <motion.p
-            style={{
-              scale: useTransform(
-                scrollYBoundedProgressDelayed,
-                [0, 1],
-                [1, 0.9],
-              ),
-            }}
-            className="flex origin-left items-center text-xl font-semibold uppercase max-sm:hidden"
-          >
-            {SiteConfig.title}
-          </motion.p>
-        </div>{" "}
-        <motion.nav
-          style={{
-            opacity: useTransform(
-              scrollYBoundedProgressDelayed,
-              [0, 1],
-              [1, 0],
-            ),
-          }}
-          className="flex items-center gap-4 text-sm font-medium text-muted-foreground"
+    <div className="relative mx-auto flex w-full items-center justify-between border-b-2 border-accent bg-background/20 py-4 shadow-md lg:px-8">
+      <div className="flex">
+        <div className="w-12" />
+
+        <Button
+          onClick={() => router.push("/")}
+          variant="ghost"
+          className="text-2xl font-bold"
         >
-          <a href="/concept">Concept</a>
-          <a href="/posts">Blog</a>
-          <a href="/admin">Admin</a>
-          <AuthButtonClient />
-          <ThemeToggle />
-        </motion.nav>
+          {SiteConfig.title}
+        </Button>
       </div>
-    </motion.header>
+      <nav className="flex items-center gap-6 text-gray-600">
+        <a href="/buttons">Boutons</a>
+        <a href="/concept">Concept</a>
+        <a href="/posts">Blog</a>
+        <a href="/admin">Admin</a>
+        <AuthButtonClient />
+      </nav>
+    </div>
   );
 }
-
-const clamp = (number: number, min: number, max: number) =>
-  Math.min(Math.max(number, min), max);

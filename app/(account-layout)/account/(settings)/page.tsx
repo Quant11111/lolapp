@@ -5,6 +5,7 @@ import { displayName } from "@/lib/format/displayName";
 import { prisma } from "@/lib/prisma";
 import { EditPasswordForm } from "./EditPasswordForm";
 import { EditProfileForm } from "./EditProfileForm";
+import { EditSummonerForm } from "./EditSummonerForm";
 
 export default async function EditProfilePage() {
   const user = await requiredAuth();
@@ -19,7 +20,18 @@ export default async function EditProfilePage() {
   });
 
   return (
-    <div className="flex flex-col gap-4 lg:gap-8">
+    <div className="flex flex-col gap-4 lg:gap-4">
+      <Card>
+        <CardHeader>
+          <div className="flex items-center gap-2">
+            <CardTitle>Summonner</CardTitle>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <EditSummonerForm />
+        </CardContent>
+      </Card>
+
       <Card>
         <CardHeader>
           <div className="flex items-center gap-2">
@@ -27,7 +39,6 @@ export default async function EditProfilePage() {
               <AvatarFallback>{user.email.slice(0, 2)}</AvatarFallback>
               {user.image ? <AvatarImage src={user.image} /> : null}
             </Avatar>
-
             <CardTitle>{displayName(user)}</CardTitle>
           </div>
         </CardHeader>

@@ -9,10 +9,13 @@ import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
 import PlausibleProvider from "next-plausible";
-import type { ReactNode } from "react";
+import { type ReactNode } from "react";
 import "./code-theme.scss";
 import "./globals.scss";
 import { Providers } from "./providers";
+import { BlurredBackground } from "@/components/ui/BluredBackground";
+import { LandingHeader } from "@/features/landing/LandingHeader";
+import Sidebar from "./Sidebar";
 
 export const metadata: Metadata = {
   title: SiteConfig.title,
@@ -33,7 +36,7 @@ export default function RootLayout({
         <body
           suppressHydrationWarning
           className={cn(
-            "h-full bg-background font-sans antialiased",
+            "h-full bg-background font-sans antialiased flex flex-col pb-8",
             GeistMono.variable,
             GeistSans.variable,
           )}
@@ -44,8 +47,14 @@ export default function RootLayout({
               showSpinner={false}
               color="hsl(var(--primary))"
             />
-            {children}
-            {modal}
+            <LandingHeader />
+            <BlurredBackground imageUrl="https://cdnb.artstation.com/p/assets/images/images/015/582/603/large/artur-sadlos-leg-more-sh210-background-as-v002.jpg?1548866523" />
+            <div className="relative flex grow overflow-hidden py-10 text-foreground">
+              <Sidebar />
+              <div className="grow">
+                {children} {modal}
+              </div>
+            </div>
             <TailwindIndicator />
             <FloatingLegalFooter />
           </Providers>
