@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import type { ComponentPropsWithoutRef } from "react";
 
 interface ArrowIconSvgProps extends ComponentPropsWithoutRef<"svg"> {
-  isSidebarOpen?: boolean;
+  issidebaropen?: boolean;
 }
 
 export const SidebarToogleIconSvg = ({
@@ -21,11 +21,11 @@ export const SidebarToogleIconSvg = ({
       {/**barre du haut du P */}
       <rect
         className={cn("transition-transform duration-300", {
-          "transform translate-x-1  rotate-12": props.isSidebarOpen,
+          "transform translate-x-1  rotate-12": props.issidebaropen,
         })}
         x="0"
         y="0"
-        width={props.isSidebarOpen ? "22" : "30"}
+        width={props.issidebaropen ? "22" : "30"}
         height="4"
         rx="2"
         ry="2"
@@ -33,11 +33,11 @@ export const SidebarToogleIconSvg = ({
       {/**barre du bas du P */}
       <rect
         className={cn("transition-transform duration-300", {
-          "transform translate-x-1   -rotate-12": props.isSidebarOpen,
+          "transform translate-x-1   -rotate-12": props.issidebaropen,
         })}
         x="0"
         y="8"
-        width={props.isSidebarOpen ? "19" : "30"}
+        width={props.issidebaropen ? "19" : "30"}
         height="4"
         rx="2"
         ry="2"
@@ -45,7 +45,7 @@ export const SidebarToogleIconSvg = ({
       {/**barre verticale du P */}
       <rect
         className={cn("transition-transform duration-300", {
-          "transform translate-x-8 scale-150 rotate-90": props.isSidebarOpen,
+          "transform translate-x-8 scale-150 rotate-90": props.issidebaropen,
         })}
         x="0"
         y="16"
@@ -57,7 +57,7 @@ export const SidebarToogleIconSvg = ({
       {/**barre 1 du A */}
       <rect
         className={cn("transition-transform duration-300", {
-          "transform translate-x-7  rotate-45": props.isSidebarOpen,
+          "transform translate-x-7  rotate-45": props.issidebaropen,
         })}
         x="0"
         y="16"
@@ -70,11 +70,11 @@ export const SidebarToogleIconSvg = ({
       <rect
         className={cn("transition-transform duration-300", {
           "transform -translate-x-4 translate-y-5  -rotate-45":
-            props.isSidebarOpen,
+            props.issidebaropen,
         })}
         x="0"
         y="16"
-        width={props.isSidebarOpen ? "29" : "30"}
+        width={props.issidebaropen ? "29" : "30"}
         height="4"
         rx="2"
         ry="2"

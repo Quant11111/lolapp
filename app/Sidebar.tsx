@@ -35,7 +35,7 @@ const Sidebar = () => {
         className="fixed left-4 top-4"
         size={"icon"}
       >
-        <SidebarToogleIconSvg isSidebarOpen={isSidebarOpen} />
+        <SidebarToogleIconSvg issidebaropen={isSidebarOpen} />
       </Button>
     </div>
   );
