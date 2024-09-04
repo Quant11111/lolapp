@@ -12,14 +12,10 @@ export const editSummonerAction = authAction
     const [name, tag] = input.name.split("#");
     if (name && tag) {
       try {
-        console.log("fetching data");
         const response = await fetch(
           `${getServerUrl()}/api/riot-search?name=${name}&tag=${tag}`,
         );
-        console.log("data fetched");
         const gatheredData = await response.json();
-
-        console.log(gatheredData);
 
         const summoner = await prisma.summoner.upsert({
           where: { puuid: gatheredData.puuid },
@@ -51,7 +47,6 @@ export const editSummonerAction = authAction
         });
         return summoner;
       } catch (error) {
-        console.error("Error fetching summoner data:", error);
         throw new ActionError("Error fetching summoner data");
       }
     } else {
