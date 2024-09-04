@@ -15,17 +15,10 @@ import { toast } from "sonner";
 import { createCustomAction } from "./create-custom.action";
 import { CustomFormSchema, CustomFormType } from "./create-custom.schema";
 import { Button } from "@/components/ui/button";
-import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
-
 export const CreateCustomForm = () => {
   const form = useZodForm({
     schema: CustomFormSchema,
   });
-  const session = useSession();
-  if (!session.data?.user) {
-    redirect("/auth/signin");
-  }
   const createCustomMutation = useMutation({
     mutationFn: async (values: CustomFormType) => {
       const result = await createCustomAction(values);
