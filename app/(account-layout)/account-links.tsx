@@ -8,7 +8,7 @@ export const ACCOUNT_LINKS: NavigationLinkGroups[] = [
       { url: "/account", title: "Profile", icon: <User2 /> },
 
       //{ url: "/account/billing", title: "Billing", icon: <Coins /> },
-      { url: "/summoner", title: "Summoner", icon: <Sword /> },
+      { url: "/summoners/id", title: "Summoner", icon: <Sword /> },
       { url: "/account/support", title: "Support Us", icon: <Coins /> },
     ],
   },

@@ -11,7 +11,6 @@ export const getCustomDataAction = async (id: string) => {
     });
     return custom;
   } catch (error) {
-    console.error(error);
-    throw new Error("Error fetching user data");
+    throw new Error("Error fetching custom data");
   }
 };
