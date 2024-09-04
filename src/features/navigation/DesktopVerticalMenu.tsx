@@ -1,12 +1,10 @@
 "use client";
 
-import { Separator } from "@/components/ui/separator";
 import { Typography } from "@/components/ui/typography";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment, cloneElement } from "react";
-import { DASHBOARD_LINKS } from "../../../app/(dashboard-layout)/dashboard-links";
 import type { NavigationLinkGroups } from "./navigation.type";
 
 const useCurrentPath = (links: NavigationLinkGroups[]) => {
@@ -76,7 +74,6 @@ export const DesktopVerticalMenu = ({
               );
             })}
           </div>
-          {index < DASHBOARD_LINKS.length - 1 ? <Separator /> : null}
         </Fragment>
       ))}
     </nav>

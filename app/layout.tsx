@@ -58,6 +58,13 @@ export default function RootLayout({
             <TailwindIndicator />
             <FloatingLegalFooter />
           </Providers>
+          <div
+            className="pointer-events-none absolute inset-0 h-full"
+            style={{
+              background:
+                "linear-gradient(to bottom, rgba(255, 255, 255, 0) 90%, rgba(255, 255, 255, 0.4) 100%)",
+            }}
+          ></div>
         </body>
       </html>
     </>

@@ -21,10 +21,9 @@ export function LandingHeader() {
         </Button>
       </div>
       <nav className="flex items-center gap-6 text-gray-600">
-        <a href="/buttons">Boutons</a>
-        <a href="/concept">Concept</a>
-        <a href="/posts">Blog</a>
-        <a href="/admin">Admin</a>
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/newPlayer">new Player ?</a>
         <AuthButtonClient />
       </nav>
     </div>

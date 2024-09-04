@@ -34,13 +34,6 @@ export const UserDropdown = ({ children }: PropsWithChildren) => {
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <Link href="/account">
-            <Settings className="mr-2 size-4" />
-            Settings
-          </Link>
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <Link href="/dashboard">
             <LayoutDashboard className="mr-2 size-4" />
             Dashboard
           </Link>
