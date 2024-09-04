@@ -9,6 +9,7 @@ import React, { useState } from "react";
 const Sidebar = () => {
   const session = useSession();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const issidebaropen = isSidebarOpen ? "true" : "false";
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -35,7 +36,7 @@ const Sidebar = () => {
         className="fixed left-4 top-4"
         size={"icon"}
       >
-        <SidebarToogleIconSvg issidebaropen={isSidebarOpen} />
+        <SidebarToogleIconSvg issidebaropen={issidebaropen} />
       </Button>
     </div>
   );
