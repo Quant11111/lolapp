@@ -35,9 +35,7 @@ export default async function HomePage() {
                 <CardDescription>{custom.description}</CardDescription>
               </CardContent>
               <CardFooter>
-                <button className="rounded bg-blue-500 px-4 py-2 text-white">
-                  Action
-                </button>
+                <a href={`/customs/${custom.id}`}>Join</a>
               </CardFooter>
             </Card>
           ))}
