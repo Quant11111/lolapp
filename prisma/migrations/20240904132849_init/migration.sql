@@ -93,7 +93,7 @@ CREATE TABLE "Summoner" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "firstRole" "Role",
     "secondRole" "Role",
-    "createdEventsIds" TEXT[],
+    "createdCustomIds" TEXT[],
     "userId" TEXT NOT NULL,
 
     CONSTRAINT "Summoner_pkey" PRIMARY KEY ("puuid")
@@ -124,13 +124,19 @@ CREATE TABLE "Custom" (
 );
 
 -- CreateTable
+CREATE TABLE "_FollowedSummoners" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL
+);
+
+-- CreateTable
 CREATE TABLE "_BlackListedSummoners" (
     "A" TEXT NOT NULL,
     "B" TEXT NOT NULL
 );
 
 -- CreateTable
-CREATE TABLE "_EventCandidates" (
+CREATE TABLE "_CustomCandidates" (
     "A" TEXT NOT NULL,
     "B" TEXT NOT NULL
 );
@@ -160,16 +166,22 @@ CREATE UNIQUE INDEX "Summoner_accountId_key" ON "Summoner"("accountId");
 CREATE UNIQUE INDEX "Summoner_userId_key" ON "Summoner"("userId");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "_FollowedSummoners_AB_unique" ON "_FollowedSummoners"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_FollowedSummoners_B_index" ON "_FollowedSummoners"("B");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "_BlackListedSummoners_AB_unique" ON "_BlackListedSummoners"("A", "B");
 
 -- CreateIndex
 CREATE INDEX "_BlackListedSummoners_B_index" ON "_BlackListedSummoners"("B");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "_EventCandidates_AB_unique" ON "_EventCandidates"("A", "B");
+CREATE UNIQUE INDEX "_CustomCandidates_AB_unique" ON "_CustomCandidates"("A", "B");
 
 -- CreateIndex
-CREATE INDEX "_EventCandidates_B_index" ON "_EventCandidates"("B");
+CREATE INDEX "_CustomCandidates_B_index" ON "_CustomCandidates"("B");
 
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -187,13 +199,19 @@ ALTER TABLE "Summoner" ADD CONSTRAINT "Summoner_userId_fkey" FOREIGN KEY ("userI
 ALTER TABLE "Custom" ADD CONSTRAINT "Custom_creatorId_fkey" FOREIGN KEY ("creatorId") REFERENCES "Summoner"("puuid") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "_FollowedSummoners" ADD CONSTRAINT "_FollowedSummoners_A_fkey" FOREIGN KEY ("A") REFERENCES "Summoner"("puuid") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_FollowedSummoners" ADD CONSTRAINT "_FollowedSummoners_B_fkey" FOREIGN KEY ("B") REFERENCES "Summoner"("puuid") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "_BlackListedSummoners" ADD CONSTRAINT "_BlackListedSummoners_A_fkey" FOREIGN KEY ("A") REFERENCES "Summoner"("puuid") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_BlackListedSummoners" ADD CONSTRAINT "_BlackListedSummoners_B_fkey" FOREIGN KEY ("B") REFERENCES "Summoner"("puuid") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_EventCandidates" ADD CONSTRAINT "_EventCandidates_A_fkey" FOREIGN KEY ("A") REFERENCES "Custom"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_CustomCandidates" ADD CONSTRAINT "_CustomCandidates_A_fkey" FOREIGN KEY ("A") REFERENCES "Custom"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_EventCandidates" ADD CONSTRAINT "_EventCandidates_B_fkey" FOREIGN KEY ("B") REFERENCES "Summoner"("puuid") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_CustomCandidates" ADD CONSTRAINT "_CustomCandidates_B_fkey" FOREIGN KEY ("B") REFERENCES "Summoner"("puuid") ON DELETE CASCADE ON UPDATE CASCADE;

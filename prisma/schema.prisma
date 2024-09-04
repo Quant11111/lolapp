@@ -108,15 +108,16 @@ model Summoner {
   updatedAt       DateTime @updatedAt
   firstRole       Role?
   secondRole      Role?
-  appliances Custom[]  @relation("EventCandidates")
-  createdEvents Custom[]
-  createdEventsIds String[]
+  appliances Custom[]  @relation("CustomCandidates")
+  createdCustoms Custom[]
+  createdCustomIds String[]
 
   user            User    @relation(fields: [userId], references: [id])
   userId          String  @unique
   
   followedSummoners Summoner[] @relation("FollowedSummoners")
   followedby Summoner[] @relation("FollowedSummoners")
+
   blackLisedSummoners Summoner[] @relation("BlackListedSummoners")
   isBlackListedBy Summoner[] @relation("BlackListedSummoners")
 }
@@ -126,7 +127,7 @@ model Custom {
   name        String
   description String
   discordLink String?
-  candidates   Summoner[] @relation("EventCandidates")
+  candidates   Summoner[] @relation("CustomCandidates")
   creator     Summoner @relation(fields: [creatorId], references: [puuid])
   creatorId   String
   createdAt   DateTime @default(now())
