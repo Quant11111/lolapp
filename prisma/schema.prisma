@@ -115,6 +115,8 @@ model Summoner {
   user            User    @relation(fields: [userId], references: [id])
   userId          String  @unique
   
+  followedSummoners Summoner[] @relation("FollowedSummoners")
+  followedby Summoner[] @relation("FollowedSummoners")
   blackLisedSummoners Summoner[] @relation("BlackListedSummoners")
   isBlackListedBy Summoner[] @relation("BlackListedSummoners")
 }
