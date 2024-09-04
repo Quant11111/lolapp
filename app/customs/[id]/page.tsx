@@ -1,7 +1,7 @@
 import { getCustomDataAction } from "./get-custom-data.action";
 
-const CustomGamePage = async ({ params }: { params: { customId: string } }) => {
-  const custom = await getCustomDataAction(params.customId);
+const CustomGamePage = async ({ params }: { params: { id: string } }) => {
+  const custom = await getCustomDataAction(params.id);
   if (!custom) {
     return <div>Custom game not found</div>;
   }
