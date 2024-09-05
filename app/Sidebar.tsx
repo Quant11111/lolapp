@@ -33,7 +33,7 @@ const Sidebar = () => {
       <Button
         onClick={toggleSidebar}
         variant={"default"}
-        className="fixed left-4 top-4"
+        className="fixed left-3 top-3"
         size={"icon"}
       >
         <SidebarToogleIconSvg issidebaropen={issidebaropen} />

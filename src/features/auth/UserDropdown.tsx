@@ -12,7 +12,7 @@ import {
 import { Loader } from "@/components/ui/loader";
 import { Typography } from "@/components/ui/typography";
 import { useMutation } from "@tanstack/react-query";
-import { LayoutDashboard, LogOut, Settings } from "lucide-react";
+import { LayoutDashboard, LogOut } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import type { PropsWithChildren } from "react";

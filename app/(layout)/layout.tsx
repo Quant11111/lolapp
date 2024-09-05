@@ -1,4 +1,3 @@
-import { Header } from "@/features/layout/Header";
 import type { PropsWithChildren } from "react";
 
 export default function RouteLayout(props: PropsWithChildren) {

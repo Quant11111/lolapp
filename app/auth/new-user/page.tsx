@@ -1,5 +1,4 @@
 import { buttonVariants } from "@/components/ui/button";
-import { Header } from "@/features/layout/Header";
 import {
   Layout,
   LayoutContent,
@@ -24,7 +23,6 @@ export default function NewUserPage(props: PageParams) {
 
   return (
     <>
-      <Header />
       <Layout>
         <LayoutHeader>
           <LayoutTitle>Successfully login</LayoutTitle>
