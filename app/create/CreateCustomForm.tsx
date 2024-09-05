@@ -15,7 +15,17 @@ import { toast } from "sonner";
 import { createCustomAction } from "./create-custom.action";
 import { CustomFormSchema, CustomFormType } from "./create-custom.schema";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
 export const CreateCustomForm = () => {
+  const router = useRouter();
+  const [customId, setCustomId] = useState<string | null>(null);
+  useEffect(() => {
+    if (customId) {
+      router.push(`/customs/${customId}`);
+    }
+  }, [customId, router]);
   const form = useZodForm({
     schema: CustomFormSchema,
   });
@@ -26,6 +36,9 @@ export const CreateCustomForm = () => {
       if (result?.serverError) {
         toast.error(result.serverError);
         return;
+      }
+      if (result?.data) {
+        setCustomId(result.data.id);
       }
     },
   });
