@@ -9,7 +9,7 @@ import { LayoutDashboard } from "lucide-react";
 export function LandingHeader() {
   const router = useRouter();
   return (
-    <div className="relative flex h-20 w-full items-center justify-around border-b-2 border-accent bg-background/20 pl-16  shadow-md lg:justify-between ">
+    <div className="relative flex h-16 w-full items-center justify-around border-b-2 border-accent bg-background/20 pl-16  shadow-md lg:justify-between ">
       <Button
         onClick={() => router.push("/")}
         variant="ghost"
@@ -22,7 +22,7 @@ export function LandingHeader() {
           Home
         </a>
         <a href="/about" className="header-link">
-          About us
+          About
         </a>
         <a href="/newPlayer" className="header-link">
           Learn
@@ -30,9 +30,9 @@ export function LandingHeader() {
         <a href="/account" className="header-link">
           <LayoutDashboard />{" "}
         </a>
-        <a className="header-link">
+        <div className="header-link pr-2">
           <AuthButtonClient />
-        </a>
+        </div>
       </nav>
     </div>
   );
