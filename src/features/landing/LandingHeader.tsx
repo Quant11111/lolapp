@@ -4,7 +4,7 @@ import { SiteConfig } from "@/site-config";
 import { AuthButtonClient } from "../auth/AuthButtonClient";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { LayoutDashboard } from "lucide-react";
+import { Home, LayoutDashboard } from "lucide-react";
 
 export function LandingHeader() {
   const router = useRouter();
@@ -18,14 +18,14 @@ export function LandingHeader() {
         {SiteConfig.title}
       </Button>
       <nav className=" relative flex h-full items-center justify-center text-gray-600">
-        <a href="/" className="header-link">
-          Home
-        </a>
         <a href="/about" className="header-link">
           About
         </a>
         <a href="/newPlayer" className="header-link">
           Learn
+        </a>
+        <a href="/" className="header-link">
+          <Home />
         </a>
         <a href="/account" className="header-link">
           <LayoutDashboard />{" "}

@@ -94,6 +94,7 @@ CREATE TABLE "Summoner" (
     "firstRole" "Role",
     "secondRole" "Role",
     "createdCustomIds" TEXT[],
+    "pinnedPresentation" TEXT,
     "userId" TEXT NOT NULL,
 
     CONSTRAINT "Summoner_pkey" PRIMARY KEY ("puuid")
@@ -196,7 +197,7 @@ ALTER TABLE "Feedback" ADD CONSTRAINT "Feedback_userId_fkey" FOREIGN KEY ("userI
 ALTER TABLE "Summoner" ADD CONSTRAINT "Summoner_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Custom" ADD CONSTRAINT "Custom_creatorId_fkey" FOREIGN KEY ("creatorId") REFERENCES "Summoner"("puuid") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Custom" ADD CONSTRAINT "Custom_creatorId_fkey" FOREIGN KEY ("creatorId") REFERENCES "Summoner"("userId") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_FollowedSummoners" ADD CONSTRAINT "_FollowedSummoners_A_fkey" FOREIGN KEY ("A") REFERENCES "Summoner"("puuid") ON DELETE CASCADE ON UPDATE CASCADE;

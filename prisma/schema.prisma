@@ -132,7 +132,7 @@ model Custom {
   description String
   discordLink String?
   candidates   Summoner[] @relation("CustomCandidates")
-  creator     Summoner @relation(fields: [creatorId], references: [puuid])
+  creator     Summoner @relation(fields: [creatorId], references: [userId])
   creatorId   String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
