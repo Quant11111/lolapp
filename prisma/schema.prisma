@@ -112,6 +112,10 @@ model Summoner {
   createdCustoms Custom[]
   createdCustomIds String[]
 
+  // custom
+  pinnedPresentation String?
+
+  // relations
   user            User    @relation(fields: [userId], references: [id])
   userId          String  @unique
   

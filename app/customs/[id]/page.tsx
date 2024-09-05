@@ -7,7 +7,7 @@ const CustomGamePage = async ({ params }: { params: { id: string } }) => {
   }
 
   return (
-    <div className="flex size-full justify-center gap-2">
+    <div className="flex size-full justify-center gap-2 pb-4">
       <div className="relative flex h-full w-1/2  flex-col items-center justify-center gap-2 text-foreground">
         <div className="relative flex h-1/4 grow  flex-col items-center justify-center gap-2 text-foreground">
           <h1>Name</h1>

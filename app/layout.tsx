@@ -36,7 +36,7 @@ export default function RootLayout({
         <body
           suppressHydrationWarning
           className={cn(
-            "h-full bg-background font-sans antialiased flex flex-col pb-8",
+            "h-full bg-background font-sans antialiased flex flex-col ",
             GeistMono.variable,
             GeistSans.variable,
           )}
@@ -49,7 +49,7 @@ export default function RootLayout({
             />
             <LandingHeader />
             <BlurredBackground imageUrl="https://cdnb.artstation.com/p/assets/images/images/015/582/603/large/artur-sadlos-leg-more-sh210-background-as-v002.jpg?1548866523" />
-            <div className="relative flex grow overflow-hidden text-foreground">
+            <div className="relative flex grow gap-2 overflow-hidden text-foreground">
               <Sidebar />
               <div className="grow">
                 {children} {modal}
