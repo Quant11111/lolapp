@@ -1,26 +1,7 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { getCustomAction } from "./get-customs-action";
 import { findSummonerNameByIdAction } from "./find-summoner-name-by-id.action";
 import { Button } from "@/components/ui/button";
-import {
-  ArrowBigRight,
-  ArrowDownRightFromSquare,
-  ArrowRight,
-  ArrowRightCircle,
-  ArrowRightCircleIcon,
-  ArrowRightFromLine,
-  ArrowRightToLineIcon,
-  DoorOpen,
-  Sword,
-  Swords,
-} from "lucide-react";
+import { ArrowRight, DoorOpen, Swords } from "lucide-react";
 
 export default async function HomePage() {
   const customs = await getCustomAction();
