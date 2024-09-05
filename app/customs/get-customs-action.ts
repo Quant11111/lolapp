@@ -8,7 +8,7 @@ export const getCustomAction = action.action(async () => {
     orderBy: {
       createdAt: "desc",
     },
-    take: 10,
+    take: 50,
   });
   return customs;
 });

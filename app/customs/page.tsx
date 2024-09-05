@@ -22,24 +22,27 @@ export default async function HomePage() {
   }
 
   return (
-    <div className="flex  justify-center">
-      <div className="relative flex w-1/3 justify-center gap-2 text-foreground">
-        {customs?.data &&
-          customs.data.map((custom) => (
-            <Card key={custom.id} className="mx-auto max-w-sm">
-              <CardHeader>
-                <CardTitle>{nameMap.get(custom.creatorId)}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <h4 className="text-lg font-medium">{custom.name}</h4>
-                <CardDescription>{custom.description}</CardDescription>
-              </CardContent>
-              <CardFooter>
-                <a href={`/customs/${custom.id}`}>Join</a>
-              </CardFooter>
-            </Card>
-          ))}
-      </div>
+    <div className=" flex size-full flex-wrap justify-center gap-3 overflow-scroll pt-3">
+      {customs?.data &&
+        customs.data.map((custom) => (
+          <div
+            key={custom.id}
+            className="relative flex h-1/3 w-60 flex-col items-center justify-center rounded-lg border border-accent"
+          >
+            <h1 className="w-1/2 border-b-2 border-accent text-center">
+              {custom.name}
+            </h1>
+            <p className="w-full  border-b-2 border-accent pb-4 text-center">
+              {nameMap.get(custom.creatorId)}
+            </p>
+            <p className="w-full  grow overflow-hidden border-b-2 border-accent pb-4 text-center">
+              {custom.description}
+            </p>
+            <div className="h-1/6">
+              <a className="size-full">join</a>
+            </div>
+          </div>
+        ))}
     </div>
   );
 }

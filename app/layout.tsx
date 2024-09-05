@@ -49,7 +49,7 @@ export default function RootLayout({
             />
             <LandingHeader />
             <BlurredBackground imageUrl="https://cdnb.artstation.com/p/assets/images/images/015/582/603/large/artur-sadlos-leg-more-sh210-background-as-v002.jpg?1548866523" />
-            <div className="relative flex grow overflow-hidden py-10 text-foreground">
+            <div className="relative flex grow overflow-hidden text-foreground">
               <Sidebar />
               <div className="grow">
                 {children} {modal}
