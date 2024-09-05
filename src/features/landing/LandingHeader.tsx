@@ -9,18 +9,14 @@ import { LayoutDashboard } from "lucide-react";
 export function LandingHeader() {
   const router = useRouter();
   return (
-    <div className="relative mx-auto flex h-16 w-full items-center justify-between border-b-2 border-accent bg-background/20  shadow-md lg:px-8">
-      <div className="flex">
-        <div className="ml-8" />
-
-        <Button
-          onClick={() => router.push("/")}
-          variant="ghost"
-          className="hidden text-2xl font-bold lg:flex"
-        >
-          {SiteConfig.title}
-        </Button>
-      </div>
+    <div className="relative flex h-16 w-full items-center justify-between border-b-2 border-accent bg-background/20 pl-16  shadow-md">
+      <Button
+        onClick={() => router.push("/")}
+        variant="ghost"
+        className="hidden text-2xl font-bold lg:flex"
+      >
+        {SiteConfig.title}
+      </Button>
       <nav className=" relative flex h-full items-center justify-center text-gray-600">
         <a href="/" className="header-link">
           Home
@@ -31,10 +27,12 @@ export function LandingHeader() {
         <a href="/newPlayer" className="header-link">
           Learn
         </a>
-        <a href="/account" className="header-link mr-6">
+        <a href="/account" className="header-link">
           <LayoutDashboard />{" "}
         </a>
-        <AuthButtonClient />
+        <a className="header-link">
+          <AuthButtonClient />
+        </a>
       </nav>
     </div>
   );
