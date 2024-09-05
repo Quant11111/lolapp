@@ -27,19 +27,24 @@ export default async function HomePage() {
         customs.data.map((custom) => (
           <div
             key={custom.id}
-            className="relative flex h-1/3 w-60 flex-col items-center justify-center rounded-lg border border-accent"
+            className="relative flex h-1/3 w-60 flex-col items-center justify-center overflow-hidden rounded-lg border border-accent"
           >
-            <h1 className="w-1/2 border-b-2 border-accent text-center">
+            <h1 className="flex h-1/6 w-full items-center justify-center border-accent outline outline-1 outline-accent">
               {custom.name}
             </h1>
-            <p className="w-full  border-b-2 border-accent pb-4 text-center">
+            <p className="flex h-1/6 w-full items-center justify-center border-accent outline outline-1 outline-accent">
               {nameMap.get(custom.creatorId)}
             </p>
-            <p className="w-full  grow overflow-hidden border-b-2 border-accent pb-4 text-center">
+            <p className="flex h-1/2 w-full  overflow-hidden border-accent outline outline-1 outline-accent">
               {custom.description}
             </p>
-            <div className="h-1/6">
-              <a className="size-full">join</a>
+            <div className="flex h-1/6 w-full items-center justify-center border-accent outline outline-1 outline-accent">
+              <a
+                href={`/customs/${custom.id}`}
+                className="flex size-full items-center justify-center hover:scale-y-95"
+              >
+                join
+              </a>
             </div>
           </div>
         ))}
