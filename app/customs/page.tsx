@@ -40,7 +40,7 @@ export default function HomePage() {
             key={custom.id}
             className="relative flex h-1/3 w-80 flex-col items-center justify-center overflow-hidden rounded-lg outline outline-1 outline-accent"
           >
-            <h1 className=" flex h-1/6 w-full items-center justify-center border-accent bg-accent font-bold text-primary-foreground ">
+            <h1 className=" min-h-1/6 flex w-full items-center justify-center border-accent bg-accent font-bold text-primary-foreground ">
               {custom.name}
             </h1>
 
