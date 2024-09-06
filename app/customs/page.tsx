@@ -1,3 +1,5 @@
+"use client";
+
 import { getCustomAction } from "./get-customs-action";
 import { findSummonerNameByIdAction } from "./find-summoner-name-by-id.action";
 import { Button } from "@/components/ui/button";
