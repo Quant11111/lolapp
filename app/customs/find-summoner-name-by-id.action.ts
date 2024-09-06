@@ -6,7 +6,7 @@ export const findSummonerNameByIdAction = async (id: string) => {
   try {
     const user = await prisma.summoner.findUnique({
       where: {
-        puuid: id,
+        userId: id,
       },
       select: {
         gameName: true,
