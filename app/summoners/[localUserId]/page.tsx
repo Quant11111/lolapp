@@ -50,17 +50,14 @@ const CustomGamePage = ({ params }: { params: { localUserId: string } }) => {
           {/* header */}
           <div className="relative flex h-32 w-full items-center justify-center  border border-accent">
             <div className="relative flex h-full w-1/4 flex-col items-center justify-center  border border-accent">
-              <h1 className="relative flex h-1/4 w-full items-center justify-center  border border-accent">
-                {session.data?.user.name}
-              </h1>
-              <h2 className="relative flex h-1/4 w-full items-center justify-center  border border-accent">
+              <h2 className="relative flex h-1/3 w-full items-center justify-center  border border-accent">
                 {" "}
                 {summoner.gameName}#{summoner.tagLine}
               </h2>
-              <p className="relative flex h-1/4 w-full items-center justify-center  border border-accent">
+              <p className="relative flex h-1/3 w-full items-center justify-center  border border-accent">
                 Summoner Rank: {summoner.tier} {summoner.rank}
               </p>
-              <p className="relative flex h-1/4 w-full items-center justify-center  border border-accent">
+              <p className="relative flex h-1/3 w-full items-center justify-center  border border-accent">
                 Roles: {summoner.firstRole} / {summoner.secondRole}
               </p>
             </div>
