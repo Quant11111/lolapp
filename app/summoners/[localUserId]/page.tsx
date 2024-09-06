@@ -4,9 +4,16 @@ import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { getSummonerDataAction } from "./get-summoner-data.action";
 import { Summoner } from "@prisma/client";
+import { SetRolesForm } from "./SetRolesForm";
+import { SetPresentationForm } from "./setPresentationForm";
 
 const CustomGamePage = ({ params }: { params: { localUserId: string } }) => {
   const session = useSession();
+  console.log(params.localUserId);
+  const isOwnProfile =
+    params.localUserId === session.data?.user?.id ||
+    params.localUserId === "id";
+  console.log(isOwnProfile);
   const queryParam =
     params.localUserId === "id" && session.data?.user?.id
       ? session.data?.user.id
@@ -52,45 +59,38 @@ const CustomGamePage = ({ params }: { params: { localUserId: string } }) => {
             <div className="relative flex h-full w-1/4 flex-col items-center justify-center  border border-accent">
               <h2 className="relative flex h-1/3 w-full items-center justify-center  border border-accent">
                 {" "}
-                {summoner.gameName}#{summoner.tagLine}
+                {summoner.gameName}#{summoner.tagLine} lv.
+                {summoner.summonerLevel}
               </h2>
               <p className="relative flex h-1/3 w-full items-center justify-center  border border-accent">
                 Summoner Rank: {summoner.tier} {summoner.rank}
               </p>
-              <p className="relative flex h-1/3 w-full items-center justify-center  border border-accent">
-                Roles: {summoner.firstRole} / {summoner.secondRole}
-              </p>
+              <div className="relative flex h-1/3 w-full items-center justify-center border  border-accent p-2">
+                {isOwnProfile ? (
+                  <SetRolesForm summoner={summoner} />
+                ) : (
+                  <p>
+                    Roles : {summoner.firstRole} / {summoner.secondRole}
+                  </p>
+                )}
+              </div>
             </div>
             <div className="relative flex h-full w-1/6 items-center justify-center  border border-accent">
-              <p>Summoner IconId: {summoner.profileIconId}</p>
+              Summoner IconId: {summoner.profileIconId}
             </div>
             <div className="relative flex h-full grow items-center justify-center  border border-accent">
-              <p>pinnedPresentation: {summoner.pinnedPresentation}</p>
+              {isOwnProfile ? (
+                <SetPresentationForm summoner={summoner} />
+              ) : (
+                <p>{summoner.pinnedPresentation}</p>
+              )}
             </div>
           </div>
           {/* feed section */}
           <div className="relative flex w-full grow flex-col items-center justify-center  border border-accent">
-            Summoner Feed
+            here we plan to let you display you best clips in order to show off
+            ;{")"}
           </div>
-
-          {/*
-            <h1>Summoner Data of {session.data?.user.name}</h1>
-          <div>
-            <p>
-              Summoner Name: {summoner.gameName}#{summoner.tagLine}
-            </p>
-            <p>Summoner Level: {summoner.summonerLevel}</p>
-            <p>Summoner IconId: {summoner.profileIconId}</p>
-            <p>pinnedPresentation: {summoner.pinnedPresentation}</p>
-            <p>Nombre de customs créées: {summoner.createdCustomIds.length}</p>
-            <p>
-              Roles: {summoner.firstRole} / {summoner.secondRole}
-            </p>
-            <p>
-              Summoner Rank: {summoner.tier} {summoner.rank}
-            </p>
-          </div>
-            */}
         </div>
       </div>
     );
