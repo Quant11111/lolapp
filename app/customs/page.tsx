@@ -33,7 +33,7 @@ export default async function HomePage() {
               >
                 <Button
                   variant={"default"}
-                  className="w-full outline  outline-primary-foreground"
+                  className="size-full outline outline-primary-foreground"
                 >
                   {nameMap.get(custom.creatorId)}
                 </Button>{" "}
@@ -44,7 +44,7 @@ export default async function HomePage() {
             </p>
             <div className="flex h-1/6 w-full items-center justify-center overflow-hidden border-accent outline outline-1 outline-accent">
               <a href={`/customs/${custom.id}`} className="w-full scale-x-125">
-                <Button variant={"outline"} className="w-full font-bold ">
+                <Button variant={"outline"} className="size-full font-bold ">
                   <Swords />
                   <ArrowRight />
                   <DoorOpen />
