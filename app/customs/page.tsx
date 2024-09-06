@@ -33,7 +33,7 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className=" flex size-full flex-wrap justify-center gap-8 overflow-scroll  pt-8">
+    <div className=" flex size-full flex-wrap justify-center gap-8 overflow-scroll  py-8">
       {customs &&
         customs.map((custom) => (
           <div
@@ -43,7 +43,6 @@ export default function HomePage() {
             <h1 className=" min-h-1/6 flex w-full items-center justify-center border-accent bg-accent font-bold text-primary-foreground ">
               {custom.name}
             </h1>
-
             <a
               href={`/summoners/${custom.creatorId}`}
               className="no-style-link flex h-10 w-full  items-center justify-center bg-primary-foreground/50 outline outline-1 outline-accent  hover:outline-foreground"
