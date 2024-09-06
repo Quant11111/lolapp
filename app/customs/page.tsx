@@ -2,23 +2,40 @@ import { getCustomAction } from "./get-customs-action";
 import { findSummonerNameByIdAction } from "./find-summoner-name-by-id.action";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, DoorOpen, Swords } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Custom } from "@prisma/client";
 
-export default async function HomePage() {
-  const customs = await getCustomAction();
-  const nameMap = new Map<string, string>();
-  if (customs && customs.data) {
-    for (const custom of customs.data) {
-      const creatorName = await findSummonerNameByIdAction(custom.creatorId);
-      if (creatorName) {
-        nameMap.set(custom.creatorId, creatorName);
+export default function HomePage() {
+  const [customs, setCustoms] = useState<Custom[] | null>(null);
+  const [nameMap, setNameMap] = useState(new Map<string, string>());
+
+  useEffect(() => {
+    const fetchCustoms = async () => {
+      const customsData = await getCustomAction();
+      if (customsData?.data) {
+        setCustoms(customsData?.data);
+        const nameMapTemp = new Map<string, string>();
+        for (const custom of customsData.data) {
+          const creatorName = await findSummonerNameByIdAction(
+            custom.creatorId,
+          );
+          if (creatorName) {
+            nameMapTemp.set(custom.creatorId, creatorName);
+          }
+        }
+        setNameMap(nameMapTemp);
+      } else {
+        setCustoms([]);
       }
-    }
-  }
+    };
+
+    fetchCustoms();
+  }, []);
 
   return (
     <div className=" flex size-full flex-wrap justify-center gap-8 overflow-scroll  pt-8">
-      {customs?.data &&
-        customs.data.map((custom) => (
+      {customs &&
+        customs.map((custom) => (
           <div
             key={custom.id}
             className="relative flex h-1/3 w-80 flex-col items-center justify-center overflow-hidden rounded-lg outline outline-1 outline-accent"
