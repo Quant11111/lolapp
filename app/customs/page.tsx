@@ -1,7 +1,7 @@
 "use client";
 
 import { getCustomAction } from "./get-customs-action";
-import { findSummonerNameByIdAction } from "./find-summoner-name-by-id.action";
+import { findSummonerByUserIdAction } from "./find-summoner-by-userid.action";
 import { Button } from "@/components/ui/button";
 import { Swords } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -17,11 +17,9 @@ export default function HomePage() {
         setCustoms(customsData?.data);
         const nameMapTemp = new Map<string, string>();
         for (const custom of customsData.data) {
-          const creatorName = await findSummonerNameByIdAction(
-            custom.creatorId,
-          );
-          if (creatorName) {
-            nameMapTemp.set(custom.creatorId, creatorName);
+          const creator = await findSummonerByUserIdAction(custom.creatorId);
+          if (creator) {
+            nameMapTemp.set(custom.creatorId, creator.gameName);
           }
         }
         setNameMap(nameMapTemp);
@@ -47,12 +45,18 @@ export default function HomePage() {
               <p className="absolute left-2 mb-1 flex h-7 scale-75 justify-center text-center font-bold">
                 by :
               </p>{" "}
-              <a
-                href={`/summoners/${custom.creatorId}`}
-                className="no-style-link mx-1 mb-1 flex h-6 w-full items-center justify-center rounded-t-lg bg-primary-foreground outline outline-2 outline-accent transition-all hover:border hover:border-primary-foreground hover:bg-foreground hover:font-bold hover:text-primary-foreground"
-              >
-                {nameMap.get(custom.creatorId)}
-              </a>
+              {nameMap.get(custom.creatorId) ? (
+                <a
+                  href={`/summoners/${custom.creatorId}`}
+                  className="no-style-link mx-1 mb-1 flex h-6 w-full items-center justify-center rounded-t-lg bg-primary-foreground outline outline-2 outline-accent transition-all hover:border hover:border-primary-foreground hover:bg-foreground hover:font-bold hover:text-primary-foreground"
+                >
+                  {nameMap.get(custom.creatorId)}
+                </a>
+              ) : (
+                <p className="mx-1 mb-1 flex h-6 w-full animate-pulse items-center justify-center rounded-t-lg bg-primary-foreground outline outline-2 outline-accent">
+                  loading...
+                </p>
+              )}
             </div>
 
             <p className="text-s mx-1 flex  w-full grow overflow-scroll  border-x-4 border-accent px-2 py-1 text-justify">
