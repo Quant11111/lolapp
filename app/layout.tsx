@@ -51,7 +51,7 @@ export default function RootLayout({
             <BlurredBackground imageUrl="https://cdnb.artstation.com/p/assets/images/images/015/582/603/large/artur-sadlos-leg-more-sh210-background-as-v002.jpg?1548866523" />
             <div className="relative flex grow gap-2 overflow-hidden text-foreground">
               <Sidebar />
-              <div className="grow">
+              <div className="size-full">
                 {children} {modal}
               </div>
             </div>

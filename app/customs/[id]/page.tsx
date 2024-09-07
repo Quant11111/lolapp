@@ -40,15 +40,17 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
   if (custom) {
     //MAIN SECTION
     return (
-      <div className="flex size-full  flex-col items-center justify-center gap-2 p-4">
-        <div className="flex h-32 w-full flex-wrap items-center justify-center gap-2 rounded outline">
-          <div className="w-30 flex h-full flex-col items-center justify-center gap-2 rounded outline">
-            <p className="rounded text-2xl font-bold outline">{custom.name}</p>
-            <p className="text-2xl font-bold">
+      <div className="flex size-full  flex-col  gap-2 overflow-scroll p-4 md:items-center md:justify-center">
+        <div className="flex h-32 w-full flex-col items-center justify-center gap-2 rounded  md:flex-row">
+          <div className="flex size-full flex-col items-center justify-center gap-2 rounded md:w-40">
+            <p className="size-full justify-center text-clip rounded text-center font-bold outline">
+              {custom.name}
+            </p>
+            <p className=" flex size-full text-balance font-bold">
               {creator?.gameName ? (
                 <a
                   href={`/summoners/${creator?.userId}`}
-                  className="no-style-link"
+                  className="no-style-link flex size-full items-center justify-center rounded outline"
                 >
                   {creator?.gameName} {creator?.tier} {creator?.rank}{" "}
                 </a>
@@ -57,15 +59,87 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
               )}{" "}
             </p>
           </div>
-          <div className="flex h-full min-w-96 grow items-center justify-center overflow-scroll rounded outline">
-            <p className="text-lg">{custom.description}</p>
+          <div className="flex size-full overflow-scroll  rounded outline">
+            <p className="text-pretty p-2">{custom.description}</p>
           </div>
         </div>
-        <div className="flex-flex-wrap flex h-2/3 w-full items-center justify-center gap-2 outline">
-          <div className="flex h-full w-96 items-center justify-center gap-2 rounded outline">
+        <div className="flex w-full flex-col  gap-2 md:flex-row">
+          <div className=" flex min-h-72 min-w-40 items-center justify-center gap-2 rounded outline md:h-full md:w-1/2">
+            {isCreator ? (
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+                  <thead className="ltr:text-left rtl:text-right">
+                    <tr>
+                      <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                        Name
+                      </th>
+                      <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                        Date of Birth
+                      </th>
+                      <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                        Role
+                      </th>
+                      <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                        Salary
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody className="divide-y divide-gray-200">
+                    <tr>
+                      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                        John Doe
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                        24/05/1995
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                        Web Developer
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                        $120,000
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                        Jane Doe
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                        04/11/1980
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                        Web Designer
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                        $100,000
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                        Gary Barlow
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                        24/05/1995
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                        Singer
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                        $20,000
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div>Waiting Game</div>
+            )}
+
             {/* {isCreator ? <ManageCustomGame custom={custom} setCustom={setCustom} /> : <WaitingGame />} */}
           </div>
-          <div className="flex h-full min-w-96 grow flex-col items-center justify-center gap-2 rounded outline">
+          <div className="flex min-h-72 min-w-40 flex-col items-center justify-center gap-2 rounded outline md:w-1/2">
             {/* <TeamSection custom={custom} />
               {isCreator && (
                 <SetCustomStateSection custom={custom} setCustom={setCustom} />

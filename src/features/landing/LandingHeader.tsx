@@ -18,13 +18,13 @@ export function LandingHeader() {
         {SiteConfig.title}
       </Button>
       <nav className=" relative flex h-full items-center justify-center text-gray-600">
-        <a href="/about" className="header-link">
+        <a href="/about" className="hidden-header-link ">
           About
         </a>
-        <a href="/newPlayer" className="header-link">
+        <a href="/newPlayer" className="hidden-header-link ">
           Learn
         </a>
-        <a href="/" className="header-link">
+        <a href="/" className="header-link hidden">
           <Home />
         </a>
         <a href="/account" className="header-link">
