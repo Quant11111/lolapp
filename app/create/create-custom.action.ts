@@ -22,6 +22,7 @@ export const createCustomAction = authAction
       data: {
         name: input.name,
         description: input.description,
+        discordLink: input.discordLink,
         creatorId: ctx.user.id,
       },
     });
