@@ -16,7 +16,7 @@ export default function HomePage() {
           Create
         </Button>
         <Button onClick={() => router.push("/customs")} variant={"default"}>
-          browse
+          Browse
         </Button>
       </div>
     </div>

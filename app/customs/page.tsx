@@ -3,12 +3,9 @@
 import { getCustomAction } from "./get-customs-action";
 import { findSummonerNameByIdAction } from "./find-summoner-name-by-id.action";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, DoorOpen, Swords } from "lucide-react";
+import { Swords } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Custom } from "@prisma/client";
-import { Tooltip } from "@/components/ui/tooltip";
-import { TooltipArrow } from "@radix-ui/react-tooltip";
-
 export default function HomePage() {
   const [customs, setCustoms] = useState<Custom[] | null>(null);
   const [nameMap, setNameMap] = useState(new Map<string, string>());
