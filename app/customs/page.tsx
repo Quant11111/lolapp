@@ -45,24 +45,23 @@ export default function HomePage() {
               {custom.name}
             </h1>
             <div className="relative flex h-7 w-full items-center justify-center  bg-accent">
-              <p className="absolute left-2 flex h-7 scale-75 justify-center text-center font-bold">
+              <p className="absolute left-2 mb-1 flex h-7 scale-75 justify-center text-center font-bold">
                 by :
               </p>{" "}
               <a
                 href={`/summoners/${custom.creatorId}`}
-                className="no-style-link flex h-7 w-full items-center justify-center  rounded-xl bg-primary-foreground  hover:bg-foreground hover:font-bold hover:text-primary-foreground"
+                className="no-style-link mx-1 mb-1 flex h-6 w-full items-center justify-center rounded-xl bg-primary-foreground outline outline-2 outline-accent  hover:bg-foreground hover:font-bold hover:text-primary-foreground"
               >
                 {nameMap.get(custom.creatorId)}
               </a>
             </div>
 
-            <p className="text-s  flex w-full grow overflow-scroll border-t-4 border-accent px-2 py-1 text-justify">
+            <p className="text-s mx-1   flex grow overflow-scroll rounded-xl  px-2 py-1 text-justify outline outline-8 outline-accent">
               {custom.description}
-              {custom.discordLink}
             </p>
             <a
               href={`/customs/${custom.id}`}
-              className="no-style-link h-1/6 w-full scale-x-105"
+              className="no-style-link h-1/6 w-full scale-x-105 bg-accent"
             >
               <Button variant={"outline"} className="size-full font-bold ">
                 <Swords />
