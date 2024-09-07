@@ -48,7 +48,7 @@ export function ValidateButton({
     if (isLoading) return "Updating...";
     switch (team) {
       case null:
-        return "Unassigned";
+        return "Select";
       case 1:
         return "Team 1";
       case 2:

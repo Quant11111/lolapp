@@ -11,10 +11,11 @@ import {
 } from "@/components/ui/table";
 import { Switch } from "@/components/ui/switch";
 import { ValidateButton } from "./ValidateButton";
-import { Toggle } from "@/components/ui/toggle";
 import { getSummonersWithRankAndTeam } from "../actions/summonersTeam";
 import SaveButton from "./SaveButton";
 import { updateSummonerBlacklist } from "../actions/summonersTeam";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 type Summoner = {
   id: string;
@@ -23,27 +24,53 @@ type Summoner = {
   blacklist: boolean;
   rank: string | null;
   tier: string | null;
-  selected: boolean; // Add this line
-  playedToday: boolean;
+  selected: boolean;
   team: number | null;
+  firstRole: string | null;
 };
+
+const getRoleImagePath = (role: string | null): string => {
+  switch (role?.toLowerCase()) {
+    case "top":
+      return "/images/roles/top.png";
+    case "jungle":
+      return "/images/roles/jungle.png";
+    case "mid":
+      return "/images/roles/middle.png";
+    case "adc":
+      return "/images/roles/adc.png";
+    case "supp":
+      return "/images/roles/supp.png";
+    default:
+      return "/images/roles/unknown.png";
+  }
+};
+
+const roleOrder = ["top", "jungle", "mid", "adc", "support"];
+const rankOrder = [
+  "CHALLENGER",
+  "GRANDMASTER",
+  "MASTER",
+  "DIAMOND",
+  "PLATINUM",
+  "GOLD",
+  "SILVER",
+  "BRONZE",
+  "IRON",
+];
+
+const tierOrder = ["I", "II", "III", "IV"];
 
 export function SummonersTable() {
   const [summoners, setSummoners] = useState<Summoner[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [filterBlacklist, setFilterBlacklist] = useState(true);
-  const [filterPlayedToday, setFilterPlayedToday] = useState(false);
+  const [rankFilter, setRankFilter] = useState<string | null>(null);
 
   const fetchSummoners = async () => {
     try {
       const data = await getSummonersWithRankAndTeam();
-      setSummoners(
-        data.map((s) => ({
-          ...s,
-          playedToday: false,
-        })),
-      );
+      setSummoners(data);
       setLoading(false);
     } catch (err) {
       setError("Failed to fetch summoners");
@@ -55,13 +82,47 @@ export function SummonersTable() {
     fetchSummoners();
   }, []);
 
+  const cycleRankFilter = () => {
+    const currentIndex = rankFilter ? rankOrder.indexOf(rankFilter) : -1;
+    const nextIndex = (currentIndex + 1) % rankOrder.length;
+    setRankFilter(rankOrder[nextIndex]);
+  };
+
   const filteredSummoners = useMemo(() => {
     return summoners.filter((summoner) => {
-      if (filterBlacklist && summoner.blacklist) return false;
-      if (filterPlayedToday && summoner.playedToday) return false;
-      return !summoner.selected; // Filter out selected summoners
+      const passesBasicFilter = !summoner.selected && !summoner.blacklist;
+      const passesRankFilter = !rankFilter || summoner.tier === rankFilter;
+      return passesBasicFilter && passesRankFilter;
     });
-  }, [summoners, filterBlacklist, filterPlayedToday]);
+  }, [summoners, rankFilter]);
+
+  const sortedSummoners = useMemo(() => {
+    return filteredSummoners.sort((a, b) => {
+      // Sort by role
+      const roleA = roleOrder.indexOf(a.firstRole?.toLowerCase() || "");
+      const roleB = roleOrder.indexOf(b.firstRole?.toLowerCase() || "");
+      if (roleA !== roleB) {
+        return roleA - roleB;
+      }
+
+      // If same role, sort by rank
+      if (a.tier !== b.tier) {
+        return (
+          rankOrder.indexOf(a.tier || "") - rankOrder.indexOf(b.tier || "")
+        );
+      }
+
+      // If same tier, sort by rank (I, II, III, IV)
+      if (a.rank !== b.rank) {
+        return (
+          tierOrder.indexOf(a.rank || "") - tierOrder.indexOf(b.rank || "")
+        );
+      }
+
+      // If everything is equal, maintain original order
+      return 0;
+    });
+  }, [filteredSummoners]);
 
   const handleBlacklistToggle = async (
     summonerId: string,
@@ -86,39 +147,30 @@ export function SummonersTable() {
 
   return (
     <>
-      <div className="mb-4 space-x-2">
-        <Toggle
-          pressed={filterBlacklist}
-          onPressedChange={(pressed: boolean) => setFilterBlacklist(pressed)}
-          aria-label="Toggle blacklist filter"
-        >
-          Blacklisted
-        </Toggle>
-        <Toggle
-          pressed={!filterPlayedToday}
-          onPressedChange={(pressed: boolean) => setFilterPlayedToday(!pressed)}
-          aria-label="Toggle played today filter"
-        >
-          Played Today
-        </Toggle>
-      </div>
       <SaveButton />
+
+      <div className="mb-4">
+        <Button onClick={cycleRankFilter} variant="outline">
+          {rankFilter || "All Ranks"}
+        </Button>
+      </div>
 
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead>Summoner</TableHead>
-            <TableHead>Rank</TableHead>
+            <TableHead>Rank {rankFilter ? `(${rankFilter})` : ""}</TableHead>
+            <TableHead>Role</TableHead>
             <TableHead>Blacklist</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {filteredSummoners.map((summoner) => (
+          {sortedSummoners.map((summoner) => (
             <TableRow key={summoner.id}>
               <TableCell>
                 <span
-                  className="cursor-pointer "
+                  className="cursor-pointer"
                   onClick={() =>
                     handleSummonerClick(summoner.gameName, summoner.tagLine)
                   }
@@ -127,6 +179,18 @@ export function SummonersTable() {
                 </span>
               </TableCell>
               <TableCell>{`${summoner.tier || "Unranked"} ${summoner.rank || ""}`}</TableCell>
+              <TableCell>
+                {summoner.firstRole ? (
+                  <Image
+                    src={getRoleImagePath(summoner.firstRole)}
+                    alt={summoner.firstRole}
+                    width={24}
+                    height={24}
+                  />
+                ) : (
+                  "Not set"
+                )}
+              </TableCell>
               <TableCell>
                 <Switch
                   checked={summoner.blacklist}
@@ -138,7 +202,7 @@ export function SummonersTable() {
               <TableCell>
                 <ValidateButton
                   summonerId={summoner.id}
-                  initialTeam={summoner.selected ? 1 : 0}
+                  initialTeam={summoner.team || 0}
                 />
               </TableCell>
             </TableRow>

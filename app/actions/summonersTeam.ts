@@ -14,6 +14,7 @@ export async function getSummonersWithRankAndTeam() {
         team: true,
         blacklist: true,
         selected: true,
+        firstRole: true,
       },
       orderBy: {
         rank: "desc",
