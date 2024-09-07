@@ -118,6 +118,11 @@ a {
 a.no-style-link {
   text-decoration: none;
   color: inherit;
+  &:hover {
+    box-shadow: none;
+    text-shadow: none;
+    outline: none;
+  }
 }
 
 .header-link {

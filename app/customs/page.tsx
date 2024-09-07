@@ -30,7 +30,6 @@ export default function HomePage() {
         setCustoms([]);
       }
     };
-
     fetchCustoms();
   }, []);
 
@@ -40,25 +39,25 @@ export default function HomePage() {
         customs.map((custom) => (
           <div
             key={custom.id}
-            className="relative flex h-1/3 w-80 flex-col items-center justify-center overflow-hidden rounded-lg outline outline-1 outline-accent"
+            className="relative flex h-60 w-80 flex-col items-center justify-center overflow-hidden rounded-lg bg-slate-900/70 outline outline-1 outline-accent"
           >
-            <h1 className=" min-h-1/6 flex w-full items-center justify-center border-accent bg-accent font-bold text-primary-foreground ">
+            <h1 className=" flex h-7 w-full items-center justify-center border-accent bg-accent font-bold text-primary-foreground ">
               {custom.name}
             </h1>
             <a
               href={`/summoners/${custom.creatorId}`}
-              className="no-style-link flex h-10 w-full  items-center justify-center bg-primary-foreground/50 outline outline-1 outline-accent  hover:outline-foreground"
+              className="no-style-link flex h-7 w-full  items-center justify-center bg-primary-foreground/30 hover:bg-foreground/90 hover:text-primary-foreground"
             >
               {nameMap.get(custom.creatorId)}
             </a>
 
-            <p className="text-s flex w-full grow overflow-hidden border-accent px-2 py-1 text-justify ">
+            <p className="text-s  flex w-full grow overflow-hidden border-t-2 border-accent px-2 py-1 text-justify ">
               {custom.description}
             </p>
 
             <a
               href={`/customs/${custom.id}`}
-              className="h-1/6 w-full scale-x-105"
+              className="no-style-link h-1/6 w-full scale-x-105"
             >
               <Button variant={"outline"} className="size-full font-bold ">
                 <Swords />

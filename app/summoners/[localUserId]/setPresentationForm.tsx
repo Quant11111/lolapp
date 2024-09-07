@@ -18,7 +18,6 @@ import {
   SetPresentationSchema,
 } from "./set-presentation.schema";
 import { Summoner } from "@prisma/client";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 type SetPresentationFormProps = {
