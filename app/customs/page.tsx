@@ -43,7 +43,7 @@ export default function HomePage() {
             key={custom.id}
             className="hover:shadow-3xl relative flex h-60 w-80 flex-col items-center justify-center overflow-hidden rounded-lg bg-primary-foreground/30 shadow-2xl shadow-accent outline outline-1 outline-primary-foreground transition-all hover:shadow-foreground hover:outline  hover:outline-foreground"
           >
-            <h1 className=" flex h-7 w-full items-center justify-center border-accent bg-accent font-bold text-primary-foreground ">
+            <h1 className=" flex h-7 w-full items-center justify-center border-accent bg-accent font-extrabold text-primary-foreground ">
               {custom.name}
             </h1>
             <div className="relative flex h-7 w-full items-center justify-center  bg-accent">
