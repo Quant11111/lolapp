@@ -39,7 +39,7 @@ export default function HomePage() {
         customs.map((custom) => (
           <div
             key={custom.id}
-            className="relative flex h-60 w-80 flex-col items-center justify-center overflow-hidden rounded-lg bg-primary-foreground/30 shadow-2xl shadow-white outline outline-4 outline-accent"
+            className="relative flex h-60 w-80 flex-col items-center justify-center overflow-hidden rounded-lg bg-primary-foreground/30 shadow-2xl shadow-accent outline outline-2 outline-accent"
           >
             <h1 className=" flex h-7 w-full items-center justify-center border-accent bg-accent font-bold text-primary-foreground ">
               {custom.name}
@@ -50,20 +50,23 @@ export default function HomePage() {
               </p>{" "}
               <a
                 href={`/summoners/${custom.creatorId}`}
-                className="no-style-link mx-1 mb-1 flex h-6 w-full items-center justify-center rounded-xl bg-primary-foreground outline outline-2 outline-accent  hover:bg-foreground hover:font-bold hover:text-primary-foreground"
+                className="no-style-link mx-1 mb-1 flex h-6 w-full items-center justify-center rounded-lg bg-primary-foreground outline outline-2 outline-accent  hover:bg-foreground hover:font-bold hover:text-primary-foreground"
               >
                 {nameMap.get(custom.creatorId)}
               </a>
             </div>
 
-            <p className="text-s mx-1   flex grow overflow-scroll rounded-xl  px-2 py-1 text-justify outline outline-8 outline-accent">
+            <p className="text-s mx-1   flex grow overflow-scroll rounded-lg  px-2 py-1 text-justify outline outline-8 outline-accent">
               {custom.description}
             </p>
             <a
               href={`/customs/${custom.id}`}
-              className="no-style-link h-1/6 w-full scale-x-105 bg-accent"
+              className="no-style-link flex h-1/6 w-full scale-x-105 items-center justify-center bg-accent"
             >
-              <Button variant={"outline"} className="size-full font-bold ">
+              <Button
+                variant={"outline"}
+                className="mx-1 size-full scale-x-105 rounded-lg font-bold"
+              >
                 <Swords />
                 <ArrowRight />
                 <DoorOpen />
