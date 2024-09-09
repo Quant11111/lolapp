@@ -40,94 +40,320 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
   if (custom) {
     //MAIN SECTION
     return (
-      <div className="flex size-full  flex-col  gap-2 overflow-scroll p-4 md:items-center md:justify-center">
-        <div className="flex h-32 w-full flex-col items-center justify-center gap-2 rounded  md:flex-row">
-          <div className="flex size-full flex-col items-center justify-center gap-2 rounded md:w-40">
-            <p className="size-full justify-center text-clip rounded text-center font-bold outline">
+      <div className="flex size-full  flex-col gap-4 p-4">
+        <div className="flex h-32 w-full flex-col items-center justify-center gap-4 rounded  md:flex-row">
+          <div className="flex size-full flex-col items-center justify-center gap-2 rounded md:w-72">
+            <p className="flex size-full items-center justify-center text-clip rounded-t-2xl bg-accent text-center font-bold text-primary-foreground outline-primary-foreground">
               {custom.name}
             </p>
-            <p className=" flex size-full text-balance font-bold">
-              {creator?.gameName ? (
-                <a
-                  href={`/summoners/${creator?.userId}`}
-                  className="no-style-link flex size-full items-center justify-center rounded outline"
-                >
-                  {creator?.gameName} {creator?.tier} {creator?.rank}{" "}
-                </a>
-              ) : (
-                "loading..."
-              )}{" "}
-            </p>
+            {creator?.gameName ? (
+              <Button
+                variant="outline"
+                className="w-full rounded-b-2xl"
+                onClick={() => router.push(`/summoners/${creator?.userId}`)}
+              >
+                {creator?.gameName} - {creator?.tier} {creator?.rank}{" "}
+              </Button>
+            ) : (
+              "loading..."
+            )}{" "}
           </div>
-          <div className="flex size-full overflow-scroll  rounded outline">
+          <div className="flex size-full overflow-scroll rounded bg-gray-950/75 outline outline-secondary-foreground">
             <p className="text-pretty p-2">{custom.description}</p>
           </div>
         </div>
-        <div className="flex w-full flex-col  gap-2 md:flex-row">
-          <div className=" flex min-h-72 min-w-40 items-center justify-center gap-2 rounded outline md:h-full md:w-1/2">
+        <div className="flex w-full flex-col gap-4 md:flex-row">
+          <div className="flex h-96 min-w-40   gap-4 rounded shadow-slate-300 outline outline-accent md:h-2/3 md:w-1/2">
             {isCreator ? (
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y-2 divide-accent ">
-                  <thead className="ltr:text-left rtl:text-right">
-                    <tr>
+              <div className=" w-full overflow-x-auto">
+                <table className="flex h-full min-w-full flex-col divide-y-2 divide-accent">
+                  <thead className="h-14 w-full overflow-hidden ltr:text-right rtl:text-left">
+                    <tr className="flex w-full justify-around rounded outline outline-8 outline-accent">
                       <th className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
                         Name
                       </th>
                       <th className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
-                        Date of Birth
+                        ELO
                       </th>
                       <th className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
-                        Role
+                        Roles
                       </th>
                       <th className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
-                        Salary
+                        add+
                       </th>
                     </tr>
                   </thead>
 
-                  <tbody className="divide-y divide-accent">
-                    <tr>
+                  <tbody className="flex min-w-full grow flex-col divide-y divide-accent overflow-scroll">
+                    <tr className="flex w-full items-center justify-around">
                       <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
-                        John Doe
+                        Potent
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
-                        24/05/1995
+                        Master II
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
-                        Web Developer
+                        TOP/JGL
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
-                        $120,000
+                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                        <Button
+                          variant="default"
+                          size={"icon"}
+                          className="bg-blue-300"
+                        >
+                          B
+                        </Button>
+                        <Button
+                          variant="default"
+                          size={"icon"}
+                          className="bg-red-300"
+                        >
+                          R
+                        </Button>
                       </td>
                     </tr>
 
-                    <tr>
+                    <tr className="flex w-full items-center justify-around">
                       <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
-                        Jane Doe
+                        Potent
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
-                        04/11/1980
+                        Master II
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
-                        Web Designer
+                        TOP/JGL
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
-                        $100,000
+                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                        <Button
+                          variant="default"
+                          size={"icon"}
+                          className="bg-blue-300"
+                        >
+                          B
+                        </Button>
+                        <Button
+                          variant="default"
+                          size={"icon"}
+                          className="bg-red-300"
+                        >
+                          R
+                        </Button>
                       </td>
                     </tr>
-
-                    <tr>
+                    <tr className="flex w-full items-center justify-around">
                       <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
-                        Gary Barlow
+                        Potent
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
-                        24/05/1995
+                        Master II
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
-                        Singer
+                        TOP/JGL
+                      </td>
+                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                        <Button
+                          variant="default"
+                          size={"icon"}
+                          className="bg-blue-300"
+                        >
+                          B
+                        </Button>
+                        <Button
+                          variant="default"
+                          size={"icon"}
+                          className="bg-red-300"
+                        >
+                          R
+                        </Button>
+                      </td>
+                    </tr>
+                    <tr className="flex w-full items-center justify-around">
+                      <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
+                        Potent
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
-                        $20,000
+                        Master II
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                        TOP/JGL
+                      </td>
+                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                        <Button
+                          variant="default"
+                          size={"icon"}
+                          className="bg-blue-300"
+                        >
+                          B
+                        </Button>
+                        <Button
+                          variant="default"
+                          size={"icon"}
+                          className="bg-red-300"
+                        >
+                          R
+                        </Button>
+                      </td>
+                    </tr>
+                    <tr className="flex w-full items-center justify-around">
+                      <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
+                        Potent
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                        Master II
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                        TOP/JGL
+                      </td>
+                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                        <Button
+                          variant="default"
+                          size={"icon"}
+                          className="bg-blue-300"
+                        >
+                          B
+                        </Button>
+                        <Button
+                          variant="default"
+                          size={"icon"}
+                          className="bg-red-300"
+                        >
+                          R
+                        </Button>
+                      </td>
+                    </tr>
+                    <tr className="flex w-full items-center justify-around">
+                      <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
+                        Potent
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                        Master II
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                        TOP/JGL
+                      </td>
+                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                        <Button
+                          variant="default"
+                          size={"icon"}
+                          className="bg-blue-300"
+                        >
+                          B
+                        </Button>
+                        <Button
+                          variant="default"
+                          size={"icon"}
+                          className="bg-red-300"
+                        >
+                          R
+                        </Button>
+                      </td>
+                    </tr>
+                    <tr className="flex w-full items-center justify-around">
+                      <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
+                        Potent
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                        Master II
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                        TOP/JGL
+                      </td>
+                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                        <Button
+                          variant="default"
+                          size={"icon"}
+                          className="bg-blue-300"
+                        >
+                          B
+                        </Button>
+                        <Button
+                          variant="default"
+                          size={"icon"}
+                          className="bg-red-300"
+                        >
+                          R
+                        </Button>
+                      </td>
+                    </tr>
+                    <tr className="flex w-full items-center justify-around">
+                      <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
+                        Potent
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                        Master II
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                        TOP/JGL
+                      </td>
+                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                        <Button
+                          variant="default"
+                          size={"icon"}
+                          className="bg-blue-300"
+                        >
+                          B
+                        </Button>
+                        <Button
+                          variant="default"
+                          size={"icon"}
+                          className="bg-red-300"
+                        >
+                          R
+                        </Button>
+                      </td>
+                    </tr>
+                    <tr className="flex w-full items-center justify-around">
+                      <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
+                        Potent
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                        Master II
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                        TOP/JGL
+                      </td>
+                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                        <Button
+                          variant="default"
+                          size={"icon"}
+                          className="bg-blue-300"
+                        >
+                          B
+                        </Button>
+                        <Button
+                          variant="default"
+                          size={"icon"}
+                          className="bg-red-300"
+                        >
+                          R
+                        </Button>
+                      </td>
+                    </tr>
+                    <tr className="flex w-full items-center justify-around">
+                      <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
+                        Potent
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                        Master II
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                        TOP/JGL
+                      </td>
+                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                        <Button
+                          variant="default"
+                          size={"icon"}
+                          className="bg-blue-300"
+                        >
+                          B
+                        </Button>
+                        <Button
+                          variant="default"
+                          size={"icon"}
+                          className="bg-red-300"
+                        >
+                          R
+                        </Button>
                       </td>
                     </tr>
                   </tbody>
@@ -139,7 +365,7 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
 
             {/* {isCreator ? <ManageCustomGame custom={custom} setCustom={setCustom} /> : <WaitingGame />} */}
           </div>
-          <div className="flex min-h-72 min-w-40 flex-col items-center justify-center gap-2 rounded outline md:w-1/2">
+          <div className="flex h-96 min-w-40   gap-4 rounded shadow-slate-300 outline outline-accent md:h-2/3 md:w-1/2">
             {/* <TeamSection custom={custom} />
               {isCreator && (
                 <SetCustomStateSection custom={custom} setCustom={setCustom} />
@@ -151,14 +377,14 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
   } else if (error) {
     //ERROR SECTION
     return (
-      <div className="flex size-full  flex-col items-center justify-center gap-2 p-4 ">
+      <div className="flex size-full  flex-col items-center justify-center gap-4 p-4 ">
         <div className="flex h-20 w-full flex-col items-center justify-center gap-6 ">
           <div className="w-30 flex h-full flex-col items-center justify-center gap-2">
             <Swords size={48} />
             <h1 className=" text-2xl font-bold">{error}</h1>
           </div>
           <div className="w-80 outline outline-1 outline-accent drop-shadow-2xl" />
-          <div className="relative flex h-full w-1/3 flex-col justify-center gap-2 text-foreground">
+          <div className="relative flex h-full w-1/3 flex-col justify-center gap-4 text-foreground">
             <Button
               onClick={() => router.push("/create")}
               variant={"outline"}
@@ -176,9 +402,9 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
   } else {
     //LOADING SECTION
     return (
-      <div className="flex size-full  flex-col items-center justify-center gap-2 p-4 ">
-        <div className="flex h-20 w-full items-center justify-center gap-2 ">
-          <div className="w-30 flex h-full animate-pulse flex-col items-center justify-center gap-2 ">
+      <div className="flex size-full  flex-col items-center justify-center gap-4 p-4 ">
+        <div className="flex h-20 w-full items-center justify-center gap-4 ">
+          <div className="w-30 flex h-full animate-pulse flex-col items-center justify-center gap-4 ">
             <Swords size={48} />
             <h1 className="text-2xl font-bold">Loading...</h1>
           </div>
