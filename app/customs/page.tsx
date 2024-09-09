@@ -55,27 +55,27 @@ export default function HomePage() {
               <h1 className=" flex h-7 w-full items-center justify-center border-accent bg-accent font-extrabold text-primary-foreground ">
                 {custom.name}
               </h1>
-              <div className="relative flex h-7 w-full items-center justify-center  bg-accent">
-                <p className="absolute left-2 mb-1 flex h-7 scale-75 justify-center text-center font-bold">
+              <div className="relative flex h-8 w-full items-center justify-center  bg-accent">
+                <p className="absolute left-2 mb-1 flex h-6 scale-75 justify-center text-center font-bold">
                   by :
                 </p>{" "}
                 {nameMap.get(custom.creatorId) ? (
                   <a
                     href={`/summoners/${custom.creatorId}`}
-                    className="no-style-link mx-1 mb-1 flex h-6 w-full items-center justify-center rounded-t-lg bg-primary-foreground outline outline-2 outline-accent transition-all hover:border hover:border-primary-foreground hover:bg-foreground hover:font-bold hover:text-primary-foreground"
+                    className="no-style-link mx-1 mb-1 flex h-7 w-full items-center justify-center rounded-t-lg border-2  border-secondary-foreground bg-primary-foreground transition-all hover:border-primary-foreground hover:bg-foreground hover:font-bold hover:text-primary-foreground"
                   >
                     {nameMap.get(custom.creatorId)}
                   </a>
                 ) : (
-                  <p className="mx-1 mb-1 flex h-6 w-full animate-pulse items-center justify-center rounded-t-lg bg-primary-foreground outline outline-2 outline-accent">
+                  <p className="mx-1 mb-1 flex h-7 w-full animate-pulse items-center justify-center rounded-t-lg bg-primary-foreground outline outline-2 outline-accent">
                     loading...
                   </p>
                 )}
               </div>
 
-              <p className="text-s mx-1 flex  w-full grow overflow-scroll  border-x-4 border-accent px-2 py-1 text-justify">
-                {custom.description}
-              </p>
+              <div className="text-s flex  w-full grow overflow-scroll  border-x-[5px] border-accent px-2 py-1 text-justify ">
+                <p>{custom.description}</p>
+              </div>
               {custom.discordLink && (
                 <div className="absolute bottom-11 right-2 flex size-6 items-center justify-center rounded-lg bg-accent font-bold text-primary-foreground outline-accent">
                   <span className="[&>svg]:size-5">

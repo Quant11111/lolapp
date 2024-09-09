@@ -108,7 +108,8 @@ model Summoner {
   updatedAt       DateTime @updatedAt
   firstRole       Role?
   secondRole      Role?
-  appliances Custom[]  @relation("CustomCandidates")
+  appliance     Custom?  @relation(fields: [applianceId], references: [id], name: "CustomCandidates")
+  applianceId   String?
   createdCustoms Custom[]
   createdCustomIds String[]
 

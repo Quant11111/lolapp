@@ -67,66 +67,66 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
           <div className=" flex min-h-72 min-w-40 items-center justify-center gap-2 rounded outline md:h-full md:w-1/2">
             {isCreator ? (
               <div className="overflow-x-auto">
-                <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+                <table className="min-w-full divide-y-2 divide-accent ">
                   <thead className="ltr:text-left rtl:text-right">
                     <tr>
-                      <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                      <th className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
                         Name
                       </th>
-                      <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                      <th className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
                         Date of Birth
                       </th>
-                      <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                      <th className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
                         Role
                       </th>
-                      <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                      <th className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
                         Salary
                       </th>
                     </tr>
                   </thead>
 
-                  <tbody className="divide-y divide-gray-200">
+                  <tbody className="divide-y divide-accent">
                     <tr>
-                      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                      <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
                         John Doe
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
                         24/05/1995
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
                         Web Developer
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
                         $120,000
                       </td>
                     </tr>
 
                     <tr>
-                      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                      <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
                         Jane Doe
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
                         04/11/1980
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
                         Web Designer
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
                         $100,000
                       </td>
                     </tr>
 
                     <tr>
-                      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                      <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
                         Gary Barlow
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
                         24/05/1995
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
                         Singer
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
                         $20,000
                       </td>
                     </tr>
