@@ -16,10 +16,10 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="h-full py-7">
-      <div className="h-full rounded-r-xl border-y-2 border-r-4 border-accent bg-background/20">
+    <div className="fixed z-50 h-full pb-7 pt-20">
+      <div className="h-full rounded-r-xl border-y-2 border-r-4 border-accent bg-black/70">
         <div
-          className={`transition-width relative flex h-full flex-col justify-center overflow-scroll text-foreground duration-300 ${isSidebarOpen ? "w-1/6 min-w-80" : "w-0 min-w-0 pt-4"}`}
+          className={`transition-width flex h-full flex-col justify-center overflow-scroll text-foreground duration-300 ${isSidebarOpen ? "w-1/6 min-w-80" : "w-0 min-w-0 pt-4"}`}
         >
           {session.data?.user ? (
             <Button variant={"default"} className="my-4">

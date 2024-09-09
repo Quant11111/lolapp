@@ -50,7 +50,7 @@ export default function HomePage() {
           customs.map((custom) => (
             <div
               key={custom.id}
-              className="hover:shadow-3xl relative flex h-60 w-80 flex-col items-center justify-center overflow-hidden rounded-lg bg-primary-foreground/30 shadow-2xl shadow-accent outline outline-1 outline-primary-foreground transition-all hover:shadow-foreground hover:outline  hover:outline-foreground"
+              className="hover:shadow-3xl relative flex h-60 w-80 flex-col items-center justify-center overflow-hidden rounded-lg bg-gradient-to-r from-rose-500/30 to-cyan-500/30 shadow-2xl shadow-accent outline outline-1 outline-background transition-all hover:shadow-cyan-500 hover:outline hover:outline-2  hover:outline-cyan-500"
             >
               <h1 className=" flex h-7 w-full items-center justify-center border-accent bg-accent font-extrabold text-primary-foreground ">
                 {custom.name}

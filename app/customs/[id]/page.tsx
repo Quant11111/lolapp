@@ -43,13 +43,13 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
       <div className="flex size-full  flex-col gap-4 p-4">
         <div className="flex h-32 w-full flex-col items-center justify-center gap-4 rounded  md:flex-row">
           <div className="flex size-full flex-col items-center justify-center gap-2 rounded md:w-72">
-            <p className="flex size-full items-center justify-center text-clip rounded-t-2xl bg-accent text-center font-bold text-primary-foreground outline-primary-foreground">
+            <p className="flex h-1/2 w-full items-center justify-center text-clip rounded-t-2xl bg-accent text-center font-bold text-primary-foreground outline-primary-foreground">
               {custom.name}
             </p>
             {creator?.gameName ? (
               <Button
                 variant="outline"
-                className="w-full rounded-b-2xl"
+                className="h-1/2 w-full rounded-b-2xl"
                 onClick={() => router.push(`/summoners/${creator?.userId}`)}
               >
                 {creator?.gameName} - {creator?.tier} {creator?.rank}{" "}
@@ -62,13 +62,13 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
             <p className="text-pretty p-2">{custom.description}</p>
           </div>
         </div>
-        <div className="flex w-full flex-col gap-4 md:flex-row">
-          <div className="flex h-96 min-w-40   gap-4 rounded shadow-slate-300 outline outline-accent md:h-2/3 md:w-1/2">
+        <div className="flex grow flex-col gap-4 overflow-scroll md:flex-row">
+          <div className="flex  min-w-40   gap-4 rounded shadow-slate-300  md:h-2/3 md:w-1/2">
             {isCreator ? (
               <div className=" w-full overflow-x-auto">
-                <table className="flex h-full min-w-full flex-col divide-y-2 divide-accent">
-                  <thead className="h-14 w-full overflow-hidden ltr:text-right rtl:text-left">
-                    <tr className="flex w-full justify-around rounded outline outline-8 outline-accent">
+                <table className="flex h-full min-w-full flex-col divide-y-2 divide-accent rounded border border-accent">
+                  <thead className="h-14 w-full overflow-hidden bg-black/70 ltr:text-right rtl:text-left">
+                    <tr className="flex w-full justify-around">
                       <th className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
                         Name
                       </th>

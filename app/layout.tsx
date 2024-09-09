@@ -48,23 +48,17 @@ export default function RootLayout({
               color="hsl(var(--primary))"
             />
             <LandingHeader />
+
             <BlurredBackground imageUrl="https://cdnb.artstation.com/p/assets/images/images/015/582/603/large/artur-sadlos-leg-more-sh210-background-as-v002.jpg?1548866523" />
-            <div className="relative flex grow gap-2 overflow-hidden text-foreground">
-              <Sidebar />
-              <div className="size-full">
+            <div className="relative flex grow gap-2 pt-16 text-foreground">
+              <div className="relative size-full">
                 {children} {modal}
               </div>
             </div>
             <TailwindIndicator />
             <FloatingLegalFooter />
+            <Sidebar />
           </Providers>
-          <div
-            className="pointer-events-none absolute inset-0 h-full"
-            style={{
-              background:
-                "linear-gradient(to bottom, rgba(255, 255, 255, 0) 90%, rgba(255, 255, 255, 0.4) 100%)",
-            }}
-          ></div>
         </body>
       </html>
     </>
