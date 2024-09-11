@@ -51,7 +51,7 @@ jobs:
       - name: Build and Migrate
         run: |
           rm -rf .next
-          pnpm run build
           pnpm exec prisma migrate deploy
+          pnpm run build
       - name: restart pm2 padelu instance
         run: pm2 restart padelu
