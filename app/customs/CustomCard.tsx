@@ -24,6 +24,7 @@ const CustomCard = ({ custom, creatorName }: CustomCardProps) => {
           </h1>
           <div className="h-0 w-full items-center justify-center overflow-hidden  bg-accent transition-opacity duration-300 group-hover:flex group-hover:h-auto group-hover:py-2">
             <Button
+              onClick={() => router.push(`/customs/${custom.id}`)}
               variant={"outline"}
               className="flex h-8 w-full gap-2 rounded-lg  "
             >
