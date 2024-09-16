@@ -50,10 +50,8 @@ export default function RootLayout({
             <LandingHeader />
 
             <BlurredBackground imageUrl="https://cdnb.artstation.com/p/assets/images/images/015/582/603/large/artur-sadlos-leg-more-sh210-background-as-v002.jpg?1548866523" />
-            <div className="relative flex grow gap-2 pt-16 text-foreground">
-              <div className="relative size-full">
-                {children} {modal}
-              </div>
+            <div className="relative size-full overflow-scroll">
+              {children} {modal}
             </div>
             <TailwindIndicator />
             <FloatingLegalFooter />

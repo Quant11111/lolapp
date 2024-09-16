@@ -8,6 +8,7 @@ import { findSummonerByUserIdAction } from "../find-summoner-by-userid.action";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import CustomTeams from "./CustomTeams";
 
 const CustomGamePage = ({ params }: { params: { id: string } }) => {
   const [custom, setCustom] = useState<Custom | null>(null);
@@ -41,9 +42,9 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
     //MAIN SECTION
     return (
       <div className="flex size-full  flex-col gap-4 p-4">
-        <div className="flex h-32 w-full flex-col items-center justify-center gap-4 rounded  md:flex-row">
+        <div className="flex h-1/3 w-full flex-col items-center justify-center gap-4 rounded  md:h-32 md:flex-row">
           <div className="flex size-full flex-col items-center justify-center gap-2 rounded md:w-72">
-            <p className="flex h-1/2 w-full items-center justify-center text-clip rounded-t-2xl bg-accent text-center font-bold text-primary-foreground outline-primary-foreground">
+            <p className="flex h-1/2 w-full items-center justify-center text-clip rounded-t-2xl bg-accent text-center font-bold text-secondary outline-primary-foreground">
               {custom.name}
             </p>
             {creator?.gameName ? (
@@ -58,15 +59,15 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
               "loading..."
             )}{" "}
           </div>
-          <div className="flex size-full overflow-scroll rounded bg-gray-950/75 outline outline-secondary-foreground">
+          <div className="flex size-full overflow-scroll rounded bg-gray-950/75 outline outline-primary-foreground">
             <p className="text-pretty p-2">{custom.description}</p>
           </div>
         </div>
-        <div className="flex grow flex-col gap-4 overflow-scroll md:flex-row">
-          <div className="flex  min-w-40   gap-4 rounded shadow-slate-300  md:h-2/3 md:w-1/2">
+        <div className="flex size-full flex-col gap-4 overflow-scroll md:flex-row">
+          <div className="flex min-w-40   gap-4 rounded shadow-slate-300  md:h-full md:w-1/2">
             {isCreator ? (
               <div className=" w-full overflow-x-auto">
-                <table className="flex h-full min-w-full flex-col divide-y-2 divide-accent rounded border border-accent">
+                <table className="flex h-full min-w-full flex-col divide-y-2 divide-border rounded border border-border">
                   <thead className="h-14 w-full overflow-hidden bg-black/70 ltr:text-right rtl:text-left">
                     <tr className="flex w-full justify-around">
                       <th className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
@@ -84,18 +85,18 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
                     </tr>
                   </thead>
 
-                  <tbody className="flex min-w-full grow flex-col divide-y divide-accent overflow-scroll">
+                  <tbody className="flex min-w-full grow flex-col divide-y divide-border overflow-scroll">
                     <tr className="flex w-full items-center justify-around">
                       <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
                         Potent
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
                         Master II
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
                         TOP/JGL
                       </td>
-                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-primary-foreground">
                         <Button
                           variant="default"
                           size={"icon"}
@@ -117,13 +118,13 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
                       <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
                         Potent
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
                         Master II
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
                         TOP/JGL
                       </td>
-                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-primary-foreground">
                         <Button
                           variant="default"
                           size={"icon"}
@@ -144,13 +145,13 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
                       <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
                         Potent
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
                         Master II
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
                         TOP/JGL
                       </td>
-                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-primary-foreground">
                         <Button
                           variant="default"
                           size={"icon"}
@@ -171,13 +172,13 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
                       <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
                         Potent
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
                         Master II
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
                         TOP/JGL
                       </td>
-                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-primary-foreground">
                         <Button
                           variant="default"
                           size={"icon"}
@@ -198,13 +199,13 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
                       <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
                         Potent
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
                         Master II
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
                         TOP/JGL
                       </td>
-                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-primary-foreground">
                         <Button
                           variant="default"
                           size={"icon"}
@@ -225,13 +226,13 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
                       <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
                         Potent
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
                         Master II
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
                         TOP/JGL
                       </td>
-                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-primary-foreground">
                         <Button
                           variant="default"
                           size={"icon"}
@@ -252,13 +253,13 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
                       <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
                         Potent
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
                         Master II
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
                         TOP/JGL
                       </td>
-                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-primary-foreground">
                         <Button
                           variant="default"
                           size={"icon"}
@@ -279,13 +280,13 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
                       <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
                         Potent
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
                         Master II
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
                         TOP/JGL
                       </td>
-                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-primary-foreground">
                         <Button
                           variant="default"
                           size={"icon"}
@@ -306,13 +307,13 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
                       <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
                         Potent
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
                         Master II
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
                         TOP/JGL
                       </td>
-                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-primary-foreground">
                         <Button
                           variant="default"
                           size={"icon"}
@@ -333,13 +334,13 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
                       <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
                         Potent
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
                         Master II
                       </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
                         TOP/JGL
                       </td>
-                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-secondary-foreground">
+                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-primary-foreground">
                         <Button
                           variant="default"
                           size={"icon"}
@@ -365,11 +366,8 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
 
             {/* {isCreator ? <ManageCustomGame custom={custom} setCustom={setCustom} /> : <WaitingGame />} */}
           </div>
-          <div className="flex h-96 min-w-40   gap-4 rounded shadow-slate-300 outline outline-accent md:h-2/3 md:w-1/2">
-            {/* <TeamSection custom={custom} />
-              {isCreator && (
-                <SetCustomStateSection custom={custom} setCustom={setCustom} />
-              )} */}
+          <div className="flex min-h-96 min-w-40 md:h-full md:w-1/2 md:border-l-2 md:border-primary-foreground md:pl-2">
+            <CustomTeams custom={custom} />
           </div>
         </div>
       </div>
@@ -383,7 +381,7 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
             <Swords size={48} />
             <h1 className=" text-2xl font-bold">{error}</h1>
           </div>
-          <div className="w-80 outline outline-1 outline-accent drop-shadow-2xl" />
+          <div className="w-80 outline outline-1 outline-border drop-shadow-2xl" />
           <div className="relative flex h-full w-1/3 flex-col justify-center gap-4 text-foreground">
             <Button
               onClick={() => router.push("/create")}

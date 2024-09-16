@@ -125,6 +125,9 @@ model Summoner {
 
   blackLisedSummoners Summoner[] @relation("BlackListedSummoners")
   isBlackListedBy Summoner[] @relation("BlackListedSummoners")
+
+  blueTeamHistory Custom[] @relation("BlueTeam")
+  redTeamHistory Custom[] @relation("RedTeam")
 }
 
 model Custom {
@@ -138,16 +141,8 @@ model Custom {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   status      CustomStatus @default(OPEN)
-  blueTopSumId String?
-  blueJglSumId String?
-  blueMidSumId String?
-  blueBotSumId String?
-  blueSupSumId String?
-  redTopSumId String?
-  redJglSumId String?
-  redMidSumId String?
-  redBotSumId String?
-  redSupSumId String?
+  blueTeam    Summoner[] @relation("BlueTeam")
+  redTeam     Summoner[] @relation("RedTeam")
 }
 
 enum UserPlan {
