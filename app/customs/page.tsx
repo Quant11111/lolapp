@@ -46,7 +46,7 @@ export default function HomePage() {
     );
   } else {
     return (
-      <div className=" flex size-full flex-wrap justify-center gap-8 overflow-scroll  py-8 md:gap-12 lg:gap-20">
+      <div className=" flex size-full flex-wrap justify-center gap-8 overflow-scroll  p-8 md:gap-12 lg:gap-20">
         {customs &&
           customs.map((custom) => (
             <>

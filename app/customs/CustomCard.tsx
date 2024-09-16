@@ -30,7 +30,7 @@ const CustomCard = ({ custom, creatorName }: CustomCardProps) => {
             </Button>
           </div>
         </div>
-        <p className="absolute inset-y-[7.5rem] hidden overflow-hidden text-pretty rounded-xl  p-1 outline outline-8 outline-accent  transition-all group-hover:bottom-9 group-hover:top-[4.25rem] group-hover:flex group-hover:overflow-scroll group-hover:outline-4">
+        <p className="absolute inset-y-[7.5rem] hidden w-full overflow-hidden text-pretty rounded-xl  p-1 outline outline-8 outline-accent  transition-all group-hover:bottom-9 group-hover:top-[4.25rem] group-hover:flex group-hover:overflow-scroll group-hover:outline-4">
           {custom.description}
         </p>
 
