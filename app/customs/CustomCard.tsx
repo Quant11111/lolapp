@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Custom } from "@prisma/client";
 import { Swords, Wand } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 type CustomCardProps = {
   custom?: Custom;
@@ -8,6 +9,7 @@ type CustomCardProps = {
 };
 
 const CustomCard = ({ custom, creatorName }: CustomCardProps) => {
+  const router = useRouter();
   if (!custom) {
     return <div>Custom not found</div>;
   } else {
@@ -38,14 +40,15 @@ const CustomCard = ({ custom, creatorName }: CustomCardProps) => {
           {creatorName ? (
             <Button
               variant={"outline"}
-              className=" mx-2 flex h-8 w-full gap-2 rounded-lg  transition-all"
+              className=" mx-2 flex h-8 w-full gap-2 transition-all  group-hover:rounded-lg"
+              onClick={() => router.push(`/summoners/${custom.creatorId}`)}
             >
               <p className="">by :</p> <p>{creatorName}</p>
             </Button>
           ) : (
             <Button
               variant={"outline"}
-              className=" mx-2 flex h-8 w-full gap-2  rounded-lg transition-all"
+              className=" mx-2 flex h-8 w-full gap-2 transition-all group-hover:rounded-lg"
             >
               <p className="">loading...</p>
             </Button>

@@ -2,8 +2,6 @@
 
 import { getCustomAction } from "./get-customs-action";
 import { findSummonerByUserIdAction } from "./find-summoner-by-userid.action";
-import { Button } from "@/components/ui/button";
-import { Swords } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Custom } from "@prisma/client";
 import CustomCard from "./CustomCard";
