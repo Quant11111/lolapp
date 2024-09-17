@@ -11,7 +11,7 @@ import { useSession } from "next-auth/react";
 import CustomTeams from "./CustomTeams";
 import { UserWithSummoner } from "../../user-context-provider";
 import ManageCustomState from "./ManageCustomState";
-import { addToBlueTeamAction } from "./manage-teams.action";
+import { addToBlueTeamAction, addToRedTeamAction } from "./manage-teams.action";
 import JoinLeaveCustom from "./JoinLeaveCustom";
 
 export interface ExtendedCustom extends Custom {
@@ -135,7 +135,7 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
                             size={"icon"}
                             className="bg-red-300"
                             onClick={() => {
-                              addToBlueTeamAction(custom.id, candidate.id)
+                              addToRedTeamAction(custom.id, candidate.id)
                                 .then(() => refetchCustom())
                                 .catch((err) => setError(err));
                             }}

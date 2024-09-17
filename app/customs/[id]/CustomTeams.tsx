@@ -1,7 +1,7 @@
 import { ExtendedCustom } from "./page";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
-import { Cross } from "lucide-react";
+import { Cross, XIcon } from "lucide-react";
 import {
   removeFromBlueTeamAction,
   removeFromRedTeamAction,
@@ -44,8 +44,8 @@ const CustomTeams = ({ custom, refetch }: CustomTeamsProps) => {
                   {user.firstRole}/{user.secondRole}
                 </p>
                 <p>
-                  {user.summoner?.rank}
                   {user.summoner?.tier}
+                  {user.summoner?.rank}
                 </p>
                 {isManager && (
                   <Button
@@ -73,8 +73,8 @@ const CustomTeams = ({ custom, refetch }: CustomTeamsProps) => {
                   {user.firstRole}/{user.secondRole}
                 </p>
                 <p>
-                  {user.summoner?.rank}
                   {user.summoner?.tier}
+                  {user.summoner?.rank}
                 </p>
                 {isManager && (
                   <Button
@@ -85,7 +85,7 @@ const CustomTeams = ({ custom, refetch }: CustomTeamsProps) => {
                       refetch();
                     }}
                   >
-                    <Cross />
+                    <XIcon />
                   </Button>
                 )}
               </div>

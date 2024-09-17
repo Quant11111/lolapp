@@ -4,6 +4,20 @@ import { prisma } from "@/lib/prisma";
 
 export const addToBlueTeamAction = async (id: string, userId: string) => {
   try {
+    // Fetch the custom to check the current size of the blue team
+    const custom = await prisma.custom.findUnique({
+      where: { id },
+      include: { blueTeam: true },
+    });
+
+    if (!custom) {
+      throw new Error("Custom not found");
+    }
+
+    if (custom.blueTeam.length >= 5) {
+      throw new Error("Blue team is already full");
+    }
+
     // Fetch the user by userId
     const user = await prisma.user.findUnique({
       where: { id: userId },
@@ -53,6 +67,20 @@ export const removeFromBlueTeamAction = async (id: string, userId: string) => {
 
 export const addToRedTeamAction = async (id: string, userId: string) => {
   try {
+    // Fetch the custom to check the current size of the red team
+    const custom = await prisma.custom.findUnique({
+      where: { id },
+      include: { redTeam: true },
+    });
+
+    if (!custom) {
+      throw new Error("Custom not found");
+    }
+
+    if (custom.redTeam.length >= 5) {
+      throw new Error("Red team is already full");
+    }
+
     // Fetch the user by userId
     const user = await prisma.user.findUnique({
       where: { id: userId },

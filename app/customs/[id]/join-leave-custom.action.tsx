@@ -7,7 +7,7 @@ export const joinCustomAction = async (id: string, userId: string) => {
     // Fetch the summoner by summonerName
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      include: { summoner: true },
+      include: { summoner: true, appliance: true },
     });
 
     if (!user) {
@@ -15,6 +15,9 @@ export const joinCustomAction = async (id: string, userId: string) => {
     }
     if (!user.summoner) {
       throw new Error("Summoner not found. Link a summoner before joining");
+    }
+    if (user.applianceId) {
+      leaveCustomAction(user.applianceId, userId);
     }
 
     // Add the summoner to the candidates list of the custom
@@ -50,6 +53,8 @@ export const leaveCustomAction = async (id: string, userId: string) => {
         candidates: {
           disconnect: { id: userId },
         },
+        blueTeam: { disconnect: { id: userId } },
+        redTeam: { disconnect: { id: userId } },
       },
     });
 
