@@ -17,18 +17,18 @@ import {
   SetPresentationFormType,
   SetPresentationSchema,
 } from "./set-presentation.schema";
-import { Summoner } from "@prisma/client";
 import { Textarea } from "@/components/ui/textarea";
+import { UserWithSummoner } from "../../user-context-provider";
 
 type SetPresentationFormProps = {
-  summoner: Summoner;
+  user: UserWithSummoner;
 };
 
-export const SetPresentationForm = ({ summoner }: SetPresentationFormProps) => {
+export const SetPresentationForm = ({ user }: SetPresentationFormProps) => {
   const form = useZodForm({
     schema: SetPresentationSchema,
     defaultValues: {
-      presentation: summoner.pinnedPresentation || "",
+      presentation: user.pinnedPresentation || "",
     },
   });
   const router = useRouter();

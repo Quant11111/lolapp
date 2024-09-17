@@ -2,10 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { getSummonerDataAction } from "./get-summoner-data.action";
-import { Summoner } from "@prisma/client";
 import { SetRolesForm } from "./SetRolesForm";
 import { SetPresentationForm } from "./setPresentationForm";
+import { findUserByIdAction } from "../../customs/find-user-by-id.action";
+import { UserWithSummoner } from "../../user-context-provider";
 
 const CustomGamePage = ({ params }: { params: { localUserId: string } }) => {
   const session = useSession();
@@ -18,15 +18,16 @@ const CustomGamePage = ({ params }: { params: { localUserId: string } }) => {
     params.localUserId === "id" && session.data?.user?.id
       ? session.data?.user.id
       : params.localUserId;
-  const [summoner, setSummoner] = useState<Summoner | null>(null);
+  const [user, setUser] = useState<UserWithSummoner | null>(null);
   const [loading, setLoading] = useState(true);
 
   const [error, setError] = useState<unknown>(null);
   useEffect(() => {
     const fetchSummonerData = async () => {
       try {
-        const summonerData = await getSummonerDataAction(queryParam);
-        setSummoner(summonerData);
+        const userData = await findUserByIdAction(queryParam);
+
+        setUser(userData);
       } catch (error) {
         setError(error);
       } finally {
@@ -50,7 +51,7 @@ const CustomGamePage = ({ params }: { params: { localUserId: string } }) => {
       </div>
     );
   }
-  if (summoner) {
+  if (user) {
     return (
       <div className="flex size-full justify-center">
         <div className="relative flex w-full flex-col items-center justify-center ">
@@ -59,30 +60,30 @@ const CustomGamePage = ({ params }: { params: { localUserId: string } }) => {
             <div className="relative flex h-full w-1/4 flex-col items-center justify-center  border border-accent">
               <h2 className="relative flex h-1/3 w-full items-center justify-center  border border-accent">
                 {" "}
-                {summoner.gameName}#{summoner.tagLine} lv.
-                {summoner.summonerLevel}
+                {user.summoner?.gameName}#{user.summoner?.tagLine} lv.
+                {user.summoner?.summonerLevel}
               </h2>
               <p className="relative flex h-1/3 w-full items-center justify-center  border border-accent">
-                Summoner Rank: {summoner.tier} {summoner.rank}
+                Summoner Rank: {user.summoner?.tier} {user.summoner?.rank}
               </p>
               <div className="relative flex h-1/3 w-full items-center justify-center border  border-accent p-2">
                 {isOwnProfile ? (
-                  <SetRolesForm summoner={summoner} />
+                  <SetRolesForm />
                 ) : (
                   <p>
-                    Roles : {summoner.firstRole} / {summoner.secondRole}
+                    Roles : {user.firstRole} / {user.secondRole}
                   </p>
                 )}
               </div>
             </div>
             <div className="relative flex h-full w-1/6 items-center justify-center  border border-accent">
-              Summoner IconId: {summoner.profileIconId}
+              Summoner IconId: {user.summoner?.profileIconId}
             </div>
             <div className="relative flex h-full grow items-center justify-center  border border-accent">
               {isOwnProfile ? (
-                <SetPresentationForm summoner={summoner} />
+                <SetPresentationForm user={user} />
               ) : (
-                <p>{summoner.pinnedPresentation}</p>
+                <p>{user.pinnedPresentation}</p>
               )}
             </div>
           </div>
