@@ -2,24 +2,40 @@
 
 import { Swords } from "lucide-react";
 import { getCustomDataAction } from "./get-custom-data.action";
-import { Custom, Summoner } from "@prisma/client";
+import { Custom } from "@prisma/client";
 import { useEffect, useState } from "react";
-import { findSummonerByUserIdAction } from "../find-summoner-by-userid.action";
+
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import CustomTeams from "./CustomTeams";
+import { UserWithSummoner } from "../../user-context-provider";
+import ManageCustomState from "./ManageCustomState";
+import { addToBlueTeamAction } from "./manage-teams.action";
+import JoinLeaveCustom from "./JoinLeaveCustom";
+
+export interface ExtendedCustom extends Custom {
+  creator: UserWithSummoner;
+  blueTeam: UserWithSummoner[];
+  redTeam: UserWithSummoner[];
+  candidates: UserWithSummoner[];
+}
 
 const CustomGamePage = ({ params }: { params: { id: string } }) => {
-  const [custom, setCustom] = useState<Custom | null>(null);
-  const [blueTeam, setBlueTeam] = useState<Summoner[]>([]);
-  const [redTeam, setRedTeam] = useState<Summoner[]>([]);
-  const [creator, setCreator] = useState<Summoner | null>(null);
+  const [custom, setCustom] = useState<ExtendedCustom | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [candidates, setCandidates] = useState<Summoner[]>([]);
   const router = useRouter();
   const session = useSession();
   const isCreator = session.data?.user.id === custom?.creatorId;
+
+  const refetchCustom = async () => {
+    const customData = await getCustomDataAction(params.id);
+    if (!customData) {
+      setError("Custom game not found");
+    } else {
+      setCustom(customData);
+    }
+  };
 
   useEffect(() => {
     const fetchCustom = async () => {
@@ -28,17 +44,6 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
         setError("Custom game not found");
       } else {
         setCustom(customData);
-        const creatorData = await findSummonerByUserIdAction(
-          customData.creatorId,
-        );
-        if (creatorData) {
-          setCreator(creatorData);
-          setBlueTeam(customData.blueTeam);
-          setRedTeam(customData.redTeam);
-          setCandidates(customData.candidates);
-        } else {
-          setError("No Summoner linked to the custom creator");
-        }
       }
     };
     fetchCustom();
@@ -53,13 +58,14 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
             <p className="flex h-1/2 w-full items-center justify-center text-clip rounded-t-2xl bg-accent text-center font-bold text-secondary outline-primary-foreground">
               {custom.name}
             </p>
-            {creator?.gameName ? (
+            {custom.creator?.summoner ? (
               <Button
                 variant="outline"
                 className="h-1/2 w-full rounded-b-2xl"
-                onClick={() => router.push(`/summoners/${creator?.userId}`)}
+                onClick={() => router.push(`/summoners/${custom?.creator.id}`)}
               >
-                {creator?.gameName} - {creator?.tier} {creator?.rank}{" "}
+                {custom.creator.summoner.gameName} -{" "}
+                {custom.creator.summoner.tier} {custom.creator.summoner.rank}{" "}
               </Button>
             ) : (
               "loading..."
@@ -68,6 +74,11 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
           <div className="flex size-full overflow-scroll rounded bg-gray-950/75 outline outline-primary-foreground">
             <p className="text-pretty p-2">{custom.description}</p>
           </div>
+          {isCreator ? (
+            <ManageCustomState custom={custom} setCustom={setCustom} />
+          ) : (
+            <JoinLeaveCustom custom={custom} refetch={refetchCustom} />
+          )}
         </div>
         <div className="flex size-full flex-col gap-4 overflow-scroll md:flex-row">
           <div className="flex min-w-40   gap-4 rounded shadow-slate-300  md:h-full md:w-1/2">
@@ -92,16 +103,16 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
                   </thead>
 
                   <tbody className="flex min-w-full grow flex-col divide-y divide-border overflow-scroll">
-                    {candidates.map((candidate, index) => (
+                    {custom.candidates.map((candidate, index) => (
                       <tr
                         key={index}
                         className="flex w-full items-center justify-around"
                       >
                         <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
-                          {candidate.gameName}
+                          {candidate.summoner?.gameName}
                         </td>
                         <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
-                          {candidate.tier} {candidate.rank}
+                          {candidate.summoner?.tier} {candidate.summoner?.rank}
                         </td>
                         <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
                           {candidate.firstRole}/{candidate.secondRole}
@@ -111,6 +122,11 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
                             variant="default"
                             size={"icon"}
                             className="bg-blue-300"
+                            onClick={() => {
+                              addToBlueTeamAction(custom.id, candidate.id)
+                                .then(() => refetchCustom())
+                                .catch((err) => setError(err));
+                            }}
                           >
                             B
                           </Button>
@@ -118,284 +134,17 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
                             variant="default"
                             size={"icon"}
                             className="bg-red-300"
+                            onClick={() => {
+                              addToBlueTeamAction(custom.id, candidate.id)
+                                .then(() => refetchCustom())
+                                .catch((err) => setError(err));
+                            }}
                           >
                             R
                           </Button>
                         </td>
                       </tr>
                     ))}
-
-                    <tr className="flex w-full items-center justify-around">
-                      <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
-                        Potent
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
-                        Master II
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
-                        TOP/JGL
-                      </td>
-                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-primary-foreground">
-                        <Button
-                          variant="default"
-                          size={"icon"}
-                          className="bg-blue-300"
-                        >
-                          B
-                        </Button>
-                        <Button
-                          variant="default"
-                          size={"icon"}
-                          className="bg-red-300"
-                        >
-                          R
-                        </Button>
-                      </td>
-                    </tr>
-
-                    <tr className="flex w-full items-center justify-around">
-                      <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
-                        Potent
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
-                        Master II
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
-                        TOP/JGL
-                      </td>
-                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-primary-foreground">
-                        <Button
-                          variant="default"
-                          size={"icon"}
-                          className="bg-blue-300"
-                        >
-                          B
-                        </Button>
-                        <Button
-                          variant="default"
-                          size={"icon"}
-                          className="bg-red-300"
-                        >
-                          R
-                        </Button>
-                      </td>
-                    </tr>
-                    <tr className="flex w-full items-center justify-around">
-                      <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
-                        Potent
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
-                        Master II
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
-                        TOP/JGL
-                      </td>
-                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-primary-foreground">
-                        <Button
-                          variant="default"
-                          size={"icon"}
-                          className="bg-blue-300"
-                        >
-                          B
-                        </Button>
-                        <Button
-                          variant="default"
-                          size={"icon"}
-                          className="bg-red-300"
-                        >
-                          R
-                        </Button>
-                      </td>
-                    </tr>
-                    <tr className="flex w-full items-center justify-around">
-                      <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
-                        Potent
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
-                        Master II
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
-                        TOP/JGL
-                      </td>
-                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-primary-foreground">
-                        <Button
-                          variant="default"
-                          size={"icon"}
-                          className="bg-blue-300"
-                        >
-                          B
-                        </Button>
-                        <Button
-                          variant="default"
-                          size={"icon"}
-                          className="bg-red-300"
-                        >
-                          R
-                        </Button>
-                      </td>
-                    </tr>
-                    <tr className="flex w-full items-center justify-around">
-                      <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
-                        Potent
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
-                        Master II
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
-                        TOP/JGL
-                      </td>
-                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-primary-foreground">
-                        <Button
-                          variant="default"
-                          size={"icon"}
-                          className="bg-blue-300"
-                        >
-                          B
-                        </Button>
-                        <Button
-                          variant="default"
-                          size={"icon"}
-                          className="bg-red-300"
-                        >
-                          R
-                        </Button>
-                      </td>
-                    </tr>
-                    <tr className="flex w-full items-center justify-around">
-                      <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
-                        Potent
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
-                        Master II
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
-                        TOP/JGL
-                      </td>
-                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-primary-foreground">
-                        <Button
-                          variant="default"
-                          size={"icon"}
-                          className="bg-blue-300"
-                        >
-                          B
-                        </Button>
-                        <Button
-                          variant="default"
-                          size={"icon"}
-                          className="bg-red-300"
-                        >
-                          R
-                        </Button>
-                      </td>
-                    </tr>
-                    <tr className="flex w-full items-center justify-around">
-                      <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
-                        Potent
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
-                        Master II
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
-                        TOP/JGL
-                      </td>
-                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-primary-foreground">
-                        <Button
-                          variant="default"
-                          size={"icon"}
-                          className="bg-blue-300"
-                        >
-                          B
-                        </Button>
-                        <Button
-                          variant="default"
-                          size={"icon"}
-                          className="bg-red-300"
-                        >
-                          R
-                        </Button>
-                      </td>
-                    </tr>
-                    <tr className="flex w-full items-center justify-around">
-                      <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
-                        Potent
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
-                        Master II
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
-                        TOP/JGL
-                      </td>
-                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-primary-foreground">
-                        <Button
-                          variant="default"
-                          size={"icon"}
-                          className="bg-blue-300"
-                        >
-                          B
-                        </Button>
-                        <Button
-                          variant="default"
-                          size={"icon"}
-                          className="bg-red-300"
-                        >
-                          R
-                        </Button>
-                      </td>
-                    </tr>
-                    <tr className="flex w-full items-center justify-around">
-                      <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
-                        Potent
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
-                        Master II
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
-                        TOP/JGL
-                      </td>
-                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-primary-foreground">
-                        <Button
-                          variant="default"
-                          size={"icon"}
-                          className="bg-blue-300"
-                        >
-                          B
-                        </Button>
-                        <Button
-                          variant="default"
-                          size={"icon"}
-                          className="bg-red-300"
-                        >
-                          R
-                        </Button>
-                      </td>
-                    </tr>
-                    <tr className="flex w-full items-center justify-around">
-                      <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
-                        Potent
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
-                        Master II
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
-                        TOP/JGL
-                      </td>
-                      <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-primary-foreground">
-                        <Button
-                          variant="default"
-                          size={"icon"}
-                          className="bg-blue-300"
-                        >
-                          B
-                        </Button>
-                        <Button
-                          variant="default"
-                          size={"icon"}
-                          className="bg-red-300"
-                        >
-                          R
-                        </Button>
-                      </td>
-                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -406,13 +155,7 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
             {/* {isCreator ? <ManageCustomGame custom={custom} setCustom={setCustom} /> : <WaitingGame />} */}
           </div>
           <div className="flex min-h-96 min-w-40 md:h-full md:w-1/2 md:border-l-2 md:border-primary-foreground md:pl-2">
-            <CustomTeams
-              custom={custom}
-              blueTeam={blueTeam}
-              setBlueTeam={setBlueTeam}
-              redTeam={redTeam}
-              setRedTeam={setRedTeam}
-            />
+            <CustomTeams custom={custom} refetch={refetchCustom} />
           </div>
         </div>
       </div>

@@ -9,9 +9,26 @@ export const getCustomDataAction = async (id: string) => {
         id,
       },
       include: {
-        blueTeam: true,
-        redTeam: true,
-        candidates: true,
+        creator: {
+          include: {
+            summoner: true,
+          },
+        },
+        blueTeam: {
+          include: {
+            summoner: true,
+          },
+        },
+        redTeam: {
+          include: {
+            summoner: true,
+          },
+        },
+        candidates: {
+          include: {
+            summoner: true,
+          },
+        },
       },
     });
     return custom;

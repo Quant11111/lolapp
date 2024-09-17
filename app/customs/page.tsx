@@ -1,7 +1,7 @@
 "use client";
 
 import { getCustomAction } from "./get-customs-action";
-import { findSummonerByUserIdAction } from "./find-summoner-by-userid.action";
+import { findUserByIdAction } from "./find-user-by-id.action";
 import { useEffect, useState } from "react";
 import { Custom } from "@prisma/client";
 import CustomCard from "./CustomCard";
@@ -17,9 +17,9 @@ export default function HomePage() {
         setCustoms(customsData?.data);
         const nameMapTemp = new Map<string, string>();
         for (const custom of customsData.data) {
-          const creator = await findSummonerByUserIdAction(custom.creatorId);
+          const creator = await findUserByIdAction(custom.creatorId);
           if (creator) {
-            nameMapTemp.set(custom.creatorId, creator.gameName);
+            nameMapTemp.set(custom.creatorId, creator.summoner?.gameName || "");
           }
         }
         setNameMap(nameMapTemp);

@@ -10,7 +10,7 @@ const ConnectSummonerReminder = () => {
 
   if (!session.data?.user) {
     return null;
-  } else if (userConstext.summoner) {
+  } else if (userConstext.user?.summoner) {
     return null;
   } else {
     return (

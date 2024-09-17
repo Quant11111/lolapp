@@ -2,14 +2,17 @@
 
 import { prisma } from "@/lib/prisma";
 
-export const findSummonerByUserIdAction = async (id: string) => {
+export const findUserByIdAction = async (id: string) => {
   try {
-    const summoner = await prisma.summoner.findUnique({
+    const userData = await prisma.user.findUnique({
       where: {
-        userId: id,
+        id: id,
+      },
+      include: {
+        summoner: true,
       },
     });
-    return summoner;
+    return userData;
   } catch (error) {
     console.error(error);
     throw new Error("Error fetching user data");

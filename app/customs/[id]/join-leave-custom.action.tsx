@@ -4,22 +4,16 @@ import { prisma } from "@/lib/prisma";
 
 export const joinCustomAction = async (id: string, userId: string) => {
   try {
-    // Fetch the custom by id
-    const custom = await prisma.custom.findUnique({
-      where: { id },
-      include: { candidates: true },
-    });
-
-    if (!custom) {
-      throw new Error("Custom not found");
-    }
-
     // Fetch the summoner by summonerName
-    const summoner = await prisma.summoner.findUnique({
-      where: { userId: userId },
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      include: { summoner: true },
     });
 
-    if (!summoner) {
+    if (!user) {
+      throw new Error("User not found");
+    }
+    if (!user.summoner) {
       throw new Error("Summoner not found. Link a summoner before joining");
     }
 
@@ -49,16 +43,6 @@ export const joinCustomAction = async (id: string, userId: string) => {
 
 export const leaveCustomAction = async (id: string, userId: string) => {
   try {
-    // Fetch the custom by id
-    const custom = await prisma.custom.findUnique({
-      where: { id },
-      include: { candidates: true },
-    });
-
-    if (!custom) {
-      throw new Error("Custom not found");
-    }
-
     // Remove the summoner from the candidates list of the custom
     const updatedCustom = await prisma.custom.update({
       where: { id },

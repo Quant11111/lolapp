@@ -1,5 +1,5 @@
 "use client";
-import { Summoner, User } from "@prisma/client";
+
 import { useSession } from "next-auth/react";
 import {
   createContext,
@@ -8,32 +8,33 @@ import {
   useEffect,
   useState,
 } from "react";
-import { findSummonerByUserIdAction } from "./customs/find-summoner-by-userid.action";
+import { findUserByIdAction } from "./customs/find-user-by-id.action";
+
+import { Summoner, User } from "@prisma/client";
+
+export interface UserWithSummoner extends User {
+  summoner: Summoner | null;
+}
 
 type UserContextType = {
-  user: User | null;
-  summoner: Summoner | null;
+  user: UserWithSummoner | null;
   refetchUser: () => void;
 };
 
 const UserContext = createContext<UserContextType>({
   user: null,
-  summoner: null,
   refetchUser: () => {},
 });
 
 export const UserContextProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [summoner, setSummoner] = useState<Summoner | null>(null);
+  const [user, setUser] = useState<UserWithSummoner | null>(null);
   const session = useSession();
   const refetchUser = async () => {
     if (!session?.data?.user) {
       setUser(null);
     } else {
-      const summonerData = await findSummonerByUserIdAction(
-        session.data.user.id,
-      );
-      setSummoner(summonerData);
+      const summonerData = await findUserByIdAction(session.data.user.id);
+      setUser(summonerData);
     }
   };
 
@@ -42,10 +43,8 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
       if (!session?.data?.user) {
         setUser(null);
       } else {
-        const summonerData = await findSummonerByUserIdAction(
-          session.data.user.id,
-        );
-        setSummoner(summonerData);
+        const summonerData = await findUserByIdAction(session.data.user.id);
+        setUser(summonerData);
       }
     };
     fetchUser();
@@ -55,7 +54,6 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
     <UserContext.Provider
       value={{
         user: user,
-        summoner: summoner,
         refetchUser: refetchUser,
       }}
     >
