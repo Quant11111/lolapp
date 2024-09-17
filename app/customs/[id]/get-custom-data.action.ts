@@ -8,6 +8,11 @@ export const getCustomDataAction = async (id: string) => {
       where: {
         id,
       },
+      include: {
+        blueTeam: true,
+        redTeam: true,
+        candidates: true,
+      },
     });
     return custom;
   } catch (error) {

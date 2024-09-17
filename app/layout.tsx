@@ -16,6 +16,8 @@ import { Providers } from "./providers";
 import { BlurredBackground } from "@/components/ui/BluredBackground";
 import { LandingHeader } from "@/features/landing/LandingHeader";
 import Sidebar from "./Sidebar";
+import { UserContextProvider } from "./user-context-provider";
+import ConnectSummonerReminder from "./ConnectSummonerReminder";
 
 export const metadata: Metadata = {
   title: SiteConfig.title,
@@ -42,20 +44,23 @@ export default function RootLayout({
           )}
         >
           <Providers>
-            <NextTopLoader
-              delay={100}
-              showSpinner={false}
-              color="hsl(var(--primary))"
-            />
-            <LandingHeader />
+            <UserContextProvider>
+              <NextTopLoader
+                delay={100}
+                showSpinner={false}
+                color="hsl(var(--primary))"
+              />
+              <LandingHeader />
 
-            <BlurredBackground imageUrl="https://cdnb.artstation.com/p/assets/images/images/015/582/603/large/artur-sadlos-leg-more-sh210-background-as-v002.jpg?1548866523" />
-            <div className="relative size-full overflow-scroll">
-              {children} {modal}
-            </div>
-            <TailwindIndicator />
-            <FloatingLegalFooter />
-            <Sidebar />
+              <BlurredBackground imageUrl="https://cdnb.artstation.com/p/assets/images/images/015/582/603/large/artur-sadlos-leg-more-sh210-background-as-v002.jpg?1548866523" />
+              <div className="relative size-full overflow-scroll">
+                {children} {modal}
+              </div>
+              <TailwindIndicator />
+              <FloatingLegalFooter />
+              <ConnectSummonerReminder />
+              <Sidebar />
+            </UserContextProvider>
           </Providers>
         </body>
       </html>

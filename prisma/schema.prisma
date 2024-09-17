@@ -73,11 +73,46 @@ model User {
   // For the Credentials provider
   passwordHash String?
 
+  firstRole       Role?
+  secondRole      Role?
+  // custom
+  pinnedPresentation String?
+
   sessions  Session[]
   accounts  Account[]
   feedbacks Feedback[]
 
-  Summoner Summoner?
+  summoner Summoner? 
+  lastSummonerUpdate DateTime?
+  appliance     Custom?  @relation(fields: [applianceId], references: [id], name: "CustomCandidates")
+  applianceId   String?
+  createdCustoms Custom[]
+  createdCustomIds String[]
+  followedUsers User[] @relation("FollowedSummoners")
+  followedby User[] @relation("FollowedSummoners")
+
+  blackLisedUsers User[] @relation("BlackListedUser")
+  isBlackListedBy User[] @relation("BlackListedUser")
+
+  blueTeamHistory Custom[] @relation("BlueTeam")
+  redTeamHistory Custom[] @relation("RedTeam")
+}
+
+model Summoner {
+  user User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          String @id
+  // AccountData
+  puuid           String 
+  gameName        String
+  tagLine         String
+  // SummonerData
+  id              String 
+  accountId       String  
+  profileIconId   Int?
+  revisionDate    BigInt
+  summonerLevel   Int
+  tier            String?
+  rank            String?
 }
 
 model Feedback {
@@ -92,57 +127,21 @@ model Feedback {
   updatedAt DateTime @updatedAt
 }
 
-model Summoner {
-  // AccountData
-  puuid           String   @id
-  gameName        String
-  tagLine         String
-  // SummonerData
-  id              String   @unique
-  accountId       String   @unique
-  profileIconId   Int?
-  revisionDate    BigInt
-  summonerLevel   Int
-  tier            String?
-  rank            String?
-  updatedAt       DateTime @updatedAt
-  firstRole       Role?
-  secondRole      Role?
-  appliance     Custom?  @relation(fields: [applianceId], references: [id], name: "CustomCandidates")
-  applianceId   String?
-  createdCustoms Custom[]
-  createdCustomIds String[]
 
-  // custom
-  pinnedPresentation String?
-
-  // relations
-  user            User    @relation(fields: [userId], references: [id])
-  userId          String  @unique
-  
-  followedSummoners Summoner[] @relation("FollowedSummoners")
-  followedby Summoner[] @relation("FollowedSummoners")
-
-  blackLisedSummoners Summoner[] @relation("BlackListedSummoners")
-  isBlackListedBy Summoner[] @relation("BlackListedSummoners")
-
-  blueTeamHistory Custom[] @relation("BlueTeam")
-  redTeamHistory Custom[] @relation("RedTeam")
-}
 
 model Custom {
   id          String   @id @default(nanoid(11))
   name        String
   description String
   discordLink String?
-  candidates   Summoner[] @relation("CustomCandidates")
-  creator     Summoner @relation(fields: [creatorId], references: [userId])
+  candidates   User[] @relation("CustomCandidates")
+  creator     User @relation(fields: [creatorId], references: [id])
   creatorId   String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   status      CustomStatus @default(OPEN)
-  blueTeam    Summoner[] @relation("BlueTeam")
-  redTeam     Summoner[] @relation("RedTeam")
+  blueTeam    User[] @relation("BlueTeam")
+  redTeam     User[] @relation("RedTeam")
 }
 
 enum UserPlan {

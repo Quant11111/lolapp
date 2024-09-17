@@ -68,8 +68,8 @@ export async function GET(request: Request) {
       profileIconId: summonerData.profileIconId,
       revisionDate: summonerData.revisionDate,
       summonerLevel: summonerData.summonerLevel,
-      tier: soloQueueRank ? soloQueueRank.tier : undefined,
-      rank: soloQueueRank ? soloQueueRank.rank : undefined,
+      tier: soloQueueRank ? soloQueueRank.tier : null,
+      rank: soloQueueRank ? soloQueueRank.rank : null,
     });
   } catch (error) {
     console.error("Error fetching from Riot API:", error);

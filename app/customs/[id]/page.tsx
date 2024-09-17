@@ -12,8 +12,11 @@ import CustomTeams from "./CustomTeams";
 
 const CustomGamePage = ({ params }: { params: { id: string } }) => {
   const [custom, setCustom] = useState<Custom | null>(null);
+  const [blueTeam, setBlueTeam] = useState<Summoner[]>([]);
+  const [redTeam, setRedTeam] = useState<Summoner[]>([]);
   const [creator, setCreator] = useState<Summoner | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [candidates, setCandidates] = useState<Summoner[]>([]);
   const router = useRouter();
   const session = useSession();
   const isCreator = session.data?.user.id === custom?.creatorId;
@@ -30,6 +33,9 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
         );
         if (creatorData) {
           setCreator(creatorData);
+          setBlueTeam(customData.blueTeam);
+          setRedTeam(customData.redTeam);
+          setCandidates(customData.candidates);
         } else {
           setError("No Summoner linked to the custom creator");
         }
@@ -86,6 +92,39 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
                   </thead>
 
                   <tbody className="flex min-w-full grow flex-col divide-y divide-border overflow-scroll">
+                    {candidates.map((candidate, index) => (
+                      <tr
+                        key={index}
+                        className="flex w-full items-center justify-around"
+                      >
+                        <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
+                          {candidate.gameName}
+                        </td>
+                        <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
+                          {candidate.tier} {candidate.rank}
+                        </td>
+                        <td className="whitespace-nowrap px-4 py-2 text-primary-foreground">
+                          {candidate.firstRole}/{candidate.secondRole}
+                        </td>
+                        <td className="flex gap-4 whitespace-nowrap px-4 py-2 text-primary-foreground">
+                          <Button
+                            variant="default"
+                            size={"icon"}
+                            className="bg-blue-300"
+                          >
+                            B
+                          </Button>
+                          <Button
+                            variant="default"
+                            size={"icon"}
+                            className="bg-red-300"
+                          >
+                            R
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+
                     <tr className="flex w-full items-center justify-around">
                       <td className="whitespace-nowrap px-4 py-2 font-medium text-foreground">
                         Potent
@@ -367,7 +406,13 @@ const CustomGamePage = ({ params }: { params: { id: string } }) => {
             {/* {isCreator ? <ManageCustomGame custom={custom} setCustom={setCustom} /> : <WaitingGame />} */}
           </div>
           <div className="flex min-h-96 min-w-40 md:h-full md:w-1/2 md:border-l-2 md:border-primary-foreground md:pl-2">
-            <CustomTeams custom={custom} />
+            <CustomTeams
+              custom={custom}
+              blueTeam={blueTeam}
+              setBlueTeam={setBlueTeam}
+              redTeam={redTeam}
+              setRedTeam={setRedTeam}
+            />
           </div>
         </div>
       </div>
