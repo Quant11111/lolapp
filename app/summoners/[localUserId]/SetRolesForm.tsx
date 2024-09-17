@@ -14,19 +14,17 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { setRolesAction } from "./set-roles.action";
 import { SetRolesFormType, SetRolesSchema } from "./set-roles.schema";
-import { Role, Summoner } from "@prisma/client";
+import { Role } from "@prisma/client";
 import { Input } from "@/components/ui/input";
+import { useUserContext } from "../../user-context-provider";
 
-type SetRolesFormProps = {
-  summoner: Summoner;
-};
-
-export const SetRolesForm = ({ summoner }: SetRolesFormProps) => {
+export const SetRolesForm = () => {
+  const userContext = useUserContext();
   const form = useZodForm({
     schema: SetRolesSchema,
     defaultValues: {
-      firstRole: (summoner.firstRole as Role) || null,
-      secondRole: (summoner.secondRole as Role) || null,
+      firstRole: (userContext.user?.firstRole as Role) || null,
+      secondRole: (userContext.user?.secondRole as Role) || null,
     },
   });
   const router = useRouter();

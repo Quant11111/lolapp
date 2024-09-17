@@ -18,9 +18,9 @@ export const setRolesAction = authAction
         "You need to link your summoner account first to create a custom event",
       );
     }
-    const custom = await prisma.summoner.update({
+    const custom = await prisma.user.update({
       where: {
-        userId: ctx.user.id,
+        id: ctx.user.id,
       },
       data: {
         firstRole: input.firstRole,
