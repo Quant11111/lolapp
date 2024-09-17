@@ -13,6 +13,7 @@ datasource db {
 model Account {
   id                    String  @id @default(nanoid(11))
   userId                String
+  username              String? @unique
   type                  String
   provider              String
   providerAccountId     String
