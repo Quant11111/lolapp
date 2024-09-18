@@ -1,0 +1,44 @@
+{
+  "sections": {
+    "section1": {
+      "title": {
+        "en": "About",
+        "fr": "A propos du projet"
+      },
+      "content": {
+        "en": "This is a simple project to demonstrate how to use i18n in a React application.",
+        "fr": "Ceci est un projet simple pour démontrer comment utiliser i18n dans une application React."
+      }
+    },
+    "section2": {
+      "title": {
+        "en": "The begining",
+        "fr": "Le commencement"
+      },
+      "content": {
+        "en": "This project was created using create-react-app and the i18next library.",
+        "fr": "Ce projet a été créé en utilisant create-react-app et la bibliothèque i18next."
+      }
+    },
+    "section3": {
+      "title": {
+        "en": "My life as a developer",
+        "fr": "Ma vie de développeur"
+      },
+      "content": {
+        "en": "I have been a developer for 10 years and I love it.",
+        "fr": "Je suis développeur depuis 10 ans et j'adore ça."
+      }
+    },
+    "section4": {
+      "title": {
+        "en": "A real learning journey",
+        "fr": "Un vrai parcours d'apprentissage"
+      },
+      "content": {
+        "en": "I have learned a lot of things and I am still learning.",
+        "fr": "J'ai appris beaucoup de choses et je continue d'apprendre."
+      }
+    }
+  }
+}

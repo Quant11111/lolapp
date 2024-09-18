@@ -4,7 +4,7 @@ import { SiteConfig } from "@/site-config";
 import { AuthButtonClient } from "../auth/AuthButtonClient";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { Home, LayoutDashboard } from "lucide-react";
+import { HeartHandshake, Home } from "lucide-react";
 
 export function LandingHeader() {
   const router = useRouter();
@@ -25,11 +25,12 @@ export function LandingHeader() {
           <a href="/newPlayer" className="hidden-header-link ">
             Learn
           </a>
-          <a href="/" className="header-link hidden">
-            <Home />
+          <a href="/account/support" className="header-link ">
+            <HeartHandshake />
           </a>
-          <a href="/account" className="header-link">
-            <LayoutDashboard />{" "}
+
+          <a href="/" className="header-link lg:hidden">
+            <Home />
           </a>
           <div className="header-link pr-2">
             <AuthButtonClient />

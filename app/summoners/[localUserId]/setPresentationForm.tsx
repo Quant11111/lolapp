@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/form";
 import { SubmitButton } from "@/features/form/SubmitButton";
 import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { setPresentationAction } from "./set-presentation.action";
 import {
@@ -22,16 +21,21 @@ import { UserWithSummoner } from "../../user-context-provider";
 
 type SetPresentationFormProps = {
   user: UserWithSummoner;
+  refetch: () => void;
+  isOwnProfile: boolean;
 };
 
-export const SetPresentationForm = ({ user }: SetPresentationFormProps) => {
+export const SetPresentationForm = ({
+  user,
+  refetch,
+  isOwnProfile,
+}: SetPresentationFormProps) => {
   const form = useZodForm({
     schema: SetPresentationSchema,
     defaultValues: {
       presentation: user.pinnedPresentation || "",
     },
   });
-  const router = useRouter();
 
   const setPresentationMutation = useMutation({
     mutationFn: async (values: SetPresentationFormType) => {
@@ -43,7 +47,7 @@ export const SetPresentationForm = ({ user }: SetPresentationFormProps) => {
       }
 
       toast.success("Presentation set successfully");
-      router.refresh();
+      refetch();
     },
   });
 
@@ -57,12 +61,13 @@ export const SetPresentationForm = ({ user }: SetPresentationFormProps) => {
       <FormField
         control={form.control}
         name="presentation"
+        disabled={!isOwnProfile}
         render={({ field }) => (
           <FormItem className="m-2 w-full">
             <FormControl className="">
               <Textarea
                 className="size-full"
-                placeholder=""
+                placeholder={user.pinnedPresentation || ""}
                 {...field}
                 value={field.value ?? ""}
               />
@@ -71,7 +76,15 @@ export const SetPresentationForm = ({ user }: SetPresentationFormProps) => {
           </FormItem>
         )}
       />
-      <SubmitButton className="w-1/6">Save</SubmitButton>
+      <SubmitButton
+        className="w-1/6"
+        hidden={!isOwnProfile}
+        onClick={async () => {
+          setTimeout;
+        }}
+      >
+        Save
+      </SubmitButton>
     </Form>
   );
 };

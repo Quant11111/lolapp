@@ -10,24 +10,31 @@ import {
 } from "@/components/ui/form";
 import { SubmitButton } from "@/features/form/SubmitButton";
 import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { setRolesAction } from "./set-roles.action";
 import { SetRolesFormType, SetRolesSchema } from "./set-roles.schema";
 import { Role } from "@prisma/client";
 import { Input } from "@/components/ui/input";
-import { useUserContext } from "../../user-context-provider";
+import { UserWithSummoner } from "../../user-context-provider";
 
-export const SetRolesForm = () => {
-  const userContext = useUserContext();
+type SetRolesFormProps = {
+  user: UserWithSummoner;
+  refetch: () => void;
+  isOwnProfile: boolean;
+};
+
+export const SetRolesForm = ({
+  user,
+  refetch,
+  isOwnProfile,
+}: SetRolesFormProps) => {
   const form = useZodForm({
     schema: SetRolesSchema,
     defaultValues: {
-      firstRole: (userContext.user?.firstRole as Role) || null,
-      secondRole: (userContext.user?.secondRole as Role) || null,
+      firstRole: (user.firstRole as Role) || null,
+      secondRole: (user.secondRole as Role) || null,
     },
   });
-  const router = useRouter();
 
   const setRolesMutation = useMutation({
     mutationFn: async (values: SetRolesFormType) => {
@@ -37,9 +44,8 @@ export const SetRolesForm = () => {
         toast.error("Failed to set roles");
         return;
       }
-
       toast.success("Roles set successfully");
-      router.refresh();
+      refetch();
     },
   });
 
@@ -53,6 +59,7 @@ export const SetRolesForm = () => {
       <FormField
         control={form.control}
         name="firstRole"
+        disabled={!isOwnProfile}
         render={({ field }) => (
           <FormItem>
             <FormControl>
@@ -65,6 +72,7 @@ export const SetRolesForm = () => {
       <FormField
         control={form.control}
         name="secondRole"
+        disabled={!isOwnProfile}
         render={({ field }) => (
           <FormItem>
             <FormControl>
@@ -74,7 +82,9 @@ export const SetRolesForm = () => {
           </FormItem>
         )}
       />
-      <SubmitButton className="w-1/4">Save</SubmitButton>
+      <SubmitButton className="w-1/4" hidden={!isOwnProfile}>
+        Save
+      </SubmitButton>
     </Form>
   );
 };
