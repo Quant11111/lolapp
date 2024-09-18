@@ -9,7 +9,9 @@ export default function AboutPage() {
 
   return (
     <div className="relative flex h-20 w-full items-center justify-around space-x-4">
-      <div className={`absolute h-full w-1/2 ${side}-0  bg-white`} />
+      <div
+        className={`absolute h-full w-1/2 transition-all ${side}-0  bg-white`}
+      />
       <Button
         size={"icon"}
         variant={"ghost"}

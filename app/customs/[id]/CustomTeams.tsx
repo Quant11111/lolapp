@@ -37,7 +37,7 @@ const CustomTeams = ({ custom, refetch }: CustomTeamsProps) => {
             {custom.blueTeam.map((user, index) => (
               <div
                 key={index}
-                className="flex h-12 w-full items-center justify-center gap-2 rounded border border-accent"
+                className="flex h-12 w-full items-center justify-around gap-2 rounded border border-accent"
               >
                 <p>{user.summoner?.gameName}</p>
                 <p>
@@ -56,7 +56,7 @@ const CustomTeams = ({ custom, refetch }: CustomTeamsProps) => {
                       refetch();
                     }}
                   >
-                    <Cross />
+                    <XIcon />
                   </Button>
                 )}
               </div>
@@ -66,7 +66,7 @@ const CustomTeams = ({ custom, refetch }: CustomTeamsProps) => {
             {custom.redTeam.map((user, index) => (
               <div
                 key={index}
-                className="flex h-12 w-full items-center justify-center gap-2 rounded border border-accent"
+                className="flex h-12 w-full items-center justify-around gap-2 rounded border border-accent"
               >
                 <p>{user.summoner?.gameName}</p>
                 <p>
