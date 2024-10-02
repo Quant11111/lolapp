@@ -1,16 +1,15 @@
-version: "3.8"
+version: '3.8'
 services:
-  postgres_padelu:
+  db_padelu:
     image: postgres:15
     environment:
       - POSTGRES_USER=johndoe
       - POSTGRES_PASSWORD=randompassword
       - POSTGRES_DB=postgres
     volumes:
-      - postgres_volume_padelu:/var/lib/postgresql/data
+      - postgres-data_padelu:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
-    restart: always
+      - '5432:5432'
 volumes:
-  postgres_volume_padelu:
-  name: postgres_volume_padelu
+  postgres-data_padelu:
+      
