@@ -51,6 +51,7 @@ jobs:
       - name: Build and Migrate
         run: |
           rm -rf .next
+          docker-compose up -d 
           pnpm exec prisma migrate deploy
           pnpm run build
       - name: restart pm2 padelu instance
